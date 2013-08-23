@@ -1,4 +1,4 @@
-![ChunkX logo](chunkx.png)
+![ChunkX logo](chunx.png)
 
 Java 2D chunk engine to generate "infinite" worlds.
 
@@ -7,8 +7,9 @@ Java 2D chunk engine to generate "infinite" worlds.
 To create a chunk system, simply look at the following code:
 
 ```java
-ChunkTarget target = new Character(); // You have to write your own implementation for this
-ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(4, target);
+ChunkTarget target = new Character(); // You have to write your own implementation
+ContentProvider provider = new World(); // You have to write your own implementation
+ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(4, target, provider);
 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 executor.scheduleAtFixedRate(chunkSystem, 0, 20, TimeUnit.MILISECONDS);
 chunkSystem.start();
