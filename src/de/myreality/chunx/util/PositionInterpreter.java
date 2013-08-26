@@ -25,7 +25,7 @@ package de.myreality.chunx.util;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkInterpreter {
+public interface PositionInterpreter {
 
 	// ===========================================================
 	// Constants
