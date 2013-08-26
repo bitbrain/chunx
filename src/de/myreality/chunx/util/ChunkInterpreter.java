@@ -35,5 +35,40 @@ public interface ChunkInterpreter {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * Translates the x index to a fitting x position by considering the
+	 * width of each chunk.
+	 * 
+	 * @param indexX x index to translate
+	 * @return x position which fits to the x index
+	 */
+	float translateIndexX(int indexX);
 	
+	/**
+	 * Translates the y index to a fitting y position by considering the
+	 * height of each chunk.
+	 * 
+	 * @param indexY y index to translate
+	 * @return y position which fits to the y index
+	 */
+	float translateIndexY(int indexY);
+	
+	/**
+	 * Translates the x position to a fitting index by considering the 
+	 * width of each chunk.
+	 * 
+	 * @param x x position to translate
+	 * @return x index which fits to the x position
+	 */
+	int translateX(float x);
+	
+	
+	/**
+	 * Translates the y position to a fitting index by considering the 
+	 * height of each chunk.
+	 * 
+	 * @param y y position to translate
+	 * @return y index which fits to the y position
+	 */
+	int translateY(float y);
 }
