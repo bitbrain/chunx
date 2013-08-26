@@ -9,7 +9,12 @@ To create a chunk system, simply look at the following code:
 ```java
 ChunkTarget target = new Character(); // You have to write your own implementation
 ContentProvider provider = new World(); // You have to write your own implementation
-ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(4, target, provider);
+ConcurrentChunkConfig config = new ChunkConfig();
+config.setFocused(target);
+config.setContentProvider(provider);
+config.setChunkIndex(4);
+
+ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(new CachedChunkSystem(), config);
 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 executor.scheduleAtFixedRate(chunkSystem, 0, 20, TimeUnit.MILISECONDS);
 chunkSystem.start();
