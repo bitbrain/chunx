@@ -18,16 +18,15 @@
  */
 package de.myreality.chunx;
 
-import de.myreality.chunx.util.Indexable;
-
 /**
- * Single chunk which is managed by a certain chunk system. 
+ * Chunk system which handles automatic chunk loading and saving. Additionally
+ * it stores chunks which are loaded and frees old chunks.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Chunk extends Indexable {
+public interface ChunkSystem {
 
 	// ===========================================================
 	// Constants
@@ -38,31 +37,12 @@ public interface Chunk extends Indexable {
 	// ===========================================================
 	
 	/**
-	 * Returns the current x position
+	 * Returns the current active chunk. Returns <code>null</code> if
+	 * the possible active chunk hasn't been loaded yet.
 	 * 
-	 * @return x position
+	 * @return current chunk which is active by default
 	 */
-	float getX();
+	Chunk getActiveChunk();
 	
-	/**
-	 * Returns the current y position
-	 * 
-	 * @return y position
-	 */
-	float getY();
 	
-	/**
-	 * Returns the first added chunk target and removes
-	 * it from this chunk instance
-	 * 
-	 * @return first added chunk target
-	 */
-	ChunkTarget retrieve();
-	
-	/**
-	 * Adds a new chunk target to this chunk
-	 * 
-	 * @param target chunk target to add
-	 */
-	void add(ChunkTarget target);
 }
