@@ -25,7 +25,7 @@ package de.myreality.chunx.io;
  * @since 1.0
  * @version 1.0
  */
-public interface FileInterpreter {
+public interface FileNameConverter {
 
 	// ===========================================================
 	// Constants
@@ -42,5 +42,5 @@ public interface FileInterpreter {
 	 * @param indexY y index to interpret
 	 * @return interpreted file name
 	 */
-	String interpret(int indexX, int indexY);
+	String convert(int indexX, int indexY);
 }

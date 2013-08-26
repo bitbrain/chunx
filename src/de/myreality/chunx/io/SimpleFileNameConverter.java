@@ -18,55 +18,47 @@
  */
 package de.myreality.chunx.io;
 
-import java.io.File;
-
 /**
- * Holds information for managing a location in order to load and save chunks
+ * Simple interpreter implementation which interprets indexes
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface FileConfig {
+public class SimpleFileNameConverter implements FileNameConverter {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 	
-	/**
-	 * Path which is set by default
-	 */
-	public static final String DEFAULT_PATH = "chunks/";
+	public static final String FILE_PREFIX = "chunk";
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+	
+	@Override
+	public String convert(int indexX, int indexY) {
+		return FILE_PREFIX + '_' + indexX + '_' + indexY;
+	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Returns the current path
-	 * 
-	 * @return current path
-	 */
-	File getPath();
-	
-	/**
-	 * Sets a new path
-	 * 
-	 * @param file new path
-	 */
-	void setPath(File file);
-	
-	/**
-	 * Returns the current file interpreter
-	 * 
-	 * @return
-	 */
-	FileNameConverter getInterpreter();
-	
-	/**
-	 * 
-	 * 
-	 * @param interpreter
-	 */
-	void setInterpreter(FileNameConverter interpreter);
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }
