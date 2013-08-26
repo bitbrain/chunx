@@ -18,17 +18,15 @@
  */
 package de.myreality.chunx;
 
-import java.util.Collection;
-
 /**
- * Chunk system which handles automatic chunk loading and saving. Additionally
- * it stores chunks which are loaded and frees old chunks.
+ * Provides observing for chunk systems. A {@link ChunkListener} is called
+ * whenever a chunk is loaded, created, saved or removed.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkSystem {
+public interface ChunkListener {
 
 	// ===========================================================
 	// Constants
@@ -37,38 +35,63 @@ public interface ChunkSystem {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
-	 * Returns the current active chunk. Returns <code>null</code> if
-	 * the possible active chunk hasn't been loaded yet.
-	 * 
-	 * @return current chunk which is active by default
-	 */
-	Chunk getActiveChunk();
-	
-	/**
-	 * Returns the currently loaded chunks
-	 * 
-	 * @return current chunks
-	 */
-	Collection<Chunk> getChunks();
-	
-	/**
-	 * Returns the chunk at the given index. Returns also <code>null</code>
-	 * if the index is invalid or the chunk hasn't been loaded yet.
+	 * Is called before a chunk will be created
 	 * 
 	 * @param indexX x index of the chunk
 	 * @param indexY y index of the chunk
-	 * @return the chunk at the given index
 	 */
-	Chunk getChunk(int indexX, int indexY);
-	
+	void beforeCreateChunk(int indexX, int indexY);
+
 	/**
-	 * Returns the amount of currently loaded chunks
+	 * Is called after a chunk has been created
 	 * 
-	 * @return current chunk amount
+	 * @param chunk new chunk
 	 */
-	int getCurrentChunkCount();
-	
-	
+	void afterCreateChunk(Chunk chunk);
+
+	/**
+	 * Is called before a chunk will be loaded
+	 * 
+	 * @param indexX x index of the chunk
+	 * @param indexY y index of the chunk
+	 */
+	void beforeLoadChunk(int indexX, int indexY);
+
+	/**
+	 * Is called after an existing chunk is loaded from disk
+	 * 
+	 * @param chunk existing chunk from disk
+	 */
+	void afterLoadChunk(Chunk chunk);
+
+	/**
+	 * Is called before an existing chunk is saved
+	 * 
+	 * @param chunk chunk to save
+	 */
+	void beforeSaveChunk(Chunk chunk);
+
+	/**
+	 * Is called after saving an existing chunk
+	 * 
+	 * @param chunk chunk which has been saved
+	 */
+	void afterSaveChunk(Chunk chunk);
+
+	/**
+	 * Is called before removing an existing chunk
+	 * 
+	 * @param chunk chunk to remove
+	 */
+	void beforeRemoveChunk(Chunk chunk);
+
+	/**
+	 * Is called after a chunk gets removed
+	 * 
+	 * @param indexX x index of the chunk
+	 * @param indexY y index of the chunk
+	 */
+	void afterRemoveChunk(int indexX, int indexY);
 }
