@@ -18,17 +18,14 @@
  */
 package de.myreality.chunx;
 
-import java.util.Collection;
-
 /**
- * Chunk system which handles automatic chunk loading and saving. Additionally
- * it stores chunks which are loaded and frees old chunks.
+ * Chunk configuration which holds information about for chunk systems
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkSystem {
+public interface ChunkConfig {
 
 	// ===========================================================
 	// Constants
@@ -39,50 +36,65 @@ public interface ChunkSystem {
 	// ===========================================================
 	
 	/**
-	 * Returns the current active chunk. Returns <code>null</code> if
-	 * the possible active chunk hasn't been loaded yet.
+	 * Returns the current chunk width
 	 * 
-	 * @return current chunk which is active by default
+	 * @return chunk width
 	 */
-	Chunk getActiveChunk();
+	int getChunkWidth();
 	
 	/**
-	 * Returns the currently loaded chunks
+	 * Returns the current chunk height
 	 * 
-	 * @return current chunks
+	 * @return chunk height
 	 */
-	Collection<Chunk> getChunks();
+	int getChunkHeight();
 	
 	/**
-	 * Returns the chunk at the given index. Returns also <code>null</code>
-	 * if the index is invalid or the chunk hasn't been loaded yet.
+	 * Sets a new chunk width
 	 * 
-	 * @param indexX x index of the chunk
-	 * @param indexY y index of the chunk
-	 * @return the chunk at the given index
+	 * @param width new width
 	 */
-	Chunk getChunk(int indexX, int indexY);
+	void setChunkWidth(int width);
 	
 	/**
-	 * Returns the amount of currently loaded chunks
+	 * Sets a new chunk height
 	 * 
-	 * @return current chunk amount
+	 * @param height new height
 	 */
-	int getCurrentChunkCount();
+	void setChunkHeight(int height);
 	
 	/**
-	 * Adds a new listener to the system
+	 * Sets a new chunk size
 	 * 
-	 * @param listener new listener to add
+	 * @param size new size
 	 */
-	void addListener(ChunkListener listener);
+	void setChunkSize(int size);
 	
 	/**
-	 * Removes an existing listener from the system
+	 * Sets a new content provider
 	 * 
-	 * @param listener existing listener to remove
+	 * @param contentProvider new content provider
 	 */
-	void removeListener(ChunkListener listener);
+	void setContentProvider(ContentProvider contentProvider);
 	
+	/**
+	 * Returns the current content provider
+	 * 
+	 * @return current content provider
+	 */
+	ContentProvider getContentProvider();
 	
+	/**
+	 * Sets the focus on a new target
+	 * 
+	 * @param target new focus
+	 */
+	void setFocused(ChunkTarget target);
+	
+	/**
+	 * Returns the current chunk focus
+	 * 
+	 * @return current focus
+	 */
+	ChunkTarget getFocused();
 }
