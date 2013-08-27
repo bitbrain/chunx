@@ -18,17 +18,18 @@
  */
 package de.myreality.chunx.io;
 
-import java.io.File;
-import java.io.OutputStream;
+import java.io.IOException;
+
+import de.myreality.chunx.Chunk;
 
 /**
- * Provides an input stream for a given file
+ * Loads chunks by considering an input provider
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface OutputStreamProvider {
+public interface ChunkLoader extends FileConfiguration {
 
 	// ===========================================================
 	// Constants
@@ -39,10 +40,24 @@ public interface OutputStreamProvider {
 	// ===========================================================
 	
 	/**
-	 * Returns a new input stream for the file
+	 * Sets a new input provider
 	 * 
-	 * @param file file to create the stream from
+	 * @param provider new input provider
+	 */
+	void setProvider(InputStreamProvider provider);
+	
+	/**
+	 * Determines if the loader currently loads a chunk
+	 * 
 	 * @return
 	 */
-	OutputStream getOutputStream(File file);
+	boolean isLoading();
+	
+	/**
+	 * Loads a new chunk 
+	 * 
+	 * @throws IOException is thrown when the chunk does not exists or the chunk file 
+	 * is corrupted
+	 */
+	Chunk load(int indexX, int indexY) throws IOException;
 }
