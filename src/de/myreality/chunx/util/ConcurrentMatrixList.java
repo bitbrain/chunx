@@ -20,7 +20,6 @@ package de.myreality.chunx.util;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -172,10 +171,20 @@ public class ConcurrentMatrixList<Type extends Indexable> implements MatrixList<
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T[] toArray(T[] objects) {
-		// TODO Auto-generated method stub
-		return null;
+		if (objects.length != size()) {
+			objects = (T[]) new Object[size()];
+		}
+		
+		int index = 0;
+		
+		for (Type type : this) {
+			objects[index++] = (T) type;
+		}
+		
+		return objects;
 	}
 
 	@Override
