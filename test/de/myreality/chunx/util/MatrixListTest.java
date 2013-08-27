@@ -104,7 +104,9 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testContainsIntInt() {
-		fail("Not yet implemented");
+		matrixList.add(indexable);
+		
+		assertTrue("The index should be in the list", matrixList.contains(X, Y));
 	}
 
 	/**
@@ -112,7 +114,13 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testGet() {
-		fail("Not yet implemented");
+		matrixList.add(indexable);
+		
+		Indexable result = matrixList.get(X, Y);
+		Indexable wrongResult = matrixList.get(X + 1, Y);
+		
+		assertTrue("The result should be the same", indexable.equals(result));
+		assertTrue("The wrong result has to be null", wrongResult == null);
 	}
 
 	/**
@@ -120,7 +128,12 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testSet() {
-		fail("Not yet implemented");
+		MatrixList<Indexable> source = new ConcurrentMatrixList<Indexable>();
+		source.add(indexable);
+		matrixList.set(source);
+		
+		assertFalse("Matrix list shoudn't be empty", matrixList.isEmpty());
+		assertTrue("Matrix list should contain the element", matrixList.contains(indexable));
 	}
 
 	/**
@@ -128,7 +141,11 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testSize() {
-		fail("Not yet implemented");
+		assertTrue("Size has to be 0 here", matrixList.size() == 0);
+		matrixList.add(indexable);		
+		assertTrue("Size has to be 1 here", matrixList.size() == 1);
+		matrixList.add(indexable);
+		assertTrue("Size has to be 1 here", matrixList.size() == 1);
 	}
 
 	/**
@@ -136,7 +153,9 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testIsEmpty() {
-		fail("Not yet implemented");
+		assertTrue("MatrixList has to be empty here", matrixList.isEmpty());
+		matrixList.add(indexable);		
+		assertFalse("MatrixList shouldn't be empty here", matrixList.isEmpty());
 	}
 
 	/**
