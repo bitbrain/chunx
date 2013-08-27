@@ -25,7 +25,7 @@ package de.myreality.chunx;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkConfig {
+public interface ChunkConfiguration {
 
 	// ===========================================================
 	// Constants

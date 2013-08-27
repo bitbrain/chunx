@@ -32,7 +32,7 @@ import de.myreality.chunx.util.Manageable;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkSystem extends Manageable {
+public interface ChunkSystem extends Manageable, ConfigurationProvider {
 
 	// ===========================================================
 	// Constants
@@ -115,6 +115,5 @@ public interface ChunkSystem extends Manageable {
 	 * @return current saver
 	 */
 	ChunkSaver getSaver();
-	
 	
 }

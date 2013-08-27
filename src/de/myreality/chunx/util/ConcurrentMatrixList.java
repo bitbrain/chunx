@@ -167,8 +167,7 @@ public class ConcurrentMatrixList<Type extends Indexable> implements MatrixList<
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		return toArray(new Object[size()]);
 	}
 
 	@SuppressWarnings("unchecked")
