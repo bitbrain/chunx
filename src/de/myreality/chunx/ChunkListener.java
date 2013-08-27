@@ -94,4 +94,18 @@ public interface ChunkListener {
 	 * @param indexY y index of the chunk
 	 */
 	void afterRemoveChunk(int indexX, int indexY);
+	
+	/**
+	 * Is called when a new chunk has been entered by the focused object
+	 * 
+	 * @param chunk chunk which has been entered
+	 */
+	void onEnterChunk(Chunk chunk);
+	
+	/**
+	 * Is called when the current chunk has been leaved by the focused object
+	 * 
+	 * @param chunk chunk which has been leaved
+	 */
+	void onLeaveChunk(Chunk chunk);
 }

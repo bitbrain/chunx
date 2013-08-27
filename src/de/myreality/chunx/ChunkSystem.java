@@ -20,6 +20,8 @@ package de.myreality.chunx;
 
 import java.util.Collection;
 
+import de.myreality.chunx.util.Managerable;
+
 /**
  * Chunk system which handles automatic chunk loading and saving. Additionally
  * it stores chunks which are loaded and frees old chunks.
@@ -28,7 +30,7 @@ import java.util.Collection;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkSystem {
+public interface ChunkSystem extends Managerable {
 
 	// ===========================================================
 	// Constants
