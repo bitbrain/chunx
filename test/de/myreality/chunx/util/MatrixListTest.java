@@ -163,7 +163,9 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testContainsObject() {
-		fail("Not yet implemented");
+		assertFalse("Object shouldn't be in the object", matrixList.contains(indexable));
+		matrixList.add(indexable);		
+		assertTrue("Object should exist in the object", matrixList.contains(indexable));
 	}
 
 	/**
@@ -171,23 +173,13 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testToArray() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#toArray(T[])}.
-	 */
-	@Test
-	public void testToArrayTArray() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#add(java.lang.Object)}.
-	 */
-	@Test
-	public void testAdd() {
-		fail("Not yet implemented");
+		matrixList.add(indexable);	
+		Indexable[] arr = new Indexable[matrixList.size()];
+		arr = matrixList.toArray(arr);
+		
+		assertTrue("Array shouldn't be null", arr != null);
+		assertTrue("Array length has to be 1", arr.length == 1);
+		assertTrue("First element has to be the indexable", arr[0].equals(indexable));
 	}
 
 	/**
@@ -195,54 +187,8 @@ public class MatrixListTest {
 	 */
 	@Test
 	public void testRemoveObject() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#containsAll(java.util.Collection)}.
-	 */
-	@Test
-	public void testContainsAll() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#addAll(java.util.Collection)}.
-	 */
-	@Test
-	public void testAddAll() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#removeAll(java.util.Collection)}.
-	 */
-	@Test
-	public void testRemoveAll() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#retainAll(java.util.Collection)}.
-	 */
-	@Test
-	public void testRetainAll() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#clear()}.
-	 */
-	@Test
-	public void testClear() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link java.util.Collection#equals(java.lang.Object)}.
-	 */
-	@Test
-	public void testEquals() {
-		fail("Not yet implemented");
+		matrixList.add(indexable);
+		matrixList.remove(indexable);
+		assertTrue("Matrix list has to be empty", matrixList.isEmpty());
 	}
 }
