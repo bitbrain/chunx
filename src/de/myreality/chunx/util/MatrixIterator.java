@@ -20,6 +20,7 @@ package de.myreality.chunx.util;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Implementation of a horizontal iterator, which basically reads
@@ -47,8 +48,8 @@ public class MatrixIterator<Type> implements Iterator<Type> {
 	// Constructors
 	// ===========================================================
 	
-	public MatrixIterator(Iterator<? extends Map<Integer, Type> > iterator) {
-		this.iteratorX = iterator;
+	public MatrixIterator(Iterator<? extends Map<Integer, Type> > chunks) {
+		this.iteratorX = chunks;
 	}
 
 	// ===========================================================

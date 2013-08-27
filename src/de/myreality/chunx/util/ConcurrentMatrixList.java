@@ -84,62 +84,86 @@ public class ConcurrentMatrixList<Type extends Indexable> implements MatrixList<
 
 	@Override
 	public boolean addAll(Collection<? extends Type> objects) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		boolean changed = false;
+		
+		for (Type object : objects) {
+			if (!changed) {
+				changed = add(object);
+			}
+		}
+		
+		return changed;
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		chunks.clear();
 	}
 
 	@Override
 	public boolean contains(Object object) {
-		// TODO Auto-generated method stub
-		return false;
+		if (object instanceof Indexable) {
+			Indexable indexable = (Indexable)object;
+			return contains(indexable.getIndexX(), indexable.getIndexY());
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> objects) {
-		// TODO Auto-generated method stub
-		return false;
+		for (Type elem : this) {
+			if (!objects.contains(elem)) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return chunks.isEmpty();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Iterator<Type> iterator() {
-		return new MatrixIterator<Type>((Iterator<? extends Map<Integer, Type>>) chunks);
+		return new MatrixIterator<Type>(chunks.values().iterator());
 	}
 
 	@Override
 	public boolean remove(Object object) {
-		// TODO Auto-generated method stub
-		return false;
+		if (object instanceof Indexable) {
+			Indexable indexable = (Indexable)object;
+			return remove(indexable.getIndexX(), indexable.getIndexY());
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> objects) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean changed = false;
+		
+		for (Object object : objects) {
+			if (!changed) {
+				changed = remove(object);
+			}
+		}
+		
+		return changed;
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> objects) {
-		// TODO Auto-generated method stub
+		// TODO: Implement retainAll
 		return false;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return elementSize;
 	}
 
 	@Override
@@ -156,32 +180,61 @@ public class ConcurrentMatrixList<Type extends Indexable> implements MatrixList<
 
 	@Override
 	public boolean remove(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-		return false;
+		ConcurrentHashMap<Integer, Type> yChunkMap = chunks.get(indexX);
+
+		if (yChunkMap != null) {
+			yChunkMap.remove(indexY);
+			// X axis
+			if (yChunkMap.isEmpty()) {
+				chunks.remove(indexX);
+			} else {
+				return false;
+			}
+			elementSize--;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public MatrixList<Type> copy() {
-		// TODO Auto-generated method stub
-		return null;
+		MatrixList<Type> copyList = new ConcurrentMatrixList<Type>();
+		for (Type element : this) {
+			copyList.add(element);
+		}
+		return copyList;
 	}
 
 	@Override
 	public boolean contains(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-		return false;
+		return get(indexX, indexY) != null;
 	}
 
 	@Override
 	public Type get(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-		return null;
+		ConcurrentHashMap<Integer, Type> yChunkMap = chunks.get(indexX);
+
+		if (yChunkMap != null) {
+			Type element = yChunkMap.get(indexY);
+
+			if (element != null) {
+				return element;
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public void set(MatrixList<Type> matrixList) {
-		// TODO Auto-generated method stub
-		
+		this.elementSize = matrixList.size();
+		clear();
+		for (Type elem : matrixList) {
+			add(elem);
+		}
 	}
 
 	// ===========================================================
