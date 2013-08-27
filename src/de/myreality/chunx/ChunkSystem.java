@@ -20,7 +20,7 @@ package de.myreality.chunx;
 
 import java.util.Collection;
 
-import de.myreality.chunx.util.Managerable;
+import de.myreality.chunx.util.Manageable;
 
 /**
  * Chunk system which handles automatic chunk loading and saving. Additionally
@@ -30,7 +30,7 @@ import de.myreality.chunx.util.Managerable;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkSystem extends Managerable {
+public interface ChunkSystem extends Manageable {
 
 	// ===========================================================
 	// Constants

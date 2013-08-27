@@ -28,7 +28,7 @@ import java.io.OutputStream;
  * @since 1.0
  * @version 1.0
  */
-public interface OutputStreamProvider {
+public interface OutputStreamProvider extends FileConfig {
 
 	// ===========================================================
 	// Constants
