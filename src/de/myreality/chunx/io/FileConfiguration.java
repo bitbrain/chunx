@@ -18,7 +18,6 @@
  */
 package de.myreality.chunx.io;
 
-import java.io.File;
 
 /**
  * Holds information for managing a location in order to load and save chunks
@@ -47,26 +46,26 @@ public interface FileConfiguration {
 	 * 
 	 * @return current path
 	 */
-	File getPath();
+	String getPath();
 	
 	/**
 	 * Sets a new path
 	 * 
 	 * @param file new path
 	 */
-	void setPath(File file);
+	void setPath(String file);
 	
 	/**
-	 * Returns the current file interpreter
+	 * Returns the current file converter
 	 * 
-	 * @return
+	 * @return current converter
 	 */
-	FileNameConverter getInterpreter();
+	FileNameConverter getConverter();
 	
 	/**
+	 * Sets a new converter
 	 * 
-	 * 
-	 * @param interpreter
+	 * @param converter new converter
 	 */
-	void setInterpreter(FileNameConverter interpreter);
+	void setConverter(FileNameConverter converter);
 }
