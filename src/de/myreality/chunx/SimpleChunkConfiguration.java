@@ -16,20 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
-
-import java.util.Iterator;
-import java.util.Map;
+package de.myreality.chunx;
 
 /**
- * Implementation of a horizontal iterator, which basically reads
- * each "row" of a matrix.
+ * Simple implementation of {@link ChunkConfiguration}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class MatrixIterator<Type> implements Iterator<Type> {
+public class SimpleChunkConfiguration implements ChunkConfiguration {
 
 	// ===========================================================
 	// Constants
@@ -38,18 +34,10 @@ public class MatrixIterator<Type> implements Iterator<Type> {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Iterator<? extends Map<Integer, Type> > iteratorX;
-	
-	private Iterator<Type> iteratorY;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public MatrixIterator(Iterator<? extends Map<Integer, Type> > chunks) {
-		this.iteratorX = chunks;
-	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -60,20 +48,57 @@ public class MatrixIterator<Type> implements Iterator<Type> {
 	// ===========================================================
 
 	@Override
-	public boolean hasNext() {
-		return iteratorY != null ? iteratorY.hasNext() || iteratorX.hasNext() : iteratorX.hasNext();
+	public int getChunkWidth() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public Type next() {
-		if (iteratorY == null || !iteratorY.hasNext())
-			iteratorY = iteratorX.next().values().iterator();		
-		return iteratorY.hasNext() ? iteratorY.next() : null;		
+	public int getChunkHeight() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
-	public void remove() {
-		// TODO: Not implemented yet
+	public void setChunkWidth(int width) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setChunkHeight(int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setChunkSize(int size) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setContentProvider(ContentProvider contentProvider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ContentProvider getContentProvider() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setFocused(ChunkTarget target) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ChunkTarget getFocused() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================

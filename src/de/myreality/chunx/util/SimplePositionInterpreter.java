@@ -18,18 +18,17 @@
  */
 package de.myreality.chunx.util;
 
-import java.util.Iterator;
-import java.util.Map;
+import de.myreality.chunx.ChunkConfiguration;
+import de.myreality.chunx.ConfigurationProvider;
 
 /**
- * Implementation of a horizontal iterator, which basically reads
- * each "row" of a matrix.
+ * Translates positions between indexing and global world coordinates
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class MatrixIterator<Type> implements Iterator<Type> {
+public class SimplePositionInterpreter implements PositionInterpreter {
 
 	// ===========================================================
 	// Constants
@@ -39,16 +38,14 @@ public class MatrixIterator<Type> implements Iterator<Type> {
 	// Fields
 	// ===========================================================
 	
-	private Iterator<? extends Map<Integer, Type> > iteratorX;
-	
-	private Iterator<Type> iteratorY;
+	private ConfigurationProvider provider;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public MatrixIterator(Iterator<? extends Map<Integer, Type> > chunks) {
-		this.iteratorX = chunks;
+	public SimplePositionInterpreter(ConfigurationProvider provider) {
+		this.provider = provider;
 	}
 
 	// ===========================================================
@@ -58,27 +55,42 @@ public class MatrixIterator<Type> implements Iterator<Type> {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
+	
 	@Override
-	public boolean hasNext() {
-		return iteratorY != null ? iteratorY.hasNext() || iteratorX.hasNext() : iteratorX.hasNext();
+	public float translateIndexX(int indexX) {		
+		ChunkConfiguration configuration = provider.getConfiguration();
+		return translateIndex(indexX, configuration.getChunkWidth());
 	}
 
 	@Override
-	public Type next() {
-		if (iteratorY == null || !iteratorY.hasNext())
-			iteratorY = iteratorX.next().values().iterator();		
-		return iteratorY.hasNext() ? iteratorY.next() : null;		
+	public float translateIndexY(int indexY) {
+		ChunkConfiguration configuration = provider.getConfiguration();
+		return translateIndex(indexY, configuration.getChunkHeight());
 	}
 
 	@Override
-	public void remove() {
-		// TODO: Not implemented yet
+	public int translateX(float x) {
+		ChunkConfiguration configuration = provider.getConfiguration();
+		return translatePosition(x, configuration.getChunkWidth());
+	}
+
+	@Override
+	public int translateY(float y) {
+		ChunkConfiguration configuration = provider.getConfiguration();
+		return translatePosition(y, configuration.getChunkHeight());
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private float translateIndex(int index, int size) {
+		return index * size;
+	}
+	
+	private int translatePosition(float value, int size) {
+		return (int) Math.floor(value / (float)size);
+	}
 
 	// ===========================================================
 	// Inner classes
