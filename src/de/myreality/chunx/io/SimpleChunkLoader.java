@@ -19,19 +19,18 @@
 package de.myreality.chunx.io;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import de.myreality.chunx.Chunk;
 
 /**
- * Saves chunks by considering the stream provider
+ * Simple implementation of {@link ChunkLoader}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleChunkSaver extends SimpleFileConfiguration implements
-		ChunkSaver {
+public class SimpleChunkLoader extends SimpleFileConfiguration implements
+		ChunkLoader {
 
 	// ===========================================================
 	// Constants
@@ -41,19 +40,16 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	// Fields
 	// ===========================================================
 	
-	private OutputStreamProvider provider;
+	private InputStreamProvider provider;
 	
-	private boolean saving;
-	
-	private FileNameConverter nameConverter;
+	private boolean loading;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleChunkSaver(OutputStreamProvider provider) {
+	public SimpleChunkLoader(InputStreamProvider provider) {
 		this.provider = provider;
-		nameConverter = new SimpleFileNameConverter();
 	}
 
 	// ===========================================================
@@ -63,35 +59,21 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
+
 	@Override
-	public void setProvider(OutputStreamProvider provider) {
-		if (provider != null) {
-			this.provider = provider;
-		}
+	public void setProvider(InputStreamProvider provider) {
+		this.provider = provider;
 	}
 
 	@Override
-	public boolean isSaving() {
-		return saving;
+	public boolean isLoading() {
+		return loading;
 	}
 
 	@Override
-	public void save(Chunk chunk) throws IOException {
-		
-		try {
-			if (provider != null) {			
-				saving = true;
-				String fileName = getPath() + nameConverter.convert(chunk.getIndexX(), chunk.getIndexY());
-				ObjectOutputStream out = new ObjectOutputStream(provider.getOutputStream(fileName));	
-				out.writeObject(chunk);		
-				out.close();
-			} else {
-				throw new IOException("OutputStreamProvider is not set yet");
-			}
-		} finally {
-			saving = false;
-		}
+	public Chunk load(int indexX, int indexY) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================

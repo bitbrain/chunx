@@ -31,17 +31,32 @@ import org.junit.Test;
  * @version 1.0
  */
 public class EncryptedFileNameConverterTest {
-	
+
+	// ===========================================================
+	// Definitions
+	// ===========================================================
+
 	EncryptedFileNameConverter converter;
+
+	// ===========================================================
+	// Setup
+	// ===========================================================
 
 	@Before
 	public void setUp() throws Exception {
-		converter = new EncryptedFileNameConverter(new SimpleFileNameConverter(), "HelloWorld");
+		converter = new EncryptedFileNameConverter(
+				new SimpleFileNameConverter(), "HelloWorld");
 	}
+
+	// ===========================================================
+	// Test cases
+	// ===========================================================
 
 	@Test
 	public void testConvert() {
-		String expected = EncryptedFileNameConverter.FILE_PREFIX + "3640b2407e9a0fae9613eea9a624daff";
-		assertTrue("Value has to be " + expected, converter.convert(10, 10).equals(expected));
+		String expected = EncryptedFileNameConverter.FILE_PREFIX
+				+ "3640b2407e9a0fae9613eea9a624daff";
+		assertTrue("Value has to be " + expected, converter.convert(10, 10)
+				.equals(expected));
 	}
 }

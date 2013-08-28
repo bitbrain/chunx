@@ -18,20 +18,18 @@
  */
 package de.myreality.chunx.io;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-
-import de.myreality.chunx.Chunk;
+import java.io.InputStream;
 
 /**
- * Saves chunks by considering the stream provider
+ * Simple implementation of {@link InputStreamProvider}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleChunkSaver extends SimpleFileConfiguration implements
-		ChunkSaver {
+public class SimpleInputStreamProvider implements InputStreamProvider {
 
 	// ===========================================================
 	// Constants
@@ -40,21 +38,10 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private OutputStreamProvider provider;
-	
-	private boolean saving;
-	
-	private FileNameConverter nameConverter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleChunkSaver(OutputStreamProvider provider) {
-		this.provider = provider;
-		nameConverter = new SimpleFileNameConverter();
-	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -63,35 +50,10 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
-	@Override
-	public void setProvider(OutputStreamProvider provider) {
-		if (provider != null) {
-			this.provider = provider;
-		}
-	}
 
 	@Override
-	public boolean isSaving() {
-		return saving;
-	}
-
-	@Override
-	public void save(Chunk chunk) throws IOException {
-		
-		try {
-			if (provider != null) {			
-				saving = true;
-				String fileName = getPath() + nameConverter.convert(chunk.getIndexX(), chunk.getIndexY());
-				ObjectOutputStream out = new ObjectOutputStream(provider.getOutputStream(fileName));	
-				out.writeObject(chunk);		
-				out.close();
-			} else {
-				throw new IOException("OutputStreamProvider is not set yet");
-			}
-		} finally {
-			saving = false;
-		}
+	public InputStream getInputStream(String file) throws IOException {
+		return new FileInputStream(file);
 	}
 
 	// ===========================================================
