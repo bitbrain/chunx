@@ -18,45 +18,44 @@
  */
 package de.myreality.chunx.io;
 
-import de.myreality.chunx.util.Crypter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
+import de.myreality.chunx.Chunk;
 
 /**
- * Encrypts the file name of the chunk
+ * Simple implementation of {@link ChunkLoader}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class EncryptedFileNameConverter implements FileNameConverter {
+public class SimpleChunkLoader extends SimpleFileConfiguration implements
+		ChunkLoader {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final String FILE_PREFIX = "ch";
-	
-	public static final String DEFAULT_KEY = "z89a7s207s2938ft28736g782g";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private FileNameConverter original;
+	private InputStreamProvider provider;
 	
-	private Crypter crypter;
+	private boolean loading;
+	
+	private FileNameConverter nameConverter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public EncryptedFileNameConverter(FileNameConverter original, String key) {
-		this.original = original;
-		crypter = new Crypter(key);
+	public SimpleChunkLoader(InputStreamProvider provider) {
+		this.provider = provider;
+		nameConverter = new EncryptedFileNameConverter(new SimpleFileNameConverter());
 	}
 
-	public EncryptedFileNameConverter(FileNameConverter original) {
-		this(original, DEFAULT_KEY);
-	}
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
@@ -64,11 +63,35 @@ public class EncryptedFileNameConverter implements FileNameConverter {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
+
 	@Override
-	public String convert(int indexX, int indexY) {		
-		String base = original.convert(indexX, indexY);		
-		return FILE_PREFIX + crypter.md5(base);
+	public void setProvider(InputStreamProvider provider) {
+		this.provider = provider;
+	}
+
+	@Override
+	public boolean isLoading() {
+		return loading;
+	}
+
+	@Override
+	public Chunk load(int indexX, int indexY) throws IOException {
+		
+		try {
+			if (provider != null) {
+				String fileName = getPath() + nameConverter.convert(indexX, indexY);
+				ObjectInputStream in = new ObjectInputStream(provider.getInputStream(fileName));
+				Chunk chunk = (Chunk) in.readObject();
+				in.close();
+				return chunk;
+			} else {
+				throw new IOException("InputStreamProvider is not set yet");
+			}
+		} catch (ClassNotFoundException e) {
+			throw new IOException("Target file does not contain any chunk instance");
+		} finally {
+			loading = false;
+		}
 	}
 
 	// ===========================================================

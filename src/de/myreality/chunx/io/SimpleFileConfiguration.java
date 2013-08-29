@@ -18,45 +18,47 @@
  */
 package de.myreality.chunx.io;
 
-import de.myreality.chunx.util.Crypter;
 
 /**
- * Encrypts the file name of the chunk
+ * Simple implementation of {@link FileConfiguration}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class EncryptedFileNameConverter implements FileNameConverter {
+public class SimpleFileConfiguration implements FileConfiguration {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final String FILE_PREFIX = "ch";
-	
-	public static final String DEFAULT_KEY = "z89a7s207s2938ft28736g782g";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private FileNameConverter original;
+	private String path;
 	
-	private Crypter crypter;
+	private FileNameConverter converter;
+	
+	
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public EncryptedFileNameConverter(FileNameConverter original, String key) {
-		this.original = original;
-		crypter = new Crypter(key);
+	public SimpleFileConfiguration(String path, FileNameConverter converter) {
+		this.path = path;
+		this.converter = converter;
+	}
+	
+	public SimpleFileConfiguration(String path) {
+		this(path, null);
+	}
+	
+	public SimpleFileConfiguration() {
+		this(null);
 	}
 
-	public EncryptedFileNameConverter(FileNameConverter original) {
-		this(original, DEFAULT_KEY);
-	}
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
@@ -64,11 +66,25 @@ public class EncryptedFileNameConverter implements FileNameConverter {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-	
+
 	@Override
-	public String convert(int indexX, int indexY) {		
-		String base = original.convert(indexX, indexY);		
-		return FILE_PREFIX + crypter.md5(base);
+	public String getPath() {
+		return path;
+	}
+
+	@Override
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	@Override
+	public FileNameConverter getConverter() {
+		return converter;
+	}
+
+	@Override
+	public void setConverter(FileNameConverter converter) {
+		this.converter = converter;
 	}
 
 	// ===========================================================

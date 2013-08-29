@@ -18,7 +18,7 @@
  */
 package de.myreality.chunx.io;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -44,5 +44,5 @@ public interface OutputStreamProvider {
 	 * @param file file to create the stream from
 	 * @return
 	 */
-	OutputStream getOutputStream(File file);
+	OutputStream getOutputStream(String file) throws IOException;
 }

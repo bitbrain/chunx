@@ -18,45 +18,44 @@
  */
 package de.myreality.chunx.io;
 
-import de.myreality.chunx.util.Crypter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+import de.myreality.chunx.Chunk;
 
 /**
- * Encrypts the file name of the chunk
+ * Saves chunks by considering the stream provider
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class EncryptedFileNameConverter implements FileNameConverter {
+public class SimpleChunkSaver extends SimpleFileConfiguration implements
+		ChunkSaver {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final String FILE_PREFIX = "ch";
-	
-	public static final String DEFAULT_KEY = "z89a7s207s2938ft28736g782g";
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private FileNameConverter original;
+	private OutputStreamProvider provider;
 	
-	private Crypter crypter;
+	private boolean saving;
+	
+	private FileNameConverter nameConverter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public EncryptedFileNameConverter(FileNameConverter original, String key) {
-		this.original = original;
-		crypter = new Crypter(key);
+	public SimpleChunkSaver(OutputStreamProvider provider) {
+		this.provider = provider;
+		nameConverter = new EncryptedFileNameConverter(new SimpleFileNameConverter());
 	}
 
-	public EncryptedFileNameConverter(FileNameConverter original) {
-		this(original, DEFAULT_KEY);
-	}
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
@@ -66,9 +65,33 @@ public class EncryptedFileNameConverter implements FileNameConverter {
 	// ===========================================================
 	
 	@Override
-	public String convert(int indexX, int indexY) {		
-		String base = original.convert(indexX, indexY);		
-		return FILE_PREFIX + crypter.md5(base);
+	public void setProvider(OutputStreamProvider provider) {
+		if (provider != null) {
+			this.provider = provider;
+		}
+	}
+
+	@Override
+	public boolean isSaving() {
+		return saving;
+	}
+
+	@Override
+	public void save(Chunk chunk) throws IOException {
+		
+		try {
+			if (provider != null) {			
+				saving = true;
+				String fileName = getPath() + nameConverter.convert(chunk.getIndexX(), chunk.getIndexY());
+				ObjectOutputStream out = new ObjectOutputStream(provider.getOutputStream(fileName));	
+				out.writeObject(chunk);		
+				out.close();
+			} else {
+				throw new IOException("OutputStreamProvider is not set yet");
+			}
+		} finally {
+			saving = false;
+		}
 	}
 
 	// ===========================================================

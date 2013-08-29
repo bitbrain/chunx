@@ -31,17 +31,30 @@ import org.junit.Test;
  * @version 1.0
  */
 public class SimpleFileNameConverterTest {
-	
+
+	// ===========================================================
+	// Definitions
+	// ===========================================================
+
 	SimpleFileNameConverter converter;
+
+	// ===========================================================
+	// Setup
+	// ===========================================================
 
 	@Before
 	public void setUp() throws Exception {
 		converter = new SimpleFileNameConverter();
 	}
 
+	// ===========================================================
+	// Test cases
+	// ===========================================================
+
 	@Test
 	public void testConvert() {
 		String expected = SimpleFileNameConverter.FILE_PREFIX + "_10_10";
-		assertTrue("Value has to be " + expected, converter.convert(10, 10).equals(expected));
+		assertTrue("Value has to be " + expected, converter.convert(10, 10)
+				.equals(expected));
 	}
 }

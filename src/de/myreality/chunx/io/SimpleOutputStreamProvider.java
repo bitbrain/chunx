@@ -18,31 +18,49 @@
  */
 package de.myreality.chunx.io;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
- * Provides an input stream for a given file
+ * Simple implementation of {@link OutputStreamProvider}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface InputStreamProvider {
+public class SimpleOutputStreamProvider implements OutputStreamProvider {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+
+	@Override
+	public OutputStream getOutputStream(String file) throws IOException {
+		return new FileOutputStream(file);
+	}
+
+	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Returns a new input stream for the file
-	 * 
-	 * @param file file to create the stream from
-	 * @return
-	 */
-	InputStream getInputStream(String file) throws IOException;
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }
