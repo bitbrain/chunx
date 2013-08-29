@@ -74,13 +74,13 @@ public class SimplePositionInterpreterTest {
 	public void testTranslateX() {
 		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(129.38f) == 0);
 		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(-2f) == -1);
-		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(configuration.getChunkWidth() - 1) == -2);
+		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(-configuration.getChunkWidth() - 1) == -2);
 	}
 
 	@Test
 	public void testTranslateY() {
 		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(129.38f) == 0);
 		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(-2f) == -1);
-		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(configuration.getChunkHeight() - 1) == -2);
+		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(-configuration.getChunkHeight() - 1) == -2);
 	}
 }
