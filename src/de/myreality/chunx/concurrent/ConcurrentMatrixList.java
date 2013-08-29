@@ -16,11 +16,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
+package de.myreality.chunx.concurrent;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+
+import de.myreality.chunx.util.Indexable;
+import de.myreality.chunx.util.MatrixIterator;
+import de.myreality.chunx.util.MatrixList;
 
 /**
  * Concurrent, thread-save implementation of {@link MatrixList}
