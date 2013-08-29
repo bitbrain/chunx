@@ -53,7 +53,7 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	
 	public SimpleChunkSaver(OutputStreamProvider provider) {
 		this.provider = provider;
-		nameConverter = new SimpleFileNameConverter();
+		nameConverter = new EncryptedFileNameConverter(new SimpleFileNameConverter());
 	}
 
 	// ===========================================================

@@ -34,6 +34,8 @@ public class EncryptedFileNameConverter implements FileNameConverter {
 	// ===========================================================
 	
 	public static final String FILE_PREFIX = "ch";
+	
+	public static final String DEFAULT_KEY = "z89a7s207s2938ft28736g782g";
 
 	// ===========================================================
 	// Fields
@@ -52,6 +54,9 @@ public class EncryptedFileNameConverter implements FileNameConverter {
 		crypter = new Crypter(key);
 	}
 
+	public EncryptedFileNameConverter(FileNameConverter original) {
+		this(original, DEFAULT_KEY);
+	}
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================

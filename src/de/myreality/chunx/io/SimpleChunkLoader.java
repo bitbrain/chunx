@@ -53,7 +53,7 @@ public class SimpleChunkLoader extends SimpleFileConfiguration implements
 	
 	public SimpleChunkLoader(InputStreamProvider provider) {
 		this.provider = provider;
-		nameConverter = new SimpleFileNameConverter();
+		nameConverter = new EncryptedFileNameConverter(new SimpleFileNameConverter());
 	}
 
 	// ===========================================================
