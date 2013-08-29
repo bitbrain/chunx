@@ -34,10 +34,38 @@ public class SimpleChunkConfiguration implements ChunkConfiguration {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private int chunkWidth, chunkHeight;
+	
+	private ContentProvider contentProvider;
+	
+	private ChunkTarget focused;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleChunkConfiguration(int chunkWidth, int chunkHeight,
+			ContentProvider contentProvider, ChunkTarget focused) {
+		super();
+		this.chunkWidth = chunkWidth;
+		this.chunkHeight = chunkHeight;
+		this.contentProvider = contentProvider;
+		this.focused = focused;
+	}
+	
+	public SimpleChunkConfiguration(int chunkWidth, int chunkHeight,
+			ContentProvider contentProvider) {
+		this(chunkWidth, chunkHeight, contentProvider, null);
+	}
+	
+	public SimpleChunkConfiguration(int chunkWidth, int chunkHeight) {
+		this(chunkWidth, chunkHeight, null, null);
+	}
+	
+	public SimpleChunkConfiguration() {
+		this(DEFAULT_WIDTH, DEFAULT_HEIGHT, null, null);
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -49,56 +77,50 @@ public class SimpleChunkConfiguration implements ChunkConfiguration {
 
 	@Override
 	public int getChunkWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return chunkWidth;
 	}
 
 	@Override
 	public int getChunkHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return chunkHeight;
 	}
 
 	@Override
 	public void setChunkWidth(int width) {
-		// TODO Auto-generated method stub
-
+		this.chunkWidth = width;
 	}
 
 	@Override
 	public void setChunkHeight(int height) {
-		// TODO Auto-generated method stub
-
+		this.chunkHeight = height;
 	}
 
 	@Override
 	public void setChunkSize(int size) {
-		// TODO Auto-generated method stub
-
+		setChunkWidth(size);
+		setChunkHeight(size);
 	}
 
 	@Override
 	public void setContentProvider(ContentProvider contentProvider) {
-		// TODO Auto-generated method stub
-
+		if (contentProvider != null) {
+			this.contentProvider = contentProvider;
+		}
 	}
 
 	@Override
 	public ContentProvider getContentProvider() {
-		// TODO Auto-generated method stub
-		return null;
+		return contentProvider;
 	}
 
 	@Override
 	public void setFocused(ChunkTarget target) {
-		// TODO Auto-generated method stub
-
+		this.focused = target;
 	}
 
 	@Override
 	public ChunkTarget getFocused() {
-		// TODO Auto-generated method stub
-		return null;
+		return focused;
 	}
 
 	// ===========================================================

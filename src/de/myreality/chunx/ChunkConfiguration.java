@@ -30,6 +30,10 @@ public interface ChunkConfiguration {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final int DEFAULT_WIDTH = 256;
+	
+	public static final int DEFAULT_HEIGHT = 256;
 
 	// ===========================================================
 	// Methods

@@ -18,7 +18,7 @@
  */
 package de.myreality.chunx.util;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -43,14 +43,16 @@ public class SimplePositionInterpreterTest {
 	
 	PositionInterpreter interpreter;
 	
+	ChunkConfiguration configuration;
+	
 	// ===========================================================
 	// Setup
 	// ===========================================================
 
 	@Before
 	public void setUp() throws Exception {
-		ChunkConfiguration config = new SimpleChunkConfiguration();
-		ConfigurationProvider provider = new SimpleConfigurationProvider(config);		
+		configuration = new SimpleChunkConfiguration();
+		ConfigurationProvider provider = new SimpleConfigurationProvider(configuration);		
 		interpreter = new SimplePositionInterpreter(provider);
 	}
 	
@@ -60,21 +62,25 @@ public class SimplePositionInterpreterTest {
 	
 	@Test
 	public void testTranslateIndexX() {
-		fail("Not yet implemented");
+		assertTrue("IndexX has not been interpreted correctly here", interpreter.translateIndexX(10) == 10 * configuration.getChunkWidth());
 	}
 
 	@Test
 	public void testTranslateIndexY() {
-		fail("Not yet implemented");
+		assertTrue("IndexY has not been interpreted correctly here", interpreter.translateIndexY(10) == 10 * configuration.getChunkHeight());
 	}
 
 	@Test
 	public void testTranslateX() {
-		fail("Not yet implemented");
+		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(129.38f) == 0);
+		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(-2f) == -1);
+		assertTrue("x position has not been interpreted correctly here", interpreter.translateX(configuration.getChunkWidth() - 1) == -2);
 	}
 
 	@Test
 	public void testTranslateY() {
-		fail("Not yet implemented");
+		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(129.38f) == 0);
+		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(-2f) == -1);
+		assertTrue("y position has not been interpreted correctly here", interpreter.translateY(configuration.getChunkHeight() - 1) == -2);
 	}
 }
