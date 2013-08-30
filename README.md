@@ -34,3 +34,11 @@ if (chunk != null) {
    System.out.println("The current index is: " + indexX + "|" + indexY);
 }
 ```
+
+### Getting started
+
+Read [the official wiki](https://github.com/MyRealityCoding/chunx/wiki) for more information.
+
+### Credits
+
+[chunx](https://github.com/MyRealityCoding/chunx) has been developed by [Miguel Gonzalez](http://my-reality.de).
