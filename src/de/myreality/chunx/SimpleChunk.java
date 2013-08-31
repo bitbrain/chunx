@@ -110,10 +110,10 @@ public class SimpleChunk implements Chunk {
 	
 	@Override
 	public ChunkTarget retrieve() {		
-		if (targets.isEmpty()) {
-			ChunkTarget last = targets.get(targets.size() - 1);
-			targets.remove(last);
-			return last;
+		if (!targets.isEmpty()) {
+			ChunkTarget first = targets.get(0);
+			targets.remove(first);
+			return first;
 		} else {
 			return null;
 		}

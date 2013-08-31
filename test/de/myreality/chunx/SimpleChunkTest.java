@@ -100,7 +100,15 @@ public class SimpleChunkTest {
 		chunk.add(ct1);
 		chunk.add(ct2);
 		
-		ChunkTarget result1 = chunk.retrieve();
+		assertTrue("Amount of contained chunks has to be 2", chunk.size() == 2);
+		
+		ChunkTarget result = chunk.retrieve();
+		assertTrue("Result1 has to be " + ct1 + " instead of " + result, ct1.equals(result));
+		assertTrue("Amount of contained chunks has to be 1", chunk.size() == 1);
+		
+		result = chunk.retrieve();
+		assertTrue("Result2 has to be " + ct2, ct2.equals(result));
+		assertTrue("Amount of contained chunks has to be 0", chunk.size() == 0);
 		
 	}
 	
