@@ -9,7 +9,7 @@ To create a chunk system, simply look at the following code:
 ```java
 ChunkTarget target = new Character(); // You have to write your own implementation
 ContentProvider provider = new World(); // You have to write your own implementation
-ChunkConfiguration configuration = new ChunkConfiguration();
+CachedChunkConfiguration  configuration = new CachedChunkConfiguration ();
 configuration.setFocused(target);
 configuration.setContentProvider(provider);
 configuration.setChunkIndex(4);
