@@ -18,7 +18,10 @@
  */
 package de.myreality.chunx.caching;
 
+import static org.junit.Assert.*;
+
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test case for {@link SimpleCache}
@@ -36,6 +39,8 @@ public class SimpleCacheTest {
 	Cache cache;
 	
 	CachedChunkConfiguration configuration;
+	
+	int SIZE = 2;
 
 	// ===========================================================
 	// Setup
@@ -44,10 +49,49 @@ public class SimpleCacheTest {
 	@Before
 	public void setUp() throws Exception {
 		configuration = new SimpleCachedChunkConfiguration();
+		configuration.setCacheSize(SIZE);
 		cache = new SimpleCache(configuration);
 	}
 
 	// ===========================================================
 	// Test cases
 	// ===========================================================
+	
+	@Test
+	public void testContainsIndex() {
+		// Valid indexes
+		assertTrue("Index1 should be contained", cache.containsIndex(SIZE, -SIZE));
+		assertTrue("Index2 should be contained", cache.containsIndex(SIZE, SIZE));
+		assertTrue("Index3 should be contained", cache.containsIndex(-SIZE, -SIZE));
+		assertTrue("Index4 should be contained", cache.containsIndex(-SIZE, SIZE));
+		assertFalse("Index5 should not be contained", cache.containsIndex(SIZE + 1, -(SIZE + 1)));
+		assertFalse("Index6 should not be contained", cache.containsIndex(-(SIZE + 1), -(SIZE + 1)));
+		assertFalse("Index7 should not be contained", cache.containsIndex(SIZE + 1, SIZE + 1));
+		assertFalse("Index8 should not be contained", cache.containsIndex(SIZE + 1, -(SIZE + 1)));
+	}
+	
+	@Test
+	public void testAlign() {
+		
+		final int NEW_X = 5;
+		final int NEW_Y = 299;
+		
+		assertTrue("Index1 should be contained", cache.containsIndex(SIZE + NEW_X, -(SIZE + NEW_Y)));
+		assertTrue("Index2 should be contained", cache.containsIndex(SIZE + NEW_X, SIZE + NEW_Y));
+		assertTrue("Index3 should be contained", cache.containsIndex(-(SIZE + NEW_X), -(SIZE + NEW_Y)));
+		assertTrue("Index4 should be contained", cache.containsIndex(-(SIZE + NEW_X), SIZE + NEW_Y));
+	}
+	
+	@Test
+	public void testOffset() {
+		configuration.setOffset(1);
+		assertTrue("Index1 should be contained", cache.containsIndex(SIZE, -SIZE));
+		assertTrue("Index2 should be contained", cache.containsIndex(SIZE, SIZE));
+		assertTrue("Index3 should be contained", cache.containsIndex(-SIZE, -SIZE));
+		assertTrue("Index4 should be contained", cache.containsIndex(-SIZE, SIZE));
+		assertTrue("Index5 should be contained", cache.containsIndex(SIZE + 1, -(SIZE + 1)));
+		assertTrue("Index6 should be contained", cache.containsIndex(-(SIZE + 1), -(SIZE + 1)));
+		assertTrue("Index7 should be contained", cache.containsIndex(SIZE + 1, SIZE + 1));
+		assertTrue("Index8 should be contained", cache.containsIndex(SIZE + 1, -(SIZE + 1)));
+	}
 }

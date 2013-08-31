@@ -43,8 +43,13 @@ public class SimpleCache implements Cache {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleCache(CachedChunkConfiguration configuration) {
+	public SimpleCache(int indexX, int indexY, CachedChunkConfiguration configuration) {
 		this.configuration = configuration;
+		align(indexX, indexY);
+	}
+	
+	public SimpleCache(CachedChunkConfiguration configuration) {
+		this(0, 0, configuration);
 	}
 
 	// ===========================================================
