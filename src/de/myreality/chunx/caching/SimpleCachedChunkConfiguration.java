@@ -18,33 +18,48 @@
  */
 package de.myreality.chunx.caching;
 
-import de.myreality.chunx.util.Indexable;
+import de.myreality.chunx.SimpleChunkConfiguration;
 
 /**
- * Simple implementation of a cache
+ * Simple implementation of {@link CachedChunkConfiguration}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleCache implements Cache {
+public class SimpleCachedChunkConfiguration extends SimpleChunkConfiguration
+		implements CachedChunkConfiguration {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private CachedChunkConfiguration configuration;
+	private int cacheSizeX, cacheSizeY;
 
+	private int offset;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleCache(CachedChunkConfiguration configuration) {
-		this.configuration = configuration;
+	public SimpleCachedChunkConfiguration(int cacheSizeX, int cacheSizeY, int offset) {
+		setCacheSizeX(cacheSizeX);
+		setCacheSizeY(cacheSizeY);
+		setOffset(offset);
+	}
+	
+	public SimpleCachedChunkConfiguration(int cacheSizeX, int cacheSizeY) {
+		this(cacheSizeX, cacheSizeY, 0);
+	}
+	
+	public SimpleCachedChunkConfiguration() {
+		this(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
 	}
 
 	// ===========================================================
@@ -56,45 +71,39 @@ public class SimpleCache implements Cache {
 	// ===========================================================
 
 	@Override
-	public boolean containsIndex(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-		return false;
+	public int getTotalChunkCount() {
+		return (getCacheSizeX() * 2 + 1) * (getCacheSizeY() * 2 + 1);
 	}
 
 	@Override
-	public boolean containsIndex(Indexable indexable) {
-		// TODO Auto-generated method stub
-		return false;
+	public void setCacheSizeX(int sizeX) {
+		this.cacheSizeX = Math.abs(sizeX);
 	}
 
 	@Override
-	public int getIndexTop() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setCacheSizeY(int sizeY) {
+		this.cacheSizeY = Math.abs(sizeY);
 	}
 
 	@Override
-	public int getIndexBottom() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setCacheSize(int size) {
+		setCacheSizeX(size);
+		setCacheSizeY(size);
 	}
 
 	@Override
-	public int getIndexLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getCacheSizeX() {
+		return cacheSizeX + offset;
 	}
 
 	@Override
-	public int getIndexRight() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getCacheSizeY() {
+		return cacheSizeY + offset;
 	}
 
 	@Override
-	public void align(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-
+	public void setOffset(int offset) {
+		this.offset = Math.abs(offset);
 	}
 
 	// ===========================================================

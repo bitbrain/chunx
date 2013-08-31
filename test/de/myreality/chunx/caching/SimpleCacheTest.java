@@ -34,6 +34,8 @@ public class SimpleCacheTest {
 	// ===========================================================
 	
 	Cache cache;
+	
+	CachedChunkConfiguration configuration;
 
 	// ===========================================================
 	// Setup
@@ -41,7 +43,8 @@ public class SimpleCacheTest {
 
 	@Before
 	public void setUp() throws Exception {
-		cache = new SimpleCache();
+		configuration = new SimpleCachedChunkConfiguration();
+		cache = new SimpleCache(configuration);
 	}
 
 	// ===========================================================

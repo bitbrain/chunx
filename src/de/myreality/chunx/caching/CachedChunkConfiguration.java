@@ -32,6 +32,10 @@ public interface CachedChunkConfiguration extends ChunkConfiguration {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final int DEFAULT_SIZE_X = 2;
+	
+	public static final int DEFAULT_SIZE_Y = 2;
 
 	// ===========================================================
 	// Methods
@@ -43,13 +47,6 @@ public interface CachedChunkConfiguration extends ChunkConfiguration {
 	 * @return total chunk amount
 	 */
 	int getTotalChunkCount();
-	
-	/**
-	 * Returns the current available chunk amount
-	 * 
-	 * @return current chunk amount
-	 */
-	int getCurrentChunkCount();
 	
 	/**
 	 * Sets a new horizontal size
@@ -85,4 +82,11 @@ public interface CachedChunkConfiguration extends ChunkConfiguration {
 	 * @return current vertical cache size
 	 */
 	int getCacheSizeY();
+	
+	/**
+	 * Sets additional offset for pre-caching
+	 * 
+	 * @param offset new offset value
+	 */
+	void setOffset(int offset);
 }
