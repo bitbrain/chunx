@@ -18,33 +18,63 @@
  */
 package de.myreality.chunx.caching;
 
-import org.junit.Before;
+import de.myreality.chunx.ChunkConfiguration;
 
 /**
- * Test case for {@link SimpleCache}
+ * Provides caching information additionally to its normal chunk data
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleCacheTest {
+public interface CachedChunkConfiguration extends ChunkConfiguration {
 
 	// ===========================================================
-	// Definitions
+	// Constants
+	// ===========================================================
+
+	// ===========================================================
+	// Methods
 	// ===========================================================
 	
-	Cache cache;
-
-	// ===========================================================
-	// Setup
-	// ===========================================================
-
-	@Before
-	public void setUp() throws Exception {
-		cache = new SimpleCache();
-	}
-
-	// ===========================================================
-	// Test cases
-	// ===========================================================
+	/**
+	 * 
+	 * @return
+	 */
+	int getTotalChunkCount();
+	
+	/**
+	 * 
+	 * 
+	 * @param sizeX
+	 */
+	void setCacheSizeX(int sizeX);
+	
+	/**
+	 * 
+	 * 
+	 * @param sizeY
+	 */
+	void setCacheSizeY(int sizeY);
+	
+	/**
+	 * 
+	 * 
+	 * @param size
+	 */
+	void setCacheSize(int size);
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getCacheSizeX();
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	int getCacheSizeY();
 }
