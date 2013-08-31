@@ -94,6 +94,13 @@ public class SimpleChunkTest {
 	
 	@Test
 	public void testRetrieve() {
+		MockChunkTarget ct1 = new MockChunkTarget();
+		MockChunkTarget ct2 = new MockChunkTarget();
+		
+		chunk.add(ct1);
+		chunk.add(ct2);
+		
+		ChunkTarget result1 = chunk.retrieve();
 		
 	}
 	

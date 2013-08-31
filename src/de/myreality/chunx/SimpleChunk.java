@@ -18,6 +18,7 @@
  */
 package de.myreality.chunx;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -168,6 +169,21 @@ public class SimpleChunk implements Chunk {
 		return "SimpleChunk [indexX=" + indexX + ", indexY=" + indexY
 				+ ", targets=" + targets + ", configuration=" + configuration
 				+ "]";
+	}
+
+	@Override
+	public Iterator<ChunkTarget> iterator() {
+		return targets.iterator();
+	}
+
+	@Override
+	public boolean contains(ChunkTarget target) {
+		return targets.contains(target);
+	}
+
+	@Override
+	public int size() {
+		return targets.size();
 	}
 	
 	// ===========================================================

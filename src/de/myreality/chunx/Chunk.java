@@ -29,7 +29,7 @@ import de.myreality.chunx.util.Indexable;
  * @since 1.0
  * @version 1.0
  */
-public interface Chunk extends Indexable, Serializable {
+public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget> {
 
 	// ===========================================================
 	// Constants
@@ -81,4 +81,19 @@ public interface Chunk extends Indexable, Serializable {
 	 * @param target chunk target to add
 	 */
 	void add(ChunkTarget target);
+	
+	/**
+	 * Determines if the target is saved in the chunk
+	 * 
+	 * @param target target to check
+	 * @return true when contained
+	 */
+	boolean contains(ChunkTarget target);
+	
+	/**
+	 * Returns the current size of contained elements
+	 * 
+	 * @return amount of elements
+	 */
+	int size();
 }
