@@ -38,43 +38,51 @@ public interface CachedChunkConfiguration extends ChunkConfiguration {
 	// ===========================================================
 	
 	/**
+	 * Returns the total amount of chunks
 	 * 
-	 * @return
+	 * @return total chunk amount
 	 */
 	int getTotalChunkCount();
 	
 	/**
+	 * Returns the current available chunk amount
 	 * 
+	 * @return current chunk amount
+	 */
+	int getCurrentChunkCount();
+	
+	/**
+	 * Sets a new horizontal size
 	 * 
-	 * @param sizeX
+	 * @param sizeX new horizontal size
 	 */
 	void setCacheSizeX(int sizeX);
 	
 	/**
-	 * 
-	 * 
-	 * @param sizeY
+	 * Sets a new vertical size
+	 *  
+	 * @param sizeY new vertical size
 	 */
 	void setCacheSizeY(int sizeY);
 	
 	/**
+	 * Sets a new cache size (vertically and horizontally)
 	 * 
-	 * 
-	 * @param size
+	 * @param size new cache size
 	 */
 	void setCacheSize(int size);
 	
 	/**
+	 * Returns the current horizontal cache size
 	 * 
-	 * 
-	 * @return
+	 * @return current horizontal cache size
 	 */
 	int getCacheSizeX();
 	
 	/**
+	 * Returns the current vertical cache size
 	 * 
-	 * 
-	 * @return
+	 * @return current vertical cache size
 	 */
 	int getCacheSizeY();
 }
