@@ -31,10 +31,12 @@ public class SimpleChunkConfiguration implements ChunkConfiguration {
 	// Constants
 	// ===========================================================
 
+	public static final long serialVersionUID = 1L;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private int chunkWidth, chunkHeight;
 	
 	private ContentProvider contentProvider;

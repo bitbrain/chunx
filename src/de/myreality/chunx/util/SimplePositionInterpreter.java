@@ -19,7 +19,6 @@
 package de.myreality.chunx.util;
 
 import de.myreality.chunx.ChunkConfiguration;
-import de.myreality.chunx.ConfigurationProvider;
 
 /**
  * Translates positions between indexing and global world coordinates
@@ -38,14 +37,14 @@ public class SimplePositionInterpreter implements PositionInterpreter {
 	// Fields
 	// ===========================================================
 	
-	private ConfigurationProvider provider;
+	private ChunkConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimplePositionInterpreter(ConfigurationProvider provider) {
-		this.provider = provider;
+	public SimplePositionInterpreter(ChunkConfiguration configuration) {
+		this.configuration = configuration;
 	}
 
 	// ===========================================================
@@ -58,25 +57,21 @@ public class SimplePositionInterpreter implements PositionInterpreter {
 	
 	@Override
 	public float translateIndexX(int indexX) {		
-		ChunkConfiguration configuration = provider.getConfiguration();
 		return translateIndex(indexX, configuration.getChunkWidth());
 	}
 
 	@Override
 	public float translateIndexY(int indexY) {
-		ChunkConfiguration configuration = provider.getConfiguration();
 		return translateIndex(indexY, configuration.getChunkHeight());
 	}
 
 	@Override
 	public int translateX(float x) {
-		ChunkConfiguration configuration = provider.getConfiguration();
 		return translatePosition(x, configuration.getChunkWidth());
 	}
 
 	@Override
 	public int translateY(float y) {
-		ChunkConfiguration configuration = provider.getConfiguration();
 		return translatePosition(y, configuration.getChunkHeight());
 	}
 

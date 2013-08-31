@@ -54,6 +54,20 @@ public interface Chunk extends Indexable, Serializable {
 	float getY();
 	
 	/**
+	 * Returns the width of this chunk
+	 * 
+	 * @return current width
+	 */
+	float getWidth();
+	
+	/**
+	 * Returns the height of this chunk
+	 * 
+	 * @return current height
+	 */
+	float getHeight();
+	
+	/**
 	 * Returns the first added chunk target and removes
 	 * it from this chunk instance
 	 * 

@@ -18,15 +18,13 @@
  */
 package de.myreality.chunx.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import de.myreality.chunx.ChunkConfiguration;
-import de.myreality.chunx.ConfigurationProvider;
 import de.myreality.chunx.SimpleChunkConfiguration;
-import de.myreality.chunx.SimpleConfigurationProvider;
 
 /**
  * Test case for {@link SimplePositionInterpreter}
@@ -51,9 +49,8 @@ public class SimplePositionInterpreterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		configuration = new SimpleChunkConfiguration();
-		ConfigurationProvider provider = new SimpleConfigurationProvider(configuration);		
-		interpreter = new SimplePositionInterpreter(provider);
+		configuration = new SimpleChunkConfiguration();	
+		interpreter = new SimplePositionInterpreter(configuration);
 	}
 	
 	// ===========================================================

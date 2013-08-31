@@ -19,6 +19,10 @@
 package de.myreality.chunx;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import de.myreality.chunx.util.PositionInterpreter;
+import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**
  * Simple implementation of {@link Chunk}
@@ -41,16 +45,28 @@ public class SimpleChunk implements Chunk {
 
 	private int indexX, indexY;
 	
-	private float x, y;
-	
 	private List<ChunkTarget> targets;
+	
+	private ChunkConfiguration configuration;
+	
+	private transient PositionInterpreter positionInterpreter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public SimpleChunk(int indexX, int indexY, ChunkConfiguration configuration) {
-		
+		this.indexX = indexX;
+		this.indexY = indexY;
+		this.configuration = configuration;
+		positionInterpreter = new SimplePositionInterpreter(configuration);
+		targets = new CopyOnWriteArrayList<ChunkTarget>();
+	}
+	
+	public SimpleChunk() {
+		if (configuration != null) {
+			positionInterpreter = new SimplePositionInterpreter(configuration);
+		}
 	}
 
 	// ===========================================================
@@ -63,38 +79,50 @@ public class SimpleChunk implements Chunk {
 
 	@Override
 	public int getIndexX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return indexX;
 	}
 
 	@Override
 	public int getIndexY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return indexY;
 	}
 
 	@Override
 	public float getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return positionInterpreter.translateIndexX(indexX);
 	}
 
 	@Override
 	public float getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return positionInterpreter.translateIndexY(indexY);
+	}
+	
+	@Override
+	public float getWidth() {
+		return configuration.getChunkWidth();
 	}
 
 	@Override
-	public ChunkTarget retrieve() {
-		// TODO Auto-generated method stub
-		return null;
+	public float getHeight() {
+		return configuration.getChunkHeight();
+	}
+	
+	@Override
+	public ChunkTarget retrieve() {		
+		if (targets.isEmpty()) {
+			ChunkTarget last = targets.get(targets.size() - 1);
+			targets.remove(last);
+			return last;
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public void add(ChunkTarget target) {
-		// TODO Auto-generated method stub
-
+		if (!targets.contains(target)) {
+			targets.add(target);
+		}
 	}
 
 	// ===========================================================
