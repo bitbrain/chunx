@@ -42,5 +42,19 @@ public interface ChunkFactory {
 	 * @param indexY y index
 	 * @return new chunk instance
 	 */
-	Chunk createChunk(int indexX, int indexY, ChunkConfiguration configuration);
+	Chunk createChunk(int indexX, int indexY);
+	
+	/**
+	 *  Sets a new chunk configuration
+	 * 
+	 * @param configuration new configuration
+	 */
+	void setChunkConfiguration(ChunkConfiguration configuration);
+	
+	/**
+	 * Returns the current chunk configuration
+	 * 
+	 * @return current chunk configuration
+	 */
+	ChunkConfiguration getChunkConfiguration();
 }

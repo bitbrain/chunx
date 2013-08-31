@@ -18,6 +18,8 @@
  */
 package de.myreality.chunx;
 
+import java.io.Serializable;
+
 /**
  * Chunk configuration which holds information about for chunk systems
  * 
@@ -25,7 +27,7 @@ package de.myreality.chunx;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkConfiguration {
+public interface ChunkConfiguration extends Serializable {
 
 	// ===========================================================
 	// Constants

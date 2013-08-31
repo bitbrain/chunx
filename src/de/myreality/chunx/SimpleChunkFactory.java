@@ -34,10 +34,16 @@ public class SimpleChunkFactory implements ChunkFactory {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ChunkConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+	
+	public SimpleChunkFactory(ChunkConfiguration configuration) {
+		this.configuration = configuration;
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -48,9 +54,18 @@ public class SimpleChunkFactory implements ChunkFactory {
 	// ===========================================================
 
 	@Override
-	public Chunk createChunk(int indexX, int indexY, ChunkConfiguration configuration) {
-		// TODO Auto-generated method stub
-		return null;
+	public Chunk createChunk(int indexX, int indexY) {
+		return new SimpleChunk(indexX, indexY, configuration);
+	}
+
+	@Override
+	public void setChunkConfiguration(ChunkConfiguration configuration) {
+		this.configuration = configuration;
+	}
+
+	@Override
+	public ChunkConfiguration getChunkConfiguration() {
+		return configuration;
 	}
 
 	// ===========================================================

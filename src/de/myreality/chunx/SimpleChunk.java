@@ -125,6 +125,51 @@ public class SimpleChunk implements Chunk {
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((configuration == null) ? 0 : configuration.hashCode());
+		result = prime * result + indexX;
+		result = prime * result + indexY;
+		result = prime * result + ((targets == null) ? 0 : targets.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleChunk other = (SimpleChunk) obj;
+		if (configuration == null) {
+			if (other.configuration != null)
+				return false;
+		} else if (!configuration.equals(other.configuration))
+			return false;
+		if (indexX != other.indexX)
+			return false;
+		if (indexY != other.indexY)
+			return false;
+		if (targets == null) {
+			if (other.targets != null)
+				return false;
+		} else if (!targets.equals(other.targets))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "SimpleChunk [indexX=" + indexX + ", indexY=" + indexY
+				+ ", targets=" + targets + ", configuration=" + configuration
+				+ "]";
+	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================

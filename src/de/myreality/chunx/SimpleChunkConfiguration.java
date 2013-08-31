@@ -125,6 +125,51 @@ public class SimpleChunkConfiguration implements ChunkConfiguration {
 		return focused;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + chunkHeight;
+		result = prime * result + chunkWidth;
+		result = prime * result
+				+ ((contentProvider == null) ? 0 : contentProvider.hashCode());
+		result = prime * result + ((focused == null) ? 0 : focused.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleChunkConfiguration other = (SimpleChunkConfiguration) obj;
+		if (chunkHeight != other.chunkHeight)
+			return false;
+		if (chunkWidth != other.chunkWidth)
+			return false;
+		if (contentProvider == null) {
+			if (other.contentProvider != null)
+				return false;
+		} else if (!contentProvider.equals(other.contentProvider))
+			return false;
+		if (focused == null) {
+			if (other.focused != null)
+				return false;
+		} else if (!focused.equals(other.focused))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "SimpleChunkConfiguration [chunkWidth=" + chunkWidth
+				+ ", chunkHeight=" + chunkHeight + ", contentProvider="
+				+ contentProvider + ", focused=" + focused + "]";
+	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================

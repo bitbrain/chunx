@@ -33,38 +33,41 @@ import org.junit.Test;
 public class SimpleChunkFactoryTest {
 
 	// ===========================================================
-	// Definitions
-	// ===========================================================
-	
-	ChunkFactory factory;
+		// Definitions
+		// ===========================================================
+		
+		ChunkFactory factory;
+		
+		ChunkConfiguration configuration;
 
-	// ===========================================================
-	// Setup
-	// ===========================================================
+		// ===========================================================
+		// Setup
+		// ===========================================================
 
-	@Before
-	public void setUp() throws Exception {
-		factory = new SimpleChunkFactory();
-	}
+		@Before
+		public void setUp() throws Exception {
+			configuration = new SimpleChunkConfiguration();
+			factory = new SimpleChunkFactory(configuration);
+		}
 
-	// ===========================================================
-	// Test cases
-	// ===========================================================
-	
-	@Test
-	public void testCreateChunk() {
+		// ===========================================================
+		// Test cases
+		// ===========================================================
 		
-		final int INDEX_X = 10, INDEX_Y = 82;
-		
-		ChunkConfiguration configuration = new SimpleChunkConfiguration();
-		
-		Chunk chunk = factory.createChunk(INDEX_X, INDEX_Y, configuration);
-		
-		assertTrue("Chunk should not be null", chunk != null);	
-		assertTrue("Chunk x index doesn't match.", chunk.getIndexX() == INDEX_X);	
-		assertTrue("Chunk y index doesn't match.", chunk.getIndexY() == INDEX_Y);	
-		assertTrue("Chunk x position doesn't match.", chunk.getX() == INDEX_X * configuration.getChunkWidth());
-		assertTrue("Chunk y position doesn't match.", chunk.getY() == INDEX_Y * configuration.getChunkHeight());
-	}
+		@Test
+		public void testCreateChunk() {
+			
+			final int INDEX_X = 10, INDEX_Y = 82;
+			
+			
+			
+			Chunk chunk = factory.createChunk(INDEX_X, INDEX_Y);
+			
+			assertTrue("Chunk should not be null", chunk != null);	
+			assertTrue("Chunk x index doesn't match.", chunk.getIndexX() == INDEX_X);	
+			assertTrue("Chunk y index doesn't match.", chunk.getIndexY() == INDEX_Y);	
+			assertTrue("Chunk x position doesn't match.", chunk.getX() == INDEX_X * configuration.getChunkWidth());
+			assertTrue("Chunk y position doesn't match.", chunk.getY() == INDEX_Y * configuration.getChunkHeight());
+		}
 
 }
