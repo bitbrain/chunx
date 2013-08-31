@@ -1,5 +1,5 @@
 /**
- * 
+ * Provides file io functionality
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  */
