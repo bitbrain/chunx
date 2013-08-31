@@ -38,6 +38,8 @@ public class SimpleCache implements Cache {
 	// ===========================================================
 	
 	private CachedChunkConfiguration configuration;
+	
+	private int offsetX, offsetY;
 
 	// ===========================================================
 	// Constructors
@@ -62,44 +64,44 @@ public class SimpleCache implements Cache {
 
 	@Override
 	public boolean containsIndex(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		final boolean topLeftRange = indexX < getIndexLeft()
+				|| indexY < getIndexTop();
+		final boolean bottomRightRange = indexX > getIndexRight()
+				|| indexY > getIndexBottom();
+
+		return !(topLeftRange || bottomRightRange);
 	}
 
 	@Override
 	public boolean containsIndex(Indexable indexable) {
-		// TODO Auto-generated method stub
-		return false;
+		return containsIndex(indexable.getIndexX(), indexable.getIndexY());
 	}
 
 	@Override
 	public int getIndexTop() {
-		// TODO Auto-generated method stub
-		return 0;
+		return -configuration.getCacheSizeY() + offsetX;
 	}
 
 	@Override
 	public int getIndexBottom() {
-		// TODO Auto-generated method stub
-		return 0;
+		return configuration.getCacheSizeY() + offsetY;
 	}
 
 	@Override
 	public int getIndexLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		return -configuration.getCacheSizeX() + offsetX;
 	}
 
 	@Override
 	public int getIndexRight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return configuration.getCacheSizeY() + offsetY;
 	}
 
 	@Override
 	public void align(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-
+		this.offsetX = indexX;
+		this.offsetY = indexY;
 	}
 
 	// ===========================================================
