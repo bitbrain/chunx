@@ -18,139 +18,64 @@
  */
 package de.myreality.chunx.caching;
 
-import java.util.Collection;
-
-import de.myreality.chunx.Chunk;
-import de.myreality.chunx.ChunkConfiguration;
-import de.myreality.chunx.ChunkListener;
 import de.myreality.chunx.ChunkSystem;
-import de.myreality.chunx.io.ChunkLoader;
-import de.myreality.chunx.io.ChunkSaver;
-import de.myreality.chunx.util.AbstractManageable;
 
 /**
- * Cached implementation of {@see ChunkSystem}
+ * Cached chunk system 
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class CachedChunkSystem extends AbstractManageable implements ChunkSystem {
+public interface CachedChunkSystem extends ChunkSystem {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
-	// Fields
-	// ===========================================================
-	
-	private CachedChunkConfiguration configuration;
-
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-	
-	public CachedChunkSystem(CachedChunkConfiguration configuration) {
-		this.configuration = configuration;
-	}
-
-	// ===========================================================
-	// Getters and Setters
-	// ===========================================================
-
-	// ===========================================================
-	// Methods from Superclass
-	// ===========================================================
-	
-	@Override
-	public void update() {
-		update(0.0f);
-	}
-
-	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ChunkConfiguration getConfiguration() {
-		return configuration;
-	}
-
-	@Override
-	public void setConfiguration(ChunkConfiguration configuration) {
-		if (configuration instanceof CachedChunkConfiguration) {
-			this.configuration = (CachedChunkConfiguration)configuration;
-		}
-	}
-
-	@Override
-	public Chunk getActiveChunk() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Collection<Chunk> getChunks() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Chunk getChunk(int indexX, int indexY) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getCurrentChunkCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void addListener(ChunkListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeListener(ChunkListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setLoader(ChunkLoader chunkLoader) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ChunkLoader getLoader() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setSaver(ChunkSaver chunkSaver) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ChunkSaver getSaver() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	// ===========================================================
-	// Inner classes
-	// ===========================================================
+	
+	/**
+	 * Returns the current cache
+	 * 
+	 * @return current cache
+	 */
+	Cache getCache();
+	
+	/**
+	 * Returns the pre-cache
+	 * 
+	 * @return current pre-cache
+	 */
+	Cache getPreCache();
+	
+	/**
+	 * Returns the current progress
+	 * 
+	 * @return current progress
+	 */
+	double getProgress();
+	
+	/**
+	 * Returns the total amount of possible chunks
+	 * 
+	 * @return total amount of chunks
+	 */
+	int getTotalChunkCount();
+	
+	/**
+	 * Returns the current amount of real chunks
+	 * 
+	 * @return current amount of chunks
+	 */
+	int getCurrentChunkCount();
+	
+	/**
+	 * Returns the cached configuration file
+	 * 
+	 * @return current {@link CachedChunkConfiguration}
+	 */
+	CachedChunkConfiguration getCachedConfiguration();
 }
