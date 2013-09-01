@@ -16,16 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
+package de.myreality.chunx.moving;
 
 /**
- * Can be managed by other classes by starting or stopping
+ * Listens to {@link MovementDetector} whenever a movement has been detected.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Manageable extends Updateable {
+public interface MovementListener {
 
 	// ===========================================================
 	// Constants
@@ -36,17 +36,9 @@ public interface Manageable extends Updateable {
 	// ===========================================================
 	
 	/**
-	 * Starts the process
+	 * Is called whenever a movement has been detected
+	 * 
+	 * @param event event which belongs to the movement and holds information
 	 */
-	void start();
-	
-	/**
-	 * Shuts everything down and cleans up
-	 */
-	void shutdown();
-	
-	/**
-	 * Updates the object (once per frame)
-	 */
-	void update();
+	void onMove(MoveEvent event);
 }

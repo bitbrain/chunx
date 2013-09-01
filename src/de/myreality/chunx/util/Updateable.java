@@ -19,13 +19,13 @@
 package de.myreality.chunx.util;
 
 /**
- * Can be managed by other classes by starting or stopping
+ * Provides updating functionality for underlying classes
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Manageable extends Updateable {
+public interface Updateable {
 
 	// ===========================================================
 	// Constants
@@ -36,17 +36,15 @@ public interface Manageable extends Updateable {
 	// ===========================================================
 	
 	/**
-	 * Starts the process
-	 */
-	void start();
-	
-	/**
-	 * Shuts everything down and cleans up
-	 */
-	void shutdown();
-	
-	/**
-	 * Updates the object (once per frame)
+	 * Updates the object. Should be called once per frame. Calls
+	 * <code>update(0.0f)</code>
 	 */
 	void update();
+	
+	/**
+	 * Updates the object. Should be called once per frame
+	 * 
+	 * @param delta time delta
+	 */
+	void update(float delta);
 }

@@ -16,16 +16,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
+package de.myreality.chunx.moving;
+
+import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.util.Updateable;
 
 /**
- * Can be managed by other classes by starting or stopping
+ * Provides moving functionality for {@link ChunkTarget}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Manageable extends Updateable {
+public interface MoveableChunkTarget extends ChunkTarget, Updateable {
 
 	// ===========================================================
 	// Constants
@@ -36,17 +39,9 @@ public interface Manageable extends Updateable {
 	// ===========================================================
 	
 	/**
-	 * Starts the process
+	 * Returns the current movement detector
+	 * 
+	 * @return current movement detector
 	 */
-	void start();
-	
-	/**
-	 * Shuts everything down and cleans up
-	 */
-	void shutdown();
-	
-	/**
-	 * Updates the object (once per frame)
-	 */
-	void update();
+	MovementDetector getMovementDetector();
 }

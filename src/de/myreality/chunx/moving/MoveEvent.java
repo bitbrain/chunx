@@ -21,7 +21,7 @@ package de.myreality.chunx.moving;
 import de.myreality.chunx.ChunkTarget;
 
 /**
- * Is called by a {@link MovementTracker} whenever a chunk target has been moved
+ * Is called by a {@link MovementDetector} whenever a chunk target has been moved
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0

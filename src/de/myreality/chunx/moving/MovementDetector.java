@@ -16,16 +16,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
+package de.myreality.chunx.moving;
+
+import de.myreality.chunx.util.Updateable;
 
 /**
- * Can be managed by other classes by starting or stopping
+ * Detects movement of a given chunk target
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Manageable extends Updateable {
+public interface MovementDetector extends Updateable {
 
 	// ===========================================================
 	// Constants
@@ -36,17 +38,16 @@ public interface Manageable extends Updateable {
 	// ===========================================================
 	
 	/**
-	 * Starts the process
+	 * Adds a new listener
+	 * 
+	 * @param listener new listener
 	 */
-	void start();
+	void addListener(MovementListener listener);
 	
 	/**
-	 * Shuts everything down and cleans up
+	 * Removes an existing listener
+	 * 
+	 * @param listener existing listener
 	 */
-	void shutdown();
-	
-	/**
-	 * Updates the object (once per frame)
-	 */
-	void update();
+	void removeListener(MovementListener listener);
 }
