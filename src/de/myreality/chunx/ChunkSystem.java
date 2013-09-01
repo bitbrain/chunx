@@ -20,8 +20,6 @@ package de.myreality.chunx;
 
 import java.util.Collection;
 
-import de.myreality.chunx.io.ChunkLoader;
-import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.util.Manageable;
 
 /**
@@ -89,31 +87,17 @@ public interface ChunkSystem extends Manageable, ConfigurationProvider {
 	void removeListener(ChunkListener listener);
 	
 	/**
-	 * Sets a new loader
+	 * Sets a new chunk handler
 	 * 
-	 * @param chunkLoader new chunk loader
+	 * @param handler
 	 */
-	void setLoader(ChunkLoader chunkLoader);
+	void setHandler(ChunkHandler handler);
 	
 	/**
-	 * Returns the current loader
+	 * Returns the current chunk handler
 	 * 
-	 * @return current loader
+	 * @return current chunk handler
 	 */
-	ChunkLoader getLoader();
-	
-	/**
-	 * Sets a new saver 
-	 * 
-	 * @param chunkSaver new saver
-	 */
-	void setSaver(ChunkSaver chunkSaver);
-	
-	/**
-	 * Returns the current saver
-	 * 
-	 * @return current saver
-	 */
-	ChunkSaver getSaver();
+	ChunkHandler getHandler();
 	
 }

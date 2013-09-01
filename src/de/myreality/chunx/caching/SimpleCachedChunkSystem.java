@@ -21,6 +21,14 @@ package de.myreality.chunx.caching;
 import de.myreality.chunx.AbstractChunkSystem;
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.io.ChunkLoader;
+import de.myreality.chunx.io.ChunkSaver;
+import de.myreality.chunx.io.InputStreamProvider;
+import de.myreality.chunx.io.OutputStreamProvider;
+import de.myreality.chunx.io.SimpleChunkLoader;
+import de.myreality.chunx.io.SimpleChunkSaver;
+import de.myreality.chunx.io.SimpleInputStreamProvider;
+import de.myreality.chunx.io.SimpleOutputStreamProvider;
 
 /**
  * 
@@ -50,6 +58,14 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	public SimpleCachedChunkSystem(CachedChunkConfiguration configuration) {
 		super(configuration);
+		
+		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
+		InputStreamProvider inProvider = new SimpleInputStreamProvider();
+		
+		ChunkSaver saver = new SimpleChunkSaver(outProvider);
+		ChunkLoader loader = new SimpleChunkLoader(inProvider);
+		setHandler(new CachedChunkHandler(loader, saver));
+		
 		initializeCache();
 	}
 
@@ -63,8 +79,9 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	@Override
 	public void update(float delta) {
-		if (isRunning()) {
-			
+		if (isRunning() && cachingRequested()) {
+			alignCache();
+			getHandler().handleChunks(chunks, this);
 		}
 	}
 
@@ -125,6 +142,20 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 			
 			cache.align(INDEX_X, INDEX_Y);
 			preCache.align(INDEX_X, INDEX_Y);
+		}
+	}
+	
+	private boolean cachingRequested() {
+		
+		ChunkTarget focused = configuration.getFocused();
+		
+		if (focused != null) {
+			final int INDEX_X = positionInterpreter.translateX(focused.getX());
+			final int INDEX_Y = positionInterpreter.translateY(focused.getY());
+			
+			return !cache.containsIndex(INDEX_X, INDEX_Y);
+		} else {
+			return false;
 		}
 	}
 
