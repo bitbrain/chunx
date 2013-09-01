@@ -31,7 +31,7 @@ import de.myreality.chunx.util.MatrixList;
  * @version 1.0
  */
 public interface ChunkHandler extends MovementListener {
-u
+
 	// ===========================================================
 	// Constants
 	// ===========================================================

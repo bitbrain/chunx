@@ -18,17 +18,19 @@
  */
 package de.myreality.chunx.caching;
 
+import java.util.Collection;
+
 import de.myreality.chunx.AbstractChunkSystem;
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkTarget;
-import de.myreality.chunx.io.ChunkLoader;
-import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.io.InputStreamProvider;
 import de.myreality.chunx.io.OutputStreamProvider;
 import de.myreality.chunx.io.SimpleChunkLoader;
 import de.myreality.chunx.io.SimpleChunkSaver;
 import de.myreality.chunx.io.SimpleInputStreamProvider;
 import de.myreality.chunx.io.SimpleOutputStreamProvider;
+import de.myreality.chunx.moving.MoveableChunkTarget;
+import de.myreality.chunx.moving.MovementDetector;
 
 /**
  * 
@@ -51,6 +53,8 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	private CachedChunkConfiguration configuration;
 	
 	private Cache cache, preCache;
+	
+	private int lastSize;
 
 	// ===========================================================
 	// Constructors
@@ -79,10 +83,25 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	@Override
 	public void update(float delta) {
+		
+		Collection<ChunkTarget> content = configuration.getContentProvider().getContent();
+		
+		if (lastSize < content.size()) {
+			for (ChunkTarget target : content) {
+				if (target instanceof MoveableChunkTarget) {
+					MoveableChunkTarget moveable = (MoveableChunkTarget)target;
+					MovementDetector detector = moveable.getMovementDetector();
+					detector.addListener(getHandler());
+				}
+			}
+		}
+		
 		if (isRunning() && cachingRequested()) {
 			alignCache();
 			getHandler().handleChunks(chunks, this);
 		}
+		
+		lastSize = content.size();
 	}
 
 	@Override
