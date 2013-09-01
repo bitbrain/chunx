@@ -19,41 +19,56 @@
 package de.myreality.chunx.util;
 
 /**
- * Can be managed by other classes by starting or stopping
+ * Simple implementation of {@link Manageable}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Manageable extends Updateable {
+public abstract class AbstractManageable implements Manageable {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
-	// Methods
+	// Fields
 	// ===========================================================
 	
-	/**
-	 * Starts the process
-	 */
-	void start();
+	private boolean running = false;
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
 	
-	/**
-	 * Shuts everything down and cleans up
-	 */
-	void shutdown();
-	
-	/**
-	 * Updates the object (once per frame)
-	 */
-	void update();
-	
-	/**
-	 * Determines if the manageable is currently running
-	 * 
-	 * @return true when running
-	 */
-	boolean isRunning();
+	@Override
+	public void start() {
+		running = true;
+	}
+
+	@Override
+	public void shutdown() {
+		running = false;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return running;
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }

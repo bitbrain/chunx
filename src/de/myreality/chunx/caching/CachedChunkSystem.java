@@ -26,6 +26,7 @@ import de.myreality.chunx.ChunkListener;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
+import de.myreality.chunx.util.AbstractManageable;
 
 /**
  * Cached implementation of {@see ChunkSystem}
@@ -34,7 +35,7 @@ import de.myreality.chunx.io.ChunkSaver;
  * @since 1.0
  * @version 1.0
  */
-public class CachedChunkSystem implements ChunkSystem {
+public class CachedChunkSystem extends AbstractManageable implements ChunkSystem {
 
 	// ===========================================================
 	// Constants
@@ -61,19 +62,7 @@ public class CachedChunkSystem implements ChunkSystem {
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
-	@Override
-	public void start() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void shutdown() {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public void update() {
 		update(0.0f);
@@ -87,14 +76,14 @@ public class CachedChunkSystem implements ChunkSystem {
 
 	@Override
 	public ChunkConfiguration getConfiguration() {
-		// TODO Auto-generated method stub
-		return null;
+		return configuration;
 	}
 
 	@Override
 	public void setConfiguration(ChunkConfiguration configuration) {
-		// TODO Auto-generated method stub
-
+		if (configuration instanceof CachedChunkConfiguration) {
+			this.configuration = (CachedChunkConfiguration)configuration;
+		}
 	}
 
 	@Override
