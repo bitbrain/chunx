@@ -90,6 +90,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	@Override
 	public void setConfiguration(ChunkConfiguration configuration) {
 		this.configuration = configuration;
+		positionInterpreter = new SimplePositionInterpreter(configuration);
 	}
 
 	@Override

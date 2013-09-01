@@ -89,4 +89,11 @@ public interface CachedChunkConfiguration extends ChunkConfiguration {
 	 * @param offset new offset value
 	 */
 	void setOffset(int offset);
+	
+	/**
+	 * Returns the current offset
+	 * 
+	 * @return current offset
+	 */
+	int getOffset();
 }

@@ -61,6 +61,10 @@ public class SimpleCachedChunkConfiguration extends SimpleChunkConfiguration
 	public SimpleCachedChunkConfiguration() {
 		this(DEFAULT_SIZE_X, DEFAULT_SIZE_Y);
 	}
+	
+	public SimpleCachedChunkConfiguration(CachedChunkConfiguration configuration) {
+		this(configuration.getCacheSizeX(), configuration.getCacheSizeY(), configuration.getOffset());
+	}
 
 	// ===========================================================
 	// Getters and Setters
@@ -104,6 +108,11 @@ public class SimpleCachedChunkConfiguration extends SimpleChunkConfiguration
 	@Override
 	public void setOffset(int offset) {
 		this.offset = Math.abs(offset);
+	}
+
+	@Override
+	public int getOffset() {
+		return offset;
 	}
 
 	// ===========================================================

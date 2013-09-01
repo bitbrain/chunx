@@ -20,6 +20,7 @@ package de.myreality.chunx.caching;
 
 import de.myreality.chunx.AbstractChunkSystem;
 import de.myreality.chunx.ChunkConfiguration;
+import de.myreality.chunx.ChunkTarget;
 
 /**
  * 
@@ -40,13 +41,16 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	// ===========================================================
 	
 	private CachedChunkConfiguration configuration;
+	
+	private Cache cache, preCache;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public SimpleCachedChunkSystem(CachedChunkConfiguration configuration) {
-		super(configuration);		
+		super(configuration);
+		initializeCache();
 	}
 
 	// ===========================================================
@@ -59,20 +63,19 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-
+		if (isRunning()) {
+			
+		}
 	}
 
 	@Override
 	public Cache getCache() {
-		// TODO Auto-generated method stub
-		return null;
+		return cache;
 	}
 
 	@Override
 	public Cache getPreCache() {
-		// TODO Auto-generated method stub
-		return null;
+		return preCache;
 	}
 
 	@Override
@@ -95,14 +98,35 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		if (configuration instanceof CachedChunkConfiguration) {
 			this.configuration = (CachedChunkConfiguration)configuration;
 			super.setConfiguration(configuration);
+			initializeCache();
 		}
 	}
-	
-	
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void initializeCache() {
+		cache = new SimpleCache(configuration);
+		CachedChunkConfiguration preConfig = new SimpleCachedChunkConfiguration(configuration);
+		preConfig.setOffset(1);
+		preCache = new SimpleCache(preConfig);
+		alignCache();
+	}
+	
+	private void alignCache() {
+		
+		ChunkTarget focused = configuration.getFocused();
+		
+		if (focused != null) {
+			
+			final int INDEX_X = positionInterpreter.translateX(focused.getX());
+			final int INDEX_Y = positionInterpreter.translateY(focused.getY());
+			
+			cache.align(INDEX_X, INDEX_Y);
+			preCache.align(INDEX_X, INDEX_Y);
+		}
+	}
 
 	// ===========================================================
 	// Inner classes
