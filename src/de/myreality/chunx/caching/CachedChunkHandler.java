@@ -18,9 +18,16 @@
  */
 package de.myreality.chunx.caching;
 
+import java.io.IOException;
+
 import de.myreality.chunx.AbstractChunkHandler;
 import de.myreality.chunx.Chunk;
+import de.myreality.chunx.ChunkConfiguration;
+import de.myreality.chunx.ChunkFactory;
 import de.myreality.chunx.ChunkHandler;
+import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ContentProvider;
+import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.util.MatrixList;
@@ -41,14 +48,16 @@ public class CachedChunkHandler extends AbstractChunkHandler {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	private ChunkFactory chunkFactory;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public CachedChunkHandler(ChunkLoader chunkLoader, ChunkSaver chunkSaver) {
-		super(chunkLoader, chunkSaver);
-		// TODO Auto-generated constructor stub
+	public CachedChunkHandler(ChunkConfiguration configuration, ChunkLoader chunkLoader, ChunkSaver chunkSaver) {
+		super(chunkLoader, chunkSaver);		
+		chunkFactory = new SimpleChunkFactory(configuration);
 	}
 
 	// ===========================================================
@@ -61,13 +70,84 @@ public class CachedChunkHandler extends AbstractChunkHandler {
 
 	@Override
 	public void handleChunks(MatrixList<Chunk> chunks, CachedChunkSystem system) {
-		// TODO Auto-generated method stub
-
+		synchronized (chunks) {
+			MatrixList<Chunk> removeList = chunks.copy();
+			Cache cache = system.getPreCache();	
+			ContentProvider provider = system.getConfiguration().getContentProvider();
+			
+			for (int indexX = cache.getIndexLeft(); indexX <= cache.getIndexRight(); ++indexX) {
+				for (int indexY = cache.getIndexTop(); indexY <= cache.getIndexBottom(); ++indexY) {
+					if (chunks.contains(indexX, indexY)) {
+						removeList.remove(indexX, indexY);
+						
+					} else {
+						Chunk chunk = getChunk(indexX, indexY, system);
+						chunks.add(chunk);
+						
+						int size = chunk.size();
+						for (int i = 0; i < size; ++i) {
+							provider.add(chunk.retrieve());
+						}
+						
+						saveChunk(chunk, false);
+					}
+				}
+			}
+			
+			for (Chunk chunk : removeList) {
+				saveChunk(chunk, true);
+			}
+		}
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void saveChunk(Chunk chunk, boolean remove) {
+		
+	}
+	
+	private Chunk getChunk(int indexX, int indexY, CachedChunkSystem system) {
+		
+		Chunk chunk = null;
+		
+		try {
+			beforeLoadChunk(indexX, indexY, system);
+			chunk = getLoader().load(indexX, indexY);
+			afterLoadChunk(chunk, system);
+		} catch (IOException e) {
+			beforeCreateChunk(indexX, indexY, system);
+			chunk = chunkFactory.createChunk(indexX, indexY);
+			afterCreateChunk(chunk, system);
+		}
+		
+		return chunk;
+	}
+	
+	private void beforeCreateChunk(int indexX, int indexY, CachedChunkSystem system) {
+		for (ChunkListener listener : system.getListeners()) {
+			listener.beforeCreateChunk(indexX, indexY);
+		}
+	}
+	
+	private void afterCreateChunk(Chunk chunk, CachedChunkSystem system) {
+		for (ChunkListener listener : system.getListeners()) {
+			listener.afterCreateChunk(chunk);
+		}
+	}
+	
+	private void beforeLoadChunk(int indexX, int indexY, CachedChunkSystem system) {
+		for (ChunkListener listener : system.getListeners()) {
+			listener.beforeLoadChunk(indexX, indexY);
+		}
+	}
+	
+	private void afterLoadChunk(Chunk chunk, CachedChunkSystem system) {
+		for (ChunkListener listener : system.getListeners()) {
+			listener.afterLoadChunk(chunk);
+		}
+	}
 
 	// ===========================================================
 	// Inner classes

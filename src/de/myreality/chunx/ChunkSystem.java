@@ -87,6 +87,13 @@ public interface ChunkSystem extends Manageable, ConfigurationProvider {
 	void removeListener(ChunkListener listener);
 	
 	/**
+	 * Returns all listeners
+	 * 
+	 * @return all current listeners
+	 */
+	Collection<ChunkListener> getListeners();
+	
+	/**
 	 * Sets a new chunk handler
 	 * 
 	 * @param handler

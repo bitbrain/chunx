@@ -143,8 +143,11 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 		return chunkHandler;
 	}
 
+	@Override
+	public Collection<ChunkListener> getListeners() {
+		return listeners;
+	}
 	
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
