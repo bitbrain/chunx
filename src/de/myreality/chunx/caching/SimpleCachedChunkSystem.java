@@ -33,11 +33,11 @@ import de.myreality.chunx.moving.MoveableChunkTarget;
 import de.myreality.chunx.moving.MovementDetector;
 
 /**
- * 
+ * Simple implementation of {@link CachedChunkSystem}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
- * @since
- * @version
+ * @since 1.0
+ * @version 1.0
  */
 public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		CachedChunkSystem {
@@ -49,12 +49,14 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private CachedChunkConfiguration configuration;
-	
+
 	private Cache cache, preCache;
-	
+
 	private int lastSize;
+
+	private boolean cacheRequest;
 
 	// ===========================================================
 	// Constructors
@@ -62,14 +64,14 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	public SimpleCachedChunkSystem(CachedChunkConfiguration configuration) {
 		super(configuration);
-		
+
 		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
 		InputStreamProvider inProvider = new SimpleInputStreamProvider();
-		
+
 		setSaver(new SimpleChunkSaver(outProvider));
-		setLoader(new SimpleChunkLoader(inProvider));		
+		setLoader(new SimpleChunkLoader(inProvider));
 		setHandler(new CachedChunkHandler(this));
-		
+
 		initializeCache();
 	}
 
@@ -83,24 +85,26 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	@Override
 	public void update(float delta) {
-		
-		Collection<ChunkTarget> content = configuration.getContentProvider().getContent();
-		
+
+		Collection<ChunkTarget> content = configuration.getContentProvider()
+				.getContent();
+
 		if (lastSize < content.size()) {
 			for (ChunkTarget target : content) {
 				if (target instanceof MoveableChunkTarget) {
-					MoveableChunkTarget moveable = (MoveableChunkTarget)target;
+					MoveableChunkTarget moveable = (MoveableChunkTarget) target;
 					MovementDetector detector = moveable.getMovementDetector();
 					detector.addListener(getHandler());
 				}
 			}
 		}
-		
-		if (isRunning() && cachingRequested()) {
+
+		if (isRunning() && (cachingRequested() || cacheRequest)) {
+			cacheRequest = false;
 			alignCache();
 			getHandler().handleChunks(chunks, this);
 		}
-		
+
 		lastSize = content.size();
 	}
 
@@ -116,7 +120,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	@Override
 	public double getProgress() {
-		return (double)getCurrentChunkCount() / (double)getTotalChunkCount();
+		return (double) getCurrentChunkCount() / (double) getTotalChunkCount();
 	}
 
 	@Override
@@ -132,46 +136,53 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	@Override
 	public void setConfiguration(ChunkConfiguration configuration) {
 		if (configuration instanceof CachedChunkConfiguration) {
-			this.configuration = (CachedChunkConfiguration)configuration;
+			this.configuration = (CachedChunkConfiguration) configuration;
 			super.setConfiguration(configuration);
 			initializeCache();
 		}
 	}
 
+	@Override
+	public void start() {
+		super.start();
+		cacheRequest = true;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	private void initializeCache() {
 		cache = new SimpleCache(configuration);
-		CachedChunkConfiguration preConfig = new SimpleCachedChunkConfiguration(configuration);
+		CachedChunkConfiguration preConfig = new SimpleCachedChunkConfiguration(
+				configuration);
 		preConfig.setOffset(1);
 		preCache = new SimpleCache(preConfig);
 		alignCache();
 	}
-	
+
 	private void alignCache() {
-		
+
 		ChunkTarget focused = configuration.getFocused();
-		
+
 		if (focused != null) {
-			
+
 			final int INDEX_X = positionInterpreter.translateX(focused.getX());
 			final int INDEX_Y = positionInterpreter.translateY(focused.getY());
-			
+
 			cache.align(INDEX_X, INDEX_Y);
 			preCache.align(INDEX_X, INDEX_Y);
 		}
 	}
-	
+
 	private boolean cachingRequested() {
-		
+
 		ChunkTarget focused = configuration.getFocused();
-		
+
 		if (focused != null) {
 			final int INDEX_X = positionInterpreter.translateX(focused.getX());
 			final int INDEX_Y = positionInterpreter.translateY(focused.getY());
-			
+
 			return !cache.containsIndex(INDEX_X, INDEX_Y);
 		} else {
 			return false;
