@@ -21,7 +21,7 @@ package de.myreality.chunx.caching;
 import de.myreality.chunx.util.Indexable;
 
 /**
- * Simple implementation of a cache
+ * Simple implementation of @{see Cache}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
