@@ -16,50 +16,42 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.moving;
+package de.myreality.chunx.caching;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
+import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
-import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkSystem;
+import de.myreality.chunx.io.ChunkLoader;
+import de.myreality.chunx.io.ChunkSaver;
 
 /**
- * Simple implementation of {@link MovementDetector}
+ * Cached implementation of {@see ChunkSystem}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleMovementDetector implements MovementDetector {
+public class CachedChunkSystem implements ChunkSystem {
 
 	// ===========================================================
 	// Constants
-	// ===========================================================	
-
-	private static final long serialVersionUID = 1L;
+	// ===========================================================
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private List<MovementListener> listeners;
 	
-	private ChunkTarget target;
-	
-	private ChunkConfiguration configuration;
-	
-	private float lastX, lastY;
+	private CachedChunkConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleMovementDetector(ChunkTarget target, ChunkConfiguration configuration) {
-		this.target = target;
+	public CachedChunkSystem(CachedChunkConfiguration configuration) {
 		this.configuration = configuration;
-		listeners = new ArrayList<MovementListener>();
-		updatePosition();
 	}
 
 	// ===========================================================
@@ -71,47 +63,103 @@ public class SimpleMovementDetector implements MovementDetector {
 	// ===========================================================
 
 	@Override
+	public void start() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void shutdown() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void update() {
 		update(0.0f);
 	}
 
 	@Override
 	public void update(float delta) {
-		
-		if (lastX != target.getX() || lastY != target.getY()) {
-			for (MovementListener listener : listeners) {
-				MoveEvent event = createEvent(lastX, lastY, target.getX(), target.getY());
-				listener.onMove(event);
-			}
-		}
-		
-		updatePosition();
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void addListener(MovementListener listener) {
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
+	public ChunkConfiguration getConfiguration() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public void removeListener(MovementListener listener) {
-		listeners.remove(listener);
+	public void setConfiguration(ChunkConfiguration configuration) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Chunk getActiveChunk() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Chunk> getChunks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Chunk getChunk(int indexX, int indexY) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getCurrentChunkCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void addListener(ChunkListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeListener(ChunkListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setLoader(ChunkLoader chunkLoader) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ChunkLoader getLoader() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSaver(ChunkSaver chunkSaver) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ChunkSaver getSaver() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	private MoveEvent createEvent(float lastX, float lastY, float newX, float newY) {
-		return new SimpleMoveEvent(target, configuration, lastX, lastY, newX, newY);
-	}
-	
-	private void updatePosition() {
-		lastX = target.getX();
-		lastY = target.getY();
-	}
 
 	// ===========================================================
 	// Inner classes

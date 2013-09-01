@@ -18,6 +18,8 @@
  */
 package de.myreality.chunx.moving;
 
+import java.io.Serializable;
+
 import de.myreality.chunx.util.Updateable;
 
 /**
@@ -27,7 +29,7 @@ import de.myreality.chunx.util.Updateable;
  * @since 1.0
  * @version 1.0
  */
-public interface MovementDetector extends Updateable {
+public interface MovementDetector extends Updateable, Serializable {
 
 	// ===========================================================
 	// Constants
