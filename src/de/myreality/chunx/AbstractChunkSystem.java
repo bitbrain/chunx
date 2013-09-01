@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.myreality.chunx.io.ChunkLoader;
+import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.util.AbstractManageable;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
@@ -54,6 +56,10 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	protected MatrixList<Chunk> chunks;
 	
 	protected PositionInterpreter positionInterpreter;
+	
+	private ChunkLoader chunkLoader;
+	
+	private ChunkSaver chunkSaver;
 	
 	// ===========================================================
 	// Constructors
@@ -146,6 +152,30 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	@Override
 	public Collection<ChunkListener> getListeners() {
 		return listeners;
+	}
+	
+	@Override
+	public void setLoader(ChunkLoader chunkLoader) {
+		if (chunkLoader != null) {
+			this.chunkLoader = chunkLoader;
+		}
+	}
+
+	@Override
+	public ChunkLoader getLoader() {
+		return chunkLoader;
+	}
+
+	@Override
+	public void setSaver(ChunkSaver chunkSaver) {
+		if (chunkSaver != null) {
+			this.chunkSaver = chunkSaver;
+		}
+	}
+
+	@Override
+	public ChunkSaver getSaver() {
+		return chunkSaver;
 	}
 	
 	// ===========================================================

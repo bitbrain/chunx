@@ -62,9 +62,9 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
 		InputStreamProvider inProvider = new SimpleInputStreamProvider();
 		
-		ChunkSaver saver = new SimpleChunkSaver(outProvider);
-		ChunkLoader loader = new SimpleChunkLoader(inProvider);
-		setHandler(new CachedChunkHandler(configuration, loader, saver));
+		setSaver(new SimpleChunkSaver(outProvider));
+		setLoader(new SimpleChunkLoader(inProvider));		
+		setHandler(new CachedChunkHandler(this));
 		
 		initializeCache();
 	}

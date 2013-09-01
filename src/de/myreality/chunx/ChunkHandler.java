@@ -19,8 +19,7 @@
 package de.myreality.chunx;
 
 import de.myreality.chunx.caching.CachedChunkSystem;
-import de.myreality.chunx.io.ChunkLoader;
-import de.myreality.chunx.io.ChunkSaver;
+import de.myreality.chunx.moving.MovementListener;
 import de.myreality.chunx.util.MatrixList;
 
 
@@ -31,8 +30,8 @@ import de.myreality.chunx.util.MatrixList;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkHandler {
-
+public interface ChunkHandler extends MovementListener {
+u
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -42,33 +41,11 @@ public interface ChunkHandler {
 	// ===========================================================
 	
 	/**
-	 * Sets a new loader
 	 * 
-	 * @param chunkLoader new chunk loader
-	 */
-	void setLoader(ChunkLoader chunkLoader);
-	
-	/**
-	 * Returns the current loader
 	 * 
-	 * @return current loader
+	 * @param chunks
+	 * @param system
 	 */
-	ChunkLoader getLoader();
-	
-	/**
-	 * Sets a new saver 
-	 * 
-	 * @param chunkSaver new saver
-	 */
-	void setSaver(ChunkSaver chunkSaver);
-	
-	/**
-	 * Returns the current saver
-	 * 
-	 * @return current saver
-	 */
-	ChunkSaver getSaver();
-	
 	void handleChunks(MatrixList<Chunk> chunks, CachedChunkSystem system);
 	
 	
