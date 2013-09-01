@@ -23,6 +23,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.myreality.chunx.Chunk;
+
 /**
  * Test case for {@link SimpleCache}
  * 
@@ -73,13 +75,14 @@ public class SimpleCacheTest {
 	@Test
 	public void testAlign() {
 		
-		final int NEW_X = 5;
-		final int NEW_Y = 299;
-		
-		assertTrue("Index1 should be contained", cache.containsIndex(SIZE + NEW_X, -(SIZE + NEW_Y)));
+		final int NEW_X = 200;
+		final int NEW_Y = 155;
+
+		cache.align(NEW_X, NEW_Y);
+		assertTrue("Index1 should be contained", cache.containsIndex(SIZE + NEW_X, -SIZE + NEW_Y));
 		assertTrue("Index2 should be contained", cache.containsIndex(SIZE + NEW_X, SIZE + NEW_Y));
-		assertTrue("Index3 should be contained", cache.containsIndex(-(SIZE + NEW_X), -(SIZE + NEW_Y)));
-		assertTrue("Index4 should be contained", cache.containsIndex(-(SIZE + NEW_X), SIZE + NEW_Y));
+		assertTrue("Index3 should be contained", cache.containsIndex(-SIZE + NEW_X, -SIZE + NEW_Y));
+		assertTrue("Index4 should be contained", cache.containsIndex(-SIZE + NEW_X, SIZE + NEW_Y));
 	}
 	
 	@Test

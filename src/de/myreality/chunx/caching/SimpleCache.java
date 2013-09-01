@@ -80,7 +80,7 @@ public class SimpleCache implements Cache {
 
 	@Override
 	public int getIndexTop() {
-		return -configuration.getCacheSizeY() + offsetX;
+		return -configuration.getCacheSizeY() + offsetY;
 	}
 
 	@Override
@@ -95,13 +95,18 @@ public class SimpleCache implements Cache {
 
 	@Override
 	public int getIndexRight() {
-		return configuration.getCacheSizeY() + offsetY;
+		return configuration.getCacheSizeY() + offsetX;
 	}
 
 	@Override
 	public void align(int indexX, int indexY) {
 		this.offsetX = indexX;
 		this.offsetY = indexY;
+	}
+	
+	@Override
+	public String toString() {
+		return getIndexLeft() + "|" + getIndexTop() + "  " + getIndexRight() + "|" + getIndexBottom();
 	}
 
 	// ===========================================================
