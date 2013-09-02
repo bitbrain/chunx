@@ -64,15 +64,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	public SimpleCachedChunkSystem(CachedChunkConfiguration configuration) {
 		super(configuration);
-
-		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
-		InputStreamProvider inProvider = new SimpleInputStreamProvider();
-
-		setSaver(new SimpleChunkSaver(outProvider));
-		setLoader(new SimpleChunkLoader(inProvider));
-		setHandler(new CachedChunkHandler(this));
-
-		initializeCache();
+		this.configuration = configuration;
 	}
 
 	// ===========================================================
@@ -102,7 +94,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		if (isRunning() && (cachingRequested() || cacheRequest)) {
 			cacheRequest = false;
 			alignCache();
-			getHandler().handleChunks(chunks, this);
+			getHandler().handleChunks(chunks);
 		}
 
 		lastSize = content.size();
@@ -125,7 +117,10 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 
 	@Override
 	public int getTotalChunkCount() {
-		return configuration.getTotalChunkCount();
+		configuration.setOffset(1);
+		int count = configuration.getTotalChunkCount();
+		configuration.setOffset(0);
+		return count;
 	}
 
 	@Override
@@ -146,6 +141,14 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	public void start() {
 		super.start();
 		cacheRequest = true;
+		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
+		InputStreamProvider inProvider = new SimpleInputStreamProvider();
+
+		setSaver(new SimpleChunkSaver(outProvider));
+		setLoader(new SimpleChunkLoader(inProvider));
+		setHandler(new CachedChunkHandler(this));
+
+		initializeCache();
 	}
 
 	// ===========================================================

@@ -76,11 +76,11 @@ public class CachedChunkHandler implements ChunkHandler {
 	// ===========================================================
 
 	@Override
-	public void handleChunks(MatrixList<Chunk> chunks, CachedChunkSystem system) {
+	public void handleChunks(MatrixList<Chunk> chunks) {
 		synchronized (chunks) {
 			MatrixList<Chunk> removeList = chunks.copy();
-			Cache cache = system.getPreCache();	
-			ContentProvider provider = system.getConfiguration().getContentProvider();
+			Cache cache = chunkSystem.getPreCache();	
+			ContentProvider provider = chunkSystem.getConfiguration().getContentProvider();
 			
 			for (int indexX = cache.getIndexLeft(); indexX <= cache.getIndexRight(); ++indexX) {
 				for (int indexY = cache.getIndexTop(); indexY <= cache.getIndexBottom(); ++indexY) {
@@ -90,9 +90,9 @@ public class CachedChunkHandler implements ChunkHandler {
 						removeList.remove(indexX, indexY);						
 						chunk = chunks.get(indexX, indexY);
 					} else {
-						chunk = getChunk(indexX, indexY, system);
+						chunk = getChunk(indexX, indexY);
 						chunks.add(chunk);						
-						saveChunk(chunk, system, chunks, false);
+						saveChunk(chunk, chunks, false);
 					}
 					
 					int size = chunk.size();
@@ -103,7 +103,7 @@ public class CachedChunkHandler implements ChunkHandler {
 			}
 			
 			for (Chunk chunk : removeList) {
-				saveChunk(chunk, system, chunks, true);
+				saveChunk(chunk, chunks, true);
 			}
 		}
 	}
@@ -112,9 +112,9 @@ public class CachedChunkHandler implements ChunkHandler {
 	// Methods
 	// ===========================================================
 	
-	private void saveChunk(Chunk chunk, CachedChunkSystem system, MatrixList<Chunk> chunks, boolean remove) {
+	private void saveChunk(Chunk chunk, MatrixList<Chunk> chunks, boolean remove) {
 		
-		ContentProvider contentProvider = system.getConfiguration().getContentProvider();
+		ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
 		List<ChunkTarget> targets = new ArrayList<ChunkTarget>(contentProvider.getContent());
 		
 		for (ChunkTarget target : targets) {
@@ -143,7 +143,7 @@ public class CachedChunkHandler implements ChunkHandler {
 		}
 	}
 	
-	private Chunk getChunk(int indexX, int indexY, CachedChunkSystem system) {
+	private Chunk getChunk(int indexX, int indexY) {
 		
 		Chunk chunk = null;
 		

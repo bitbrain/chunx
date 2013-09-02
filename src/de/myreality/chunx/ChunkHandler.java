@@ -18,7 +18,6 @@
  */
 package de.myreality.chunx;
 
-import de.myreality.chunx.caching.CachedChunkSystem;
 import de.myreality.chunx.moving.MovementListener;
 import de.myreality.chunx.util.MatrixList;
 
@@ -41,12 +40,12 @@ public interface ChunkHandler extends MovementListener {
 	// ===========================================================
 	
 	/**
-	 * 
+	 * Handles existing chunks
 	 * 
 	 * @param chunks
 	 * @param system
 	 */
-	void handleChunks(MatrixList<Chunk> chunks, CachedChunkSystem system);
+	void handleChunks(MatrixList<Chunk> chunks);
 	
 	
 }

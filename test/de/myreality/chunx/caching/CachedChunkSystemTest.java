@@ -18,11 +18,14 @@
  */
 package de.myreality.chunx.caching;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkTarget;
@@ -51,6 +54,8 @@ public class CachedChunkSystemTest {
 	MockTarget player, target1, target2;
 	
 	World world;
+	
+	static final int SIZE = 1;
 
 	// ===========================================================
 	// Setup
@@ -72,11 +77,30 @@ public class CachedChunkSystemTest {
 		world.add(target2);
 		
 		cachedChunkSystem = new SimpleCachedChunkSystem(configuration);		
+		cachedChunkSystem.start();
 	}
+	
+	
 
 	// ===========================================================
 	// Test cases
 	// ===========================================================
+	
+	@Test
+	public void testGetTotalChunkCount() {
+		int expected = (int) Math.pow((SIZE * 2 + 1) + 2, 2);
+		assertTrue("Chunk count should be " + expected + " instead of " + cachedChunkSystem.getTotalChunkCount(), cachedChunkSystem.getTotalChunkCount() == expected);
+	}
+	
+	@Test
+	public void testGetListeners() {
+		
+	}
+	
+	@Test
+	public void testUpdate() {
+		
+	}
 	
 	// ===========================================================
 	// Mocks
