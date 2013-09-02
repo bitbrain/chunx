@@ -31,7 +31,7 @@ import org.junit.Test;
  * @since 1.0
  * @version 1.0
  */
-public class SimpleCacheTest {
+public class CacheTest {
 
 	// ===========================================================
 	// Definitions
