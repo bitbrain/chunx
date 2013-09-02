@@ -1,7 +1,7 @@
 *.class
 ~*
 *~
-
+/chunks
 # Package Files #
 *.jar
 *.war

@@ -18,6 +18,7 @@
  */
 package de.myreality.chunx.io;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -54,6 +55,7 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	public SimpleChunkSaver(OutputStreamProvider provider) {
 		this.provider = provider;
 		nameConverter = new EncryptedFileNameConverter(new SimpleFileNameConverter());
+		
 	}
 
 	// ===========================================================
@@ -82,6 +84,11 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 		try {
 			if (provider != null) {			
 				saving = true;
+				
+				File file = new File(getPath());
+				if (!file.exists()) {
+					file.mkdirs();
+				}
 				String fileName = getPath() + nameConverter.convert(chunk.getIndexX(), chunk.getIndexY());
 				ObjectOutputStream out = new ObjectOutputStream(provider.getOutputStream(fileName));	
 				out.writeObject(chunk);		

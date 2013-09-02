@@ -39,8 +39,6 @@ public class SimpleFileConfiguration implements FileConfiguration {
 	private String path;
 	
 	private FileNameConverter converter;
-	
-	
 
 	// ===========================================================
 	// Constructors
@@ -56,7 +54,7 @@ public class SimpleFileConfiguration implements FileConfiguration {
 	}
 	
 	public SimpleFileConfiguration() {
-		this(null);
+		this(DEFAULT_PATH);
 	}
 
 	// ===========================================================
@@ -69,6 +67,11 @@ public class SimpleFileConfiguration implements FileConfiguration {
 
 	@Override
 	public String getPath() {
+		
+		if (path.charAt(path.length() - 1) != '/') {
+			path += '/';
+		}
+		
 		return path;
 	}
 

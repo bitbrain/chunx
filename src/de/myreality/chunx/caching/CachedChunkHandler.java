@@ -128,6 +128,7 @@ public class CachedChunkHandler implements ChunkHandler {
 				if (remove) {
 					beforeRemoveChunk(chunk);
 					contentProvider.remove(target);
+					
 					chunks.remove(indexX, indexY);
 					afterRemoveChunk(indexX, indexY);
 				}

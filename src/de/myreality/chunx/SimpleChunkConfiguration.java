@@ -39,9 +39,9 @@ public class SimpleChunkConfiguration implements ChunkConfiguration {
 
 	private int chunkWidth, chunkHeight;
 	
-	private ContentProvider contentProvider;
+	private transient ContentProvider contentProvider;
 	
-	private ChunkTarget focused;
+	private transient ChunkTarget focused;
 
 	// ===========================================================
 	// Constructors

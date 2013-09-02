@@ -55,6 +55,10 @@ public class SimpleMovementDetector implements MovementDetector {
 	// Constructors
 	// ===========================================================
 	
+	public SimpleMovementDetector() {
+		
+	}
+	
 	public SimpleMovementDetector(ChunkTarget target, ChunkConfiguration configuration) {
 		this.target = target;
 		this.configuration = configuration;

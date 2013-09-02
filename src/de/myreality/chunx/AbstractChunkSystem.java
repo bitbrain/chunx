@@ -22,9 +22,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.myreality.chunx.concurrent.ConcurrentMatrixList;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.util.AbstractManageable;
+import de.myreality.chunx.util.HandlerDistributor;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.SimplePositionInterpreter;
@@ -61,6 +63,8 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	
 	private ChunkSaver chunkSaver;
 	
+	private HandlerDistributor distributor;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -68,6 +72,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	public AbstractChunkSystem(ChunkConfiguration configuration) {
 		this.configuration = configuration;
 		listeners = new ArrayList<ChunkListener>();
+		chunks = new ConcurrentMatrixList<Chunk>();
 		positionInterpreter = new SimplePositionInterpreter(configuration);
 	}
 
@@ -141,6 +146,13 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	public void setHandler(ChunkHandler handler) {
 		if (handler != null) {
 			this.chunkHandler = handler;
+			
+			if (distributor != null) {
+				distributor.setHandler(handler);
+			} else {
+				distributor = new HandlerDistributor(handler);
+				addListener(distributor);
+			}
 		}
 	}
 

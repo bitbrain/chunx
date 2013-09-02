@@ -18,7 +18,7 @@
  */
 package de.myreality.chunx.caching;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.myreality.chunx.ChunkConfiguration;
+import de.myreality.chunx.ChunkHandler;
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.moving.MoveableChunkTarget;
@@ -93,13 +94,10 @@ public class CachedChunkSystemTest {
 	}
 	
 	@Test
-	public void testGetListeners() {
-		
-	}
-	
-	@Test
 	public void testUpdate() {
-		
+		System.out.println(cachedChunkSystem.getCurrentChunkCount());
+		cachedChunkSystem.update();
+		System.out.println(cachedChunkSystem.getCurrentChunkCount());
 	}
 	
 	// ===========================================================

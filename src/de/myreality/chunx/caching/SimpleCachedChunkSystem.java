@@ -147,7 +147,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		setSaver(new SimpleChunkSaver(outProvider));
 		setLoader(new SimpleChunkLoader(inProvider));
 		setHandler(new CachedChunkHandler(this));
-
+		
 		initializeCache();
 	}
 

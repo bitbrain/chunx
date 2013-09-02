@@ -16,22 +16,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.io;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
+package de.myreality.chunx.util;
 
 import de.myreality.chunx.Chunk;
+import de.myreality.chunx.ChunkHandler;
+import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.moving.MoveableChunkTarget;
+import de.myreality.chunx.moving.MovementDetector;
 
 /**
- * Simple implementation of {@link ChunkLoader}
+ * Distributes the handler of a chunk system to chunk targets and vise versa
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleChunkLoader extends SimpleFileConfiguration implements
-		ChunkLoader {
+public class HandlerDistributor implements ChunkListener {
 
 	// ===========================================================
 	// Constants
@@ -41,63 +42,108 @@ public class SimpleChunkLoader extends SimpleFileConfiguration implements
 	// Fields
 	// ===========================================================
 	
-	private InputStreamProvider provider;
-	
-	private boolean loading;
-	
-	private FileNameConverter nameConverter;
+	private ChunkHandler handler;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleChunkLoader(InputStreamProvider provider) {
-		this.provider = provider;
-		nameConverter = new EncryptedFileNameConverter(new SimpleFileNameConverter());
+	public HandlerDistributor(ChunkHandler handler) {
+		this.handler = handler;
 	}
 
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
+	
+	public void setHandler(ChunkHandler handler) {
+		this.handler = handler;
+	}
+	
+	public ChunkHandler getHandler() {
+		return handler;
+	}
 
 	// ===========================================================
 	// Methods from Superclass
 	// ===========================================================
-
+	
 	@Override
-	public void setProvider(InputStreamProvider provider) {
-		this.provider = provider;
-	}
-
-	@Override
-	public boolean isLoading() {
-		return loading;
-	}
-
-	@Override
-	public Chunk load(int indexX, int indexY) throws IOException {
+	public void beforeCreateChunk(int indexX, int indexY) {
 		
-		try {
-			if (provider != null) {
-				String fileName = getPath() + nameConverter.convert(indexX, indexY);
-				ObjectInputStream in = new ObjectInputStream(provider.getInputStream(fileName));
-				Chunk chunk = (Chunk) in.readObject();
-				in.close();
-				
-				return chunk;
-			} else {
-				throw new IOException("InputStreamProvider is not set yet");
-			}
-		} catch (ClassNotFoundException e) {
-			throw new IOException("Target file does not contain any chunk instance");
-		} finally {
-			loading = false;
-		}
+	}
+
+	@Override
+	public void afterCreateChunk(Chunk chunk) {
+		add(chunk);
+	}
+
+	@Override
+	public void beforeLoadChunk(int indexX, int indexY) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void afterLoadChunk(Chunk chunk) {
+		add(chunk);
+	}
+
+	@Override
+	public void beforeSaveChunk(Chunk chunk) {
+		remove(chunk);
+	}
+
+	@Override
+	public void afterSaveChunk(Chunk chunk) {
+		add(chunk);
+	}
+
+	@Override
+	public void beforeRemoveChunk(Chunk chunk) {
+	}
+
+	@Override
+	public void afterRemoveChunk(int indexX, int indexY) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onEnterChunk(Chunk chunk) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onLeaveChunk(Chunk chunk) {
+		// TODO Auto-generated method stub
+
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	private void remove(Chunk chunk) {
+		for (ChunkTarget target : chunk) {
+			if (target instanceof MoveableChunkTarget) {
+				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
+				MovementDetector detector = moveable.getMovementDetector();
+				detector.removeListener(handler);
+			}
+		}
+	}
+	
+	private void add(Chunk chunk) {
+		for (ChunkTarget target : chunk) {
+			if (target instanceof MoveableChunkTarget) {
+				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
+				MovementDetector detector = moveable.getMovementDetector();
+				detector.addListener(handler);
+			}
+		}
+	}
 
 	// ===========================================================
 	// Inner classes
