@@ -19,7 +19,8 @@
 package de.myreality.chunx.caching;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkFactory;
@@ -114,10 +115,9 @@ public class CachedChunkHandler implements ChunkHandler {
 	private void saveChunk(Chunk chunk, CachedChunkSystem system, MatrixList<Chunk> chunks, boolean remove) {
 		
 		ContentProvider contentProvider = system.getConfiguration().getContentProvider();
-		Iterator<ChunkTarget> targetIterator = contentProvider.getContent().iterator();
+		List<ChunkTarget> targets = new ArrayList<ChunkTarget>(contentProvider.getContent());
 		
-		while (targetIterator.hasNext()) {
-			ChunkTarget target = targetIterator.next();
+		for (ChunkTarget target : targets) {
 			
 			int indexX = positionInterpreter.translateX(target.getX());
 			int indexY = positionInterpreter.translateY(target.getY());
