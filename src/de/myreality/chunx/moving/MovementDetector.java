@@ -52,4 +52,12 @@ public interface MovementDetector extends Updateable, Serializable {
 	 * @param listener existing listener
 	 */
 	void removeListener(MovementListener listener);
+	
+	/**
+	 * Determines of this detector owns a listener
+	 * 
+	 * @param listener listener to own
+	 * @return true when found
+	 */
+	boolean contains(MovementListener listener);
 }

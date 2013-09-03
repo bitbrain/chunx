@@ -18,9 +18,9 @@
  */
 package de.myreality.chunx;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.SimplePositionInterpreter;
@@ -61,7 +61,7 @@ public class SimpleChunk implements Chunk {
 		this.indexY = indexY;
 		this.configuration = configuration;
 		positionInterpreter = new SimplePositionInterpreter(configuration);
-		targets = new CopyOnWriteArrayList<ChunkTarget>();
+		targets = new ArrayList<ChunkTarget>();
 	}
 	
 	public SimpleChunk() {

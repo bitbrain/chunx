@@ -18,7 +18,7 @@
  */
 package de.myreality.chunx.caching;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,13 +27,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.myreality.chunx.ChunkConfiguration;
+import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkHandler;
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.ContentProvider;
-import de.myreality.chunx.moving.MoveableChunkTarget;
-import de.myreality.chunx.moving.MovementDetector;
-import de.myreality.chunx.moving.SimpleMovementDetector;
+import de.myreality.chunx.util.PositionInterpreter;
+import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**
  * Test case for {@link SimpleCachedChunkSystem}
@@ -47,15 +46,17 @@ public class CachedChunkSystemTest {
 	// ===========================================================
 	// Definitions
 	// ===========================================================
-	
-	CachedChunkSystem cachedChunkSystem;
-	
+
+	CachedChunkSystem system;
+
 	CachedChunkConfiguration configuration;
-	
+
 	MockTarget player, target1, target2;
 	
+	PositionInterpreter interpreter;
+
 	World world;
-	
+
 	static final int SIZE = 1;
 
 	// ===========================================================
@@ -69,94 +70,63 @@ public class CachedChunkSystemTest {
 		target1 = new MockTarget(0, 0, configuration);
 		target2 = new MockTarget(0, 0, configuration);
 		world = new World();
-		
+
 		configuration.setCacheSize(1);
 		configuration.setContentProvider(world);
 		configuration.setFocused(player);
-		
+
 		world.add(target1);
 		world.add(target2);
 		
-		cachedChunkSystem = new SimpleCachedChunkSystem(configuration);		
-		cachedChunkSystem.start();
+		interpreter = new SimplePositionInterpreter(configuration);
+
+		system = new SimpleCachedChunkSystem(configuration);
+		system.start();
 	}
-	
-	
 
 	// ===========================================================
 	// Test cases
 	// ===========================================================
-	
+
 	@Test
 	public void testGetTotalChunkCount() {
 		int expected = (int) Math.pow((SIZE * 2 + 1) + 2, 2);
-		assertTrue("Chunk count should be " + expected + " instead of " + cachedChunkSystem.getTotalChunkCount(), cachedChunkSystem.getTotalChunkCount() == expected);
+		assertTrue("Chunk count should be " + expected + " instead of "
+				+ system.getTotalChunkCount(),
+				system.getTotalChunkCount() == expected);
 	}
-	
+
 	@Test
 	public void testUpdate() {
-		System.out.println(cachedChunkSystem.getCurrentChunkCount());
-		cachedChunkSystem.update();
-		System.out.println(cachedChunkSystem.getCurrentChunkCount());
+		
+		ChunkHandler handler = system.getHandler();
+		
+		assertTrue("Current chunk size has to be 25", system.getCurrentChunkCount() == 25);
+		system.update();
+		assertTrue("Target1 needs a handler", target1.getMovementDetector().contains(handler));
+		assertTrue("Target2 needs a handler", target2.getMovementDetector().contains(handler));
+		Chunk chunk1 = system.getChunk(interpreter.translateX(target1.getX()),
+				                       interpreter.translateY(target1.getY()));
+		Chunk chunk2 = system.getChunk(interpreter.translateX(target2.getX()),
+                					   interpreter.translateY(target2.getY()));
+		assertFalse("Chunk1 shouldn't contain target1", chunk1.contains(target1));
+		assertFalse("Chunk2 shouldn't contain target2", chunk2.contains(target2));
+		
+		target2.setX(513f);
+		chunk2 = system.getChunk(interpreter.translateX(target2.getX()),
+				   interpreter.translateY(target2.getY()));
+		system.update();
+		assertTrue("Chunk2 should contain target2", chunk2.contains(target2));
 	}
 	
 	// ===========================================================
 	// Mocks
 	// ===========================================================
-	
-	class MockTarget implements MoveableChunkTarget {
-		
-		private static final long serialVersionUID = 1L;
-		
-		private float x, y;
-		
-		private MovementDetector movementDetector;
-		
-		public MockTarget(float x, float y, ChunkConfiguration configuration) {
-			this.x = x;
-			this.y = y;
-			movementDetector = new SimpleMovementDetector(this, configuration);
-		}
-		
-		public void setX(float x) {
-			this.x = x;
-		}
-		
-		public void setY(float y) {
-			this.y = y;
-		}
 
-		@Override
-		public float getX() {
-			return x;
-		}
-
-		@Override
-		public float getY() {
-			return y;
-		}
-
-		@Override
-		public void update() {
-			update(0.0f);
-		}
-
-		@Override
-		public void update(float delta) {
-			movementDetector.update();
-		}
-
-		@Override
-		public MovementDetector getMovementDetector() {
-			return movementDetector;
-		}
-		
-	}
-	
 	class World implements ContentProvider {
-		
+
 		private List<ChunkTarget> targets;
-		
+
 		public World() {
 			targets = new ArrayList<ChunkTarget>();
 		}
@@ -177,14 +147,14 @@ public class CachedChunkSystemTest {
 		public Collection<ChunkTarget> getContent() {
 			return targets;
 		}
-		
+
 		public int size() {
 			return targets.size();
 		}
-		
+
 		public boolean contains(ChunkTarget target) {
 			return targets.contains(target);
 		}
-		
+
 	}
 }

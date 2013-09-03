@@ -149,6 +149,8 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		setHandler(new CachedChunkHandler(this));
 		
 		initializeCache();
+		
+		getHandler().handleChunks(chunks);
 	}
 
 	// ===========================================================
