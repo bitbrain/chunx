@@ -16,19 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.caching;
-
-import de.myreality.chunx.util.IndexBoundable;
+package de.myreality.chunx.util;
 
 /**
- * Cache which handles bounding information and provides
- * collision detection by considering indexes.
+ * Provides index bounds
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Cache extends Cacheable, IndexBoundable {
+public interface IndexBoundable {
 
 	// ===========================================================
 	// Constants
@@ -37,12 +34,32 @@ public interface Cache extends Cacheable, IndexBoundable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	/**
+	 * Returns the top index of this boundable
+	 * 
+	 * @return top index of the cache
+	 */
+	int getIndexTop();
 	
 	/**
-	 * Aligns the cache to the new index (centering)
+	 * Returns the bottom index of this boundable
 	 * 
-	 * @param indexX new x center index
-	 * @param indexY new y center index
+	 * @return bottom index of the cache
 	 */
-	void align(int indexX, int indexY);
+	int getIndexBottom();
+	
+	/**
+	 * Returns the left index of this boundable
+	 * 
+	 * @return left index of the cache
+	 */
+	int getIndexLeft();
+	
+	/**
+	 * Returns the right index of this boundable 
+	 * 
+	 * @return right index of the cache
+	 */
+	int getIndexRight();
 }
