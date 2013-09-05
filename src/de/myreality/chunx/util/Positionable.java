@@ -16,20 +16,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx;
-
-import java.io.Serializable;
-
-import de.myreality.chunx.util.Positionable;
+package de.myreality.chunx.util;
 
 /**
- * Provides required data for chunk collision like positioning
+ * Provides two dimensional positioning
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkTarget extends Serializable, Positionable {
+public interface Positionable {
 
 	// ===========================================================
 	// Constants
@@ -39,5 +35,31 @@ public interface ChunkTarget extends Serializable, Positionable {
 	// Methods
 	// ===========================================================
 	
+	/**
+	 * Returns the current x position
+	 * 
+	 * @return x position
+	 */
+	float getX();
 	
+	/**
+	 * Returns the current y position
+	 * 
+	 * @return y position
+	 */
+	float getY();
+	
+	/**
+	 * Sets a new x position
+	 * 
+	 * @param x x position
+	 */
+	void setX(float x);
+	
+	/**
+	 * Sets a new y position
+	 * 
+	 * @param y y position
+	 */
+	void setY(float y);
 }
