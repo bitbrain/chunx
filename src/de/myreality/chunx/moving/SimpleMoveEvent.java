@@ -55,6 +55,7 @@ public class SimpleMoveEvent implements MoveEvent {
 		this.lastY = lastY;
 		this.newX = newX;
 		this.newY = newY;
+		this.target = target;
 		positionInterpreter = new SimplePositionInterpreter(configuration);
 	}
 

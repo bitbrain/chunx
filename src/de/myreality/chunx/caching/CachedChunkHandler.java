@@ -30,8 +30,10 @@ import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.moving.MoveEvent;
+import de.myreality.chunx.util.BoundableAdapter;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
+import de.myreality.chunx.util.PositionableBinder;
 import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**
@@ -106,6 +108,34 @@ public class CachedChunkHandler implements ChunkHandler {
 			
 			for (Chunk chunk : removeList) {
 				saveChunk(chunk, chunks, true);
+			}
+		}
+	}
+
+	@Override
+	public void onMove(MoveEvent event) {
+		
+		ChunkTarget target = event.getTarget();
+		int indexX = event.getNewIndexX();
+		int indexY = event.getNewIndexY();		
+		Cache preCache = chunkSystem.getPreCache();		
+		if (!preCache.containsIndex(indexX, indexY)) {
+			
+			// Bind target to the current cache
+			PositionableBinder binder = new PositionableBinder(new BoundableAdapter(preCache, chunkSystem.getConfiguration()));
+			PositionInterpreter interpreter = new SimplePositionInterpreter(chunkSystem.getConfiguration());
+			binder.bind(target);
+			
+			// Update position
+			indexX = interpreter.translateX(target.getX());
+			indexY = interpreter.translateY(target.getY());
+			
+			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
+			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
+			
+			if (chunk != null) {
+				chunk.add(target);
+				contentProvider.remove(target);
 			}
 		}
 	}
@@ -208,23 +238,6 @@ public class CachedChunkHandler implements ChunkHandler {
 	private void afterSaveChunk(Chunk chunk) {
 		for (ChunkListener listener : chunkSystem.getListeners()) {
 			listener.afterSaveChunk(chunk);
-		}
-	}
-
-	@Override
-	public void onMove(MoveEvent event) {
-		
-		ChunkTarget target = event.getTarget();
-		int indexX = event.getNewIndexX();
-		int indexY = event.getNewIndexY();		
-		Cache preCache = chunkSystem.getPreCache();
-		
-		if (!preCache.containsIndex(indexX, indexY)) {
-			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
-			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
-			
-			chunk.add(target);
-			contentProvider.remove(target);
 		}
 	}
 
