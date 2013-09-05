@@ -211,6 +211,23 @@ public class CachedChunkHandler implements ChunkHandler {
 		}
 	}
 
+	@Override
+	public void onMove(MoveEvent event) {
+		
+		ChunkTarget target = event.getTarget();
+		int indexX = event.getNewIndexX();
+		int indexY = event.getNewIndexY();		
+		Cache preCache = chunkSystem.getPreCache();
+		
+		if (!preCache.containsIndex(indexX, indexY)) {
+			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
+			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
+			
+			chunk.add(target);
+			contentProvider.remove(target);
+		}
+	}
+
 	// ===========================================================
 	// Inner classes
 	// ===========================================================

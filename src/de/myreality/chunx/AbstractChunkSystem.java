@@ -147,8 +147,15 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	@Override
 	public void setHandler(ChunkHandler handler) {
 		
-		if (handler != null) {			
-			this.chunkHandler = handler;		
+		if (handler != null) {
+			
+			if (this.chunkHandler != null) {
+				binder.remove(chunkHandler);
+			}
+			
+			this.chunkHandler = handler;
+			
+			binder.add(chunkHandler);			
 		}
 	}
 
