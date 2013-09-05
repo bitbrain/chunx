@@ -124,7 +124,12 @@ public class CachedChunkHandler implements ChunkHandler {
 			// Bind target to the current cache
 			PositionableBinder binder = new PositionableBinder(new BoundableAdapter(preCache, chunkSystem.getConfiguration()));
 			PositionInterpreter interpreter = new SimplePositionInterpreter(chunkSystem.getConfiguration());
+			
+			System.out.println(target.getX() + "|" + target.getY() + " -> " + interpreter.translateIndexX(preCache.getIndexRight()));
+			
 			binder.bind(target, event.getLastX(), event.getLastY());
+			
+			System.out.println(target.getX() + "|" + target.getY() + " -> " + interpreter.translateIndexX(preCache.getIndexRight()));
 			
 			// Update position
 			indexX = interpreter.translateX(target.getX());
@@ -133,10 +138,9 @@ public class CachedChunkHandler implements ChunkHandler {
 			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
 			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
 			
-			if (chunk != null) {
-				chunk.add(target);
-				contentProvider.remove(target);
-			}
+			chunk.add(target);
+			System.out.println(target);
+			contentProvider.remove(target);			
 		}
 	}
 

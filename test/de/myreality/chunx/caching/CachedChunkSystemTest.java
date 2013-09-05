@@ -117,8 +117,8 @@ public class CachedChunkSystemTest {
 		chunk2 = system.getChunk(interpreter.translateX(target2.getX()),
 				   interpreter.translateY(target2.getY()));
 		system.update();
-		assertTrue("Chunk2 should contain target2", chunk2.contains(target2));
 		assertFalse("World should not contain target2 anymore.", world.contains(target2));
+		assertTrue("Chunk2 should contain target2", chunk2.contains(target2));
 		
 		// Move target 1 to the right to reload target 2
 		target1.setX(513f);
