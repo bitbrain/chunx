@@ -18,12 +18,15 @@
  */
 package de.myreality.chunx.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.myreality.chunx.Chunk;
-import de.myreality.chunx.ChunkHandler;
 import de.myreality.chunx.ChunkListener;
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.moving.MoveableChunkTarget;
 import de.myreality.chunx.moving.MovementDetector;
+import de.myreality.chunx.moving.MovementListener;
 
 /**
  * Distributes the handler of a chunk system to chunk targets and vise versa
@@ -32,7 +35,7 @@ import de.myreality.chunx.moving.MovementDetector;
  * @since 1.0
  * @version 1.0
  */
-public class ChunkHandlerDistributor implements ChunkListener {
+public class MovementListenerBinder implements ChunkListener {
 
 	// ===========================================================
 	// Constants
@@ -42,26 +45,28 @@ public class ChunkHandlerDistributor implements ChunkListener {
 	// Fields
 	// ===========================================================
 	
-	private ChunkHandler handler;
+	private List<MovementListener> listeners;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ChunkHandlerDistributor(ChunkHandler handler) {
-		this.handler = handler;
+	public MovementListenerBinder() {
+		listeners = new ArrayList<MovementListener>();
 	}
 
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
 	
-	public void setHandler(ChunkHandler handler) {
-		this.handler = handler;
+	public void add(MovementListener listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
+		}
 	}
 	
-	public ChunkHandler getHandler() {
-		return handler;
+	public void remove(MovementListener listener) {
+		listeners.remove(listener);
 	}
 
 	// ===========================================================
@@ -130,7 +135,10 @@ public class ChunkHandlerDistributor implements ChunkListener {
 			if (target instanceof MoveableChunkTarget) {
 				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
 				MovementDetector detector = moveable.getMovementDetector();
-				detector.removeListener(handler);
+				
+				for (MovementListener listener : listeners) {
+					detector.removeListener(listener);
+				}
 			}
 		}
 	}
@@ -140,7 +148,9 @@ public class ChunkHandlerDistributor implements ChunkListener {
 			if (target instanceof MoveableChunkTarget) {
 				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
 				MovementDetector detector = moveable.getMovementDetector();
-				detector.addListener(handler);
+				for (MovementListener listener : listeners) {
+					detector.addListener(listener);
+				}
 			}
 		}
 	}
