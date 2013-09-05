@@ -125,6 +125,16 @@ public class SimpleChunkTest {
 		public float getY() {
 			return 0;
 		}
+
+		@Override
+		public void setX(float x) {
+			
+		}
+
+		@Override
+		public void setY(float y) {
+			
+		}
 		
 	}
 }

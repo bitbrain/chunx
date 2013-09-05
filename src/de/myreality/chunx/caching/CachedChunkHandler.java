@@ -95,10 +95,12 @@ public class CachedChunkHandler implements ChunkHandler {
 						saveChunk(chunk, chunks, false);
 					}
 					
-					int size = chunk.size();
+					int size = chunk.size();					
+						
 					for (int i = 0; i < size; ++i) {
 						provider.add(chunk.retrieve());
 					}
+					
 				}
 			}
 			
@@ -213,11 +215,10 @@ public class CachedChunkHandler implements ChunkHandler {
 	public void onMove(MoveEvent event) {
 		ChunkTarget target = event.getTarget();
 		int indexX = event.getNewIndexX();
-		int indexY = event.getNewIndexY();			
-		Cache cache = chunkSystem.getCache();
+		int indexY = event.getNewIndexY();		
 		Cache preCache = chunkSystem.getPreCache();
 		
-		if (!cache.containsIndex(indexX, indexY) && preCache.containsIndex(indexX, indexY)) {
+		if (!preCache.containsIndex(indexX, indexY)) {
 			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
 			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
 			

@@ -112,11 +112,20 @@ public class CachedChunkSystemTest {
 		assertFalse("Chunk1 shouldn't contain target1", chunk1.contains(target1));
 		assertFalse("Chunk2 shouldn't contain target2", chunk2.contains(target2));
 		
-		target2.setX(513f);
+		target2.setX(2000f);
+		target2.update();
 		chunk2 = system.getChunk(interpreter.translateX(target2.getX()),
 				   interpreter.translateY(target2.getY()));
 		system.update();
 		assertTrue("Chunk2 should contain target2", chunk2.contains(target2));
+		assertFalse("World should not contain target2 anymore.", world.contains(target2));
+		
+		// Move target 1 to the right to reload target 2
+		target1.setX(513f);
+		target1.update();
+		system.update();
+		assertFalse("Chunk2 should contain target2", chunk2.contains(target2));
+		assertTrue("World should not contain target2 anymore.", world.contains(target2));
 	}
 	
 	// ===========================================================

@@ -50,4 +50,18 @@ public interface ChunkTarget extends Serializable {
 	 * @return y position
 	 */
 	float getY();
+	
+	/**
+	 * Sets a new x position
+	 * 
+	 * @param x x position
+	 */
+	void setX(float x);
+	
+	/**
+	 * Sets a new y position
+	 * 
+	 * @param y y position
+	 */
+	void setY(float y);
 }
