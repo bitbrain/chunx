@@ -187,7 +187,6 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		if (focused != null) {
 			final int INDEX_X = positionInterpreter.translateX(focused.getX());
 			final int INDEX_Y = positionInterpreter.translateY(focused.getY());
-
 			return !cache.containsIndex(INDEX_X, INDEX_Y);
 		} else {
 			return false;

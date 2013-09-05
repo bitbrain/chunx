@@ -121,11 +121,11 @@ public class CachedChunkSystemTest {
 		assertTrue("Chunk2 should contain target2", chunk2.contains(target2));
 		
 		// Move target 1 to the right to reload target 2
-		target1.setX(513f);
-		target1.update();
+		player.setX(513f);
+		player.update();
 		system.update();
-		assertFalse("Chunk2 should contain target2", chunk2.contains(target2));
-		assertTrue("World should not contain target2 anymore.", world.contains(target2));
+		assertTrue("World should contain target2 again.", world.contains(target2));
+		assertFalse("Chunk2 should not contain target2", chunk2.contains(target2));
 	}
 	
 	// ===========================================================
