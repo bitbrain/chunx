@@ -16,42 +16,51 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.caching;
-
-import de.myreality.chunx.util.Indexable;
+package de.myreality.chunx.util;
 
 /**
- * Provides caching by considering a size. Additionally, index detection
- * can be provided.
+ * Utility class which provides functionality for boundables
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface Cacheable {
+public final class BoundableUtils {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getters and Setters
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from Superclass
+	// ===========================================================
+
+	// ===========================================================
 	// Methods
 	// ===========================================================
 	
-	/**
-	 * Returns true when the index is inside of the cache
-	 * 
-	 * @param indexX x index
-	 * @param indexY y index
-	 * @return True when in cache
-	 */
-	boolean containsIndex(int indexX, int indexY);
-	
-	/**
-	 * Returns true when the indexable is inside of the cache
-	 * 
-	 * @param indexable indexable to check
-	 * @return True when in cache
-	 */
-	boolean containsIndex(Indexable indexable);
+	public static boolean contains(Boundable boundable, float x, float y) {
+		final boolean topLeftRange = x < boundable.getLeft()
+				|| y < boundable.getTop();
+		final boolean bottomRightRange = x > boundable.getRight()
+				|| y > boundable.getBottom();
+
+		return !(topLeftRange || bottomRightRange);
+	}
+
+	// ===========================================================
+	// Inner classes
+	// ===========================================================
 }

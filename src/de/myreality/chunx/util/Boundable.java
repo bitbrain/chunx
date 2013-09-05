@@ -62,4 +62,6 @@ public interface Boundable {
 	 * @return right side of the cache
 	 */
 	float getRight();
+	
+	boolean contains(float x, float y);
 }

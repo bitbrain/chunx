@@ -28,7 +28,7 @@ import de.myreality.chunx.util.IndexBoundable;
  * @since 1.0
  * @version 1.0
  */
-public interface Cache extends Cacheable, IndexBoundable {
+public interface Cache extends IndexBoundable {
 
 	// ===========================================================
 	// Constants

@@ -62,4 +62,21 @@ public interface IndexBoundable {
 	 * @return right index of the cache
 	 */
 	int getIndexRight();
+	
+	/**
+	 * Returns true when the index is inside of the cache
+	 * 
+	 * @param indexX x index
+	 * @param indexY y index
+	 * @return True when in cache
+	 */
+	boolean containsIndex(int indexX, int indexY);
+	
+	/**
+	 * Returns true when the indexable is inside of the cache
+	 * 
+	 * @param indexable indexable to check
+	 * @return True when in cache
+	 */
+	boolean containsIndex(Indexable indexable);
 }

@@ -102,6 +102,21 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 		return interpreter.translateIndexX(getIndexRight());
 	}
 
+	@Override
+	public boolean containsIndex(int indexX, int indexY) {
+		return indexBoundable.containsIndex(indexX, indexY);
+	}
+
+	@Override
+	public boolean containsIndex(Indexable indexable) {
+		return indexBoundable.containsIndex(indexable);
+	}
+
+	@Override
+	public boolean contains(float x, float y) {
+		return BoundableUtils.contains(this, x, y);
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
