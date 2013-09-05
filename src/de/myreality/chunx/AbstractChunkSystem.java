@@ -26,7 +26,7 @@ import de.myreality.chunx.concurrent.ConcurrentMatrixList;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.util.AbstractManageable;
-import de.myreality.chunx.util.HandlerDistributor;
+import de.myreality.chunx.util.ChunkHandlerDistributor;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.SimplePositionInterpreter;
@@ -63,7 +63,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	
 	private ChunkSaver chunkSaver;
 	
-	private HandlerDistributor distributor;
+	private ChunkHandlerDistributor distributor;
 	
 	// ===========================================================
 	// Constructors
@@ -150,7 +150,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 			if (distributor != null) {
 				distributor.setHandler(handler);
 			} else {
-				distributor = new HandlerDistributor(handler);
+				distributor = new ChunkHandlerDistributor(handler);
 				addListener(distributor);
 			}
 		}

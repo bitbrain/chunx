@@ -32,7 +32,7 @@ import de.myreality.chunx.moving.MovementDetector;
  * @since 1.0
  * @version 1.0
  */
-public class HandlerDistributor implements ChunkListener {
+public class ChunkHandlerDistributor implements ChunkListener {
 
 	// ===========================================================
 	// Constants
@@ -48,7 +48,7 @@ public class HandlerDistributor implements ChunkListener {
 	// Constructors
 	// ===========================================================
 	
-	public HandlerDistributor(ChunkHandler handler) {
+	public ChunkHandlerDistributor(ChunkHandler handler) {
 		this.handler = handler;
 	}
 
