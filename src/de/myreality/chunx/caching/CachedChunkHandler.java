@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.myreality.chunx.Chunk;
+import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkFactory;
 import de.myreality.chunx.ChunkHandler;
 import de.myreality.chunx.ChunkListener;
@@ -146,7 +147,8 @@ public class CachedChunkHandler implements ChunkHandler {
 	
 	private void saveChunk(Chunk chunk, MatrixList<Chunk> chunks, boolean remove) {
 		
-		ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
+		ChunkConfiguration configuration = chunkSystem.getConfiguration();
+		ContentProvider contentProvider = configuration.getContentProvider();
 		List<ChunkTarget> targets = new ArrayList<ChunkTarget>(contentProvider.getContent());
 		
 		for (ChunkTarget target : targets) {
@@ -155,14 +157,18 @@ public class CachedChunkHandler implements ChunkHandler {
 			int indexY = positionInterpreter.translateY(target.getY());
 			
 			if (chunk.getIndexX() == indexX && chunk.getIndexY() == indexY) {
-				chunk.add(target);
 				
-				if (remove) {
-					beforeRemoveChunk(chunk);
-					contentProvider.remove(target);
+				// Only move the target when not focused
+				if (!target.equals(configuration.getFocused())) {
 					
-					chunks.remove(indexX, indexY);
-					afterRemoveChunk(indexX, indexY);
+					chunk.add(target);
+					
+					if (remove) {
+						beforeRemoveChunk(chunk);
+						contentProvider.remove(target);						
+						chunks.remove(indexX, indexY);						
+						afterRemoveChunk(indexX, indexY);
+					}
 				}
 			}
 		}

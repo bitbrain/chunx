@@ -18,7 +18,8 @@
  */
 package de.myreality.chunx.caching;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -75,6 +76,7 @@ public class CachedChunkSystemTest {
 		configuration.setContentProvider(world);
 		configuration.setFocused(player);
 
+		world.add(player);
 		world.add(target1);
 		world.add(target2);
 		
@@ -100,7 +102,6 @@ public class CachedChunkSystemTest {
 	public void testUpdate() {
 		
 		ChunkHandler handler = system.getHandler();
-		
 		assertTrue("Current chunk size has to be 25", system.getCurrentChunkCount() == 25);
 		system.update();
 		assertTrue("Target1 needs a handler", target1.getMovementDetector().contains(handler));
@@ -126,6 +127,12 @@ public class CachedChunkSystemTest {
 		system.update();
 		assertTrue("World should contain target2 again.", world.contains(target2));
 		assertFalse("Chunk2 should not contain target2", chunk2.contains(target2));
+	
+	}
+
+	
+	@Test
+	public void testSize() {
 	}
 	
 	// ===========================================================

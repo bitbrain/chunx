@@ -169,7 +169,6 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 		update();
 	}
 
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
