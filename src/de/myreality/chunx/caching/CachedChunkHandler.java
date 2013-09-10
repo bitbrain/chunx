@@ -20,9 +20,7 @@ package de.myreality.chunx.caching;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
@@ -34,8 +32,6 @@ import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MoveEvent;
-import de.myreality.chunx.moving.MoveableChunkTarget;
-import de.myreality.chunx.moving.MovementDetector;
 import de.myreality.chunx.util.BoundableAdapter;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
