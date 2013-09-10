@@ -160,8 +160,17 @@ public class ConcurrentMatrixList<Type extends Indexable> implements MatrixList<
 
 	@Override
 	public boolean retainAll(Collection<?> objects) {
-		// TODO: Implement retainAll
-		return false;
+		
+		boolean changed = false;
+		
+		for (Object o : this) {
+			if (!objects.contains(o)) {
+				remove(o);
+				changed = true;
+			}
+		}
+		
+		return changed;
 	}
 
 	@Override

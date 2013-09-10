@@ -18,9 +18,6 @@
  */
 package de.myreality.chunx.moving;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +36,6 @@ public class SimpleMovementDetector implements MovementDetector {
 	// ===========================================================
 	// Constants
 	// ===========================================================	
-
-	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
