@@ -44,4 +44,6 @@ public interface MoveableChunkTarget extends ChunkTarget, Updateable {
 	 * @return current movement detector
 	 */
 	MovementDetector getMovementDetector();
+	
+	void setMovementDetector(MovementDetector movementDetector);
 }

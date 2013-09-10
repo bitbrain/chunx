@@ -39,8 +39,6 @@ public class SimpleChunk implements Chunk {
 	// ===========================================================
 
 	private static final long serialVersionUID = 1L;
-	
-	static int targetCount = 0;
 
 	// ===========================================================
 	// Fields
@@ -69,10 +67,6 @@ public class SimpleChunk implements Chunk {
 	public SimpleChunk() {
 		if (configuration != null) {
 			positionInterpreter = new SimplePositionInterpreter(configuration);
-		}
-		
-		if (targets != null) {
-			targetCount += size();
 		}
 	}
 
@@ -119,7 +113,6 @@ public class SimpleChunk implements Chunk {
 		if (!targets.isEmpty()) {
 			ChunkTarget first = targets.get(0);
 			targets.remove(first);
-			targetCount--;
 			return first;
 		} else {
 			return null;
@@ -130,7 +123,6 @@ public class SimpleChunk implements Chunk {
 	public void add(ChunkTarget target) {
 		if (!targets.contains(target)) {
 			targets.add(target);
-			targetCount++;
 		}
 	}
 
@@ -192,6 +184,16 @@ public class SimpleChunk implements Chunk {
 	@Override
 	public int size() {
 		return targets.size();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return targets.isEmpty();
+	}
+
+	@Override
+	public void clear() {
+		targets.clear();
 	}
 	
 	// ===========================================================

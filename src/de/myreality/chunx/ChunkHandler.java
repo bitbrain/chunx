@@ -47,5 +47,19 @@ public interface ChunkHandler extends MovementListener {
 	 */
 	void handleChunks(MatrixList<Chunk> chunks);
 	
+	/**
+	 * Saves all chunks in that list
+	 * 
+	 * @param chunks
+	 */
+	void saveChunks(MatrixList<Chunk> chunks);
+	
+	/**
+	 * Saves this chunk
+	 * 
+	 * @param chunk
+	 */
+	void saveChunk(Chunk chunk);
+	
 	
 }

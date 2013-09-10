@@ -96,4 +96,16 @@ public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget> {
 	 * @return amount of elements
 	 */
 	int size();
+	
+	/**
+	 * Determines if the chunk has elements
+	 * 
+	 * @return true when empty
+	 */
+	boolean isEmpty();
+	
+	/**
+	 * Clears this chunk
+	 */
+	void clear();
 }

@@ -74,7 +74,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 		listeners = new ArrayList<ChunkListener>();
 		chunks = new ConcurrentMatrixList<Chunk>();
 		positionInterpreter = new SimplePositionInterpreter(configuration);
-		binder = new MovementListenerBinder();
+		binder = new MovementListenerBinder(this);
 		addListener(binder);
 	}
 
