@@ -18,6 +18,8 @@
  */
 package de.myreality.chunx.moving;
 
+import java.util.Collection;
+
 import de.myreality.chunx.util.Updateable;
 
 /**
@@ -58,4 +60,6 @@ public interface MovementDetector extends Updateable {
 	 * @return true when found
 	 */
 	boolean contains(MovementListener listener);
+	
+	Collection<MovementListener> getListeners();
 }

@@ -19,6 +19,7 @@
 package de.myreality.chunx.moving;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import de.myreality.chunx.ChunkConfiguration;
@@ -102,6 +103,11 @@ public class SimpleMovementDetector implements MovementDetector {
 	@Override
 	public boolean contains(MovementListener listener) {
 		return listeners.contains(listener);
+	}
+
+	@Override
+	public Collection<MovementListener> getListeners() {
+		return listeners;
 	}
 	
 	// ===========================================================
