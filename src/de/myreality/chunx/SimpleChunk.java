@@ -46,11 +46,11 @@ public class SimpleChunk implements Chunk {
 
 	private int indexX, indexY;
 	
+	private float x, y;
+	
 	private List<ChunkTarget> targets;
 	
 	private ChunkConfiguration configuration;
-	
-	private transient PositionInterpreter positionInterpreter;
 
 	// ===========================================================
 	// Constructors
@@ -60,14 +60,10 @@ public class SimpleChunk implements Chunk {
 		this.indexX = indexX;
 		this.indexY = indexY;
 		this.configuration = configuration;
-		positionInterpreter = new SimplePositionInterpreter(configuration);
+		PositionInterpreter positionInterpreter = new SimplePositionInterpreter(configuration);
 		targets = new ArrayList<ChunkTarget>();
-	}
-	
-	public SimpleChunk() {
-		if (configuration != null) {
-			positionInterpreter = new SimplePositionInterpreter(configuration);
-		}
+		x = positionInterpreter.translateIndexX(indexX);
+		y = positionInterpreter.translateIndexY(indexY);
 	}
 
 	// ===========================================================
@@ -90,12 +86,12 @@ public class SimpleChunk implements Chunk {
 
 	@Override
 	public float getX() {
-		return positionInterpreter.translateIndexX(indexX);
+		return x;
 	}
 
 	@Override
 	public float getY() {
-		return positionInterpreter.translateIndexY(indexY);
+		return y;
 	}
 	
 	@Override
