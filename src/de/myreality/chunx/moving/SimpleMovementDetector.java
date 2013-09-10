@@ -18,6 +18,9 @@
  */
 package de.myreality.chunx.moving;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,10 +58,6 @@ public class SimpleMovementDetector implements MovementDetector {
 	// Constructors
 	// ===========================================================
 	
-	public SimpleMovementDetector() {
-		
-	}
-	
 	public SimpleMovementDetector(ChunkTarget target, ChunkConfiguration configuration) {
 		this.target = target;
 		this.configuration = configuration;
@@ -94,6 +93,7 @@ public class SimpleMovementDetector implements MovementDetector {
 
 	@Override
 	public void addListener(MovementListener listener) {
+		
 		if (!listeners.contains(listener)) {
 			listeners.add(listener);
 		}
@@ -108,6 +108,7 @@ public class SimpleMovementDetector implements MovementDetector {
 	public boolean contains(MovementListener listener) {
 		return listeners.contains(listener);
 	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -117,8 +118,10 @@ public class SimpleMovementDetector implements MovementDetector {
 	}
 	
 	private void updatePosition() {
-		lastX = target.getX();
-		lastY = target.getY();
+		if (target != null) {
+			lastX = target.getX();
+			lastY = target.getY();
+		}
 	}
 
 	// ===========================================================

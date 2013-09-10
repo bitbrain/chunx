@@ -190,6 +190,11 @@ public class SimpleChunk implements Chunk {
 	public boolean isEmpty() {
 		return targets.isEmpty();
 	}
+
+	@Override
+	public void clear() {
+		targets.clear();
+	}
 	
 	// ===========================================================
 	// Methods

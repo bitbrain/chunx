@@ -20,7 +20,9 @@ package de.myreality.chunx.caching;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
@@ -32,6 +34,8 @@ import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MoveEvent;
+import de.myreality.chunx.moving.MoveableChunkTarget;
+import de.myreality.chunx.moving.MovementDetector;
 import de.myreality.chunx.util.BoundableAdapter;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
@@ -99,6 +103,7 @@ public class CachedChunkHandler implements ChunkHandler {
 				// Chunk doesn't exists, add it
 				} else {
 					chunk = getChunk(indexX, indexY);
+					chunks.add(chunk);
 				}
 				
 				// Move all entities from the chunk to
@@ -150,8 +155,22 @@ public class CachedChunkHandler implements ChunkHandler {
 
 	@Override
 	public void saveChunk(Chunk chunk) {
+		saveChunk(chunk, false);
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+	
+	private void saveChunk(Chunk chunk, boolean remove) {
 		
-		ChunkSaver saver = chunkSystem.getSaver();
+		ChunkSaver saver = chunkSystem.getSaver();		
+		
+		List<ChunkTarget> targets = getTargetsForChunk(chunk);
+		
+		for (ChunkTarget target : targets) {			
+			chunk.add(target);
+		}
 		
 		beforeSaveChunk(chunk);
 		
@@ -161,22 +180,22 @@ public class CachedChunkHandler implements ChunkHandler {
 			e.printStackTrace();
 		}
 		
-		afterSaveChunk(chunk);		
+		afterSaveChunk(chunk);
+		
+		chunk.clear();
 	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
 	
 	private void unloadChunk(Chunk chunk) {
 		
 		ChunkConfiguration configuration = chunkSystem.getConfiguration();
 		ContentProvider contentProvider = configuration.getContentProvider();
 		
-		beforeRemoveChunk(chunk);		
-		saveChunk(chunk);
+		List<ChunkTarget> targets = getTargetsForChunk(chunk);
 		
-		for (ChunkTarget target : chunk) {
+		beforeRemoveChunk(chunk);		
+		saveChunk(chunk, true);
+		
+		for (ChunkTarget target : targets) {
 			contentProvider.remove(target);
 		}
 		

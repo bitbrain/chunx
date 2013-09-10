@@ -23,10 +23,12 @@ import java.util.List;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.moving.MoveableChunkTarget;
 import de.myreality.chunx.moving.MovementDetector;
 import de.myreality.chunx.moving.MovementListener;
+import de.myreality.chunx.moving.SimpleMovementDetector;
 
 /**
  * Distributes the handler of a chunk system to chunk targets and vise versa
@@ -46,13 +48,16 @@ public class MovementListenerBinder implements ChunkListener {
 	// ===========================================================
 	
 	private List<MovementListener> listeners;
+	
+	private ChunkSystem system;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public MovementListenerBinder() {
+	public MovementListenerBinder(ChunkSystem system) {
 		listeners = new ArrayList<MovementListener>();
+		this.system = system;
 	}
 
 	// ===========================================================
@@ -131,7 +136,9 @@ public class MovementListenerBinder implements ChunkListener {
 	// ===========================================================
 	
 	private void remove(Chunk chunk) {
+
 		for (ChunkTarget target : chunk) {
+			
 			if (target instanceof MoveableChunkTarget) {
 				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
 				MovementDetector detector = moveable.getMovementDetector();
@@ -139,6 +146,8 @@ public class MovementListenerBinder implements ChunkListener {
 				for (MovementListener listener : listeners) {
 					detector.removeListener(listener);
 				}
+				
+				moveable.setMovementDetector(null);
 			}
 		}
 	}
@@ -147,10 +156,11 @@ public class MovementListenerBinder implements ChunkListener {
 		for (ChunkTarget target : chunk) {
 			if (target instanceof MoveableChunkTarget) {
 				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
-				MovementDetector detector = moveable.getMovementDetector();
+				MovementDetector detector = new SimpleMovementDetector(target, system.getConfiguration());
 				for (MovementListener listener : listeners) {
 					detector.addListener(listener);
 				}
+				moveable.setMovementDetector(detector);
 			}
 		}
 	}

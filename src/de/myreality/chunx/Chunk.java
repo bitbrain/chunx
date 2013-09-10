@@ -103,4 +103,9 @@ public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget> {
 	 * @return true when empty
 	 */
 	boolean isEmpty();
+	
+	/**
+	 * Clears this chunk
+	 */
+	void clear();
 }
