@@ -39,6 +39,10 @@ if (chunk != null) {
 
 Read [the official wiki](https://github.com/MyRealityCoding/chunx/wiki) for more information.
 
+### Download
+
+You can download the newest bundle [here](https://www.dropbox.com/sh/h5eixlxtj5wkfya/gxacHRVHcc).
+
 ### Credits
 
 [chunx](https://github.com/MyRealityCoding/chunx) has been developed by [Miguel Gonzalez](http://my-reality.de).
