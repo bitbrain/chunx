@@ -85,5 +85,7 @@ class MockTarget implements MoveableChunkTarget {
 	public void setMovementDetector(MovementDetector movementDetector) {
 		this.movementDetector = movementDetector;
 	}
+	
+	
 
 }
