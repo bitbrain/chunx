@@ -111,7 +111,7 @@ public class CachedChunkHandler implements ChunkHandler {
 		}
 		
 		// Remove all other chunks with aren't in the cache anymore
-		unloadChunks(removeChunks);
+		unloadChunks(removeChunks, chunks);
 	}
 
 	@Override
@@ -202,8 +202,8 @@ public class CachedChunkHandler implements ChunkHandler {
 		afterRemoveChunk(chunk.getIndexX(), chunk.getIndexY());
 	}
 	
-	private void unloadChunks(MatrixList<Chunk> chunks) {
-		for (Chunk chunk : chunks) {
+	private void unloadChunks(MatrixList<Chunk> removeables, MatrixList<Chunk> chunks) {
+		for (Chunk chunk : removeables) {
 			unloadChunk(chunk);
 			chunks.remove(chunk);
 		}

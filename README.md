@@ -1,4 +1,4 @@
-![ChunkX logo](chunkx.png)
+![ChunkX logo](chunx.png)
 
 Java 2D chunk engine to generate "infinite" worlds.
 
@@ -7,10 +7,18 @@ Java 2D chunk engine to generate "infinite" worlds.
 To create a chunk system, simply look at the following code:
 
 ```java
-ChunkTarget target = new Character(); // You have to write your own implementation for this
-ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(4, target);
+ChunkTarget target = new Character(); // You have to write your own implementation
+ContentProvider provider = new World(); // You have to write your own implementation
+CachedChunkConfiguration  configuration = new CachedChunkConfiguration ();
+configuration.setFocused(target);
+configuration.setContentProvider(provider);
+configuration.setChunkIndex(4);
+
+final int UPDATE_INTERVAL = 20;
+
+ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(new CachedChunkSystem(configuration));
 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-executor.scheduleAtFixedRate(chunkSystem, 0, 20, TimeUnit.MILISECONDS);
+executor.scheduleAtFixedRate(chunkSystem, 0, UPDATE_INTERVAL, TimeUnit.MILISECONDS);
 chunkSystem.start();
 ```
 To save resources (especially CPU) it is highly recommended to use Java's inbuild executor framework to handle runnables. Now you can work with the chunk system in your game code:
@@ -26,3 +34,15 @@ if (chunk != null) {
    System.out.println("The current index is: " + indexX + "|" + indexY);
 }
 ```
+
+### Getting started
+
+Read [the official wiki](https://github.com/MyRealityCoding/chunx/wiki) for more information.
+
+### Download
+
+You can download the newest bundle [here](https://www.dropbox.com/sh/h5eixlxtj5wkfya/gxacHRVHcc).
+
+### Credits
+
+[chunx](https://github.com/MyRealityCoding/chunx) has been developed by [Miguel Gonzalez](http://my-reality.de).

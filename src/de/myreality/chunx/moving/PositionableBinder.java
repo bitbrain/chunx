@@ -110,14 +110,7 @@ public class PositionableBinder {
 				newPosition = VectorUtils.getIntersection(bottomLeft, topLeft, center, target);
 			}
 			
-			// Calculate the position back to ensure that the
-			// target will be inside of the cache
-			final float padding = 1.0f;
-			center = center.normalize();			
-			newPosition.x -= center.x * padding;
-			newPosition.y -= center.y * padding;
-			
-			if (newPosition != null) {
+			if (newPosition != null) {				
 				positionable.setX(newPosition.x);
 				positionable.setY(newPosition.y);
 			}
