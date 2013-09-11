@@ -32,10 +32,10 @@ import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MoveEvent;
+import de.myreality.chunx.moving.PositionableBinder;
 import de.myreality.chunx.util.BoundableAdapter;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
-import de.myreality.chunx.util.PositionableBinder;
 import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**
@@ -137,7 +137,11 @@ public class CachedChunkHandler implements ChunkHandler {
 			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
 			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
 			
-			chunk.add(target);
+			if (chunk != null) {
+				chunk.add(target);
+			} else {
+				System.out.println("Chunk at index " + indexX + "|" + indexY + " does not exist");
+			}
 			contentProvider.remove(target);			
 		}
 	}

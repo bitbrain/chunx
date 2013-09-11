@@ -207,6 +207,13 @@ public class Vector3f {
         r.add(target.tmp().multiply(alpha));
         return r;
     }
+    
+    public Vector3f invert() {
+    	x = -x;
+    	y = -y;
+    	z = -z;
+    	return this;
+    }
 
 	// ===========================================================
 	// Inner classes

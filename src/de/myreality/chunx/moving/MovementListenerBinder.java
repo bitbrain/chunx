@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
+package de.myreality.chunx.moving;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +25,6 @@ import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkListener;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkTarget;
-import de.myreality.chunx.moving.MoveableChunkTarget;
-import de.myreality.chunx.moving.MovementDetector;
-import de.myreality.chunx.moving.MovementListener;
-import de.myreality.chunx.moving.SimpleMovementDetector;
 
 /**
  * Distributes the handler of a chunk system to chunk targets and vise versa

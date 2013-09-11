@@ -103,6 +103,11 @@ public class SimpleMovementDetector implements MovementDetector {
 	public boolean contains(MovementListener listener) {
 		return listeners.contains(listener);
 	}
+
+	@Override
+	public List<MovementListener> getListeners() {
+		return listeners;
+	}
 	
 	// ===========================================================
 	// Methods

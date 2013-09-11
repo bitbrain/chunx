@@ -16,7 +16,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.util;
+package de.myreality.chunx.moving;
+
+import de.myreality.chunx.util.Boundable;
+import de.myreality.chunx.util.Positionable;
+import de.myreality.chunx.util.Vector3f;
+import de.myreality.chunx.util.VectorUtils;
 
 /**
  * Binds a {@see Positionable} to a {@see Boundable}
@@ -104,6 +109,13 @@ public class PositionableBinder {
 			if (newPosition == null) {				
 				newPosition = VectorUtils.getIntersection(bottomLeft, topLeft, center, target);
 			}
+			
+			// Calculate the position back to ensure that the
+			// target will be inside of the cache
+			final float padding = 1.0f;
+			center = center.normalize();			
+			newPosition.x -= center.x * padding;
+			newPosition.y -= center.y * padding;
 			
 			if (newPosition != null) {
 				positionable.setX(newPosition.x);
