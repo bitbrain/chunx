@@ -82,22 +82,16 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 				.getContent();
 
 		if (lastSize < content.size()) {
-			for (ChunkTarget target : content) {
-				if (target instanceof MoveableChunkTarget) {
-					MoveableChunkTarget moveable = (MoveableChunkTarget) target;
-					MovementDetector detector = moveable.getMovementDetector();
-					detector.addListener(getHandler());
-				}
-			}
+			updateDetectors(content);
 		}
+		
+		lastSize = content.size();
 
 		if (isRunning() && (cachingRequested() || cacheRequest)) {
 			cacheRequest = false;
 			alignCache();
 			getHandler().handleChunks(chunks);
 		}
-
-		lastSize = content.size();
 	}
 
 	@Override
@@ -155,6 +149,12 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		getHandler().saveChunks(chunks);
 	}
 
+	@Override
+	public void shutdown() {		
+		super.shutdown();
+		getHandler().saveChunks(chunks);
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -192,6 +192,16 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 			return !cache.containsIndex(INDEX_X, INDEX_Y);
 		} else {
 			return false;
+		}
+	}
+	
+	private void updateDetectors(Collection<ChunkTarget> content) {
+		for (ChunkTarget target : content) {
+			if (target instanceof MoveableChunkTarget) {
+				MoveableChunkTarget moveable = (MoveableChunkTarget) target;
+				MovementDetector detector = moveable.getMovementDetector();
+				detector.addListener(getHandler());
+			}
 		}
 	}
 
