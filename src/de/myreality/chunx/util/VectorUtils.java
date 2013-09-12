@@ -80,9 +80,11 @@ public final class VectorUtils {
        }
        double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
        double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
-       if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+       if (ua >= 0.0 && ua <= 1.0 && ub >= 0.0 && ub <= 1.0) {
           // Get the intersection point.
-          return new Vector3f((float)(x1 + ua * (x2 - x1)), (float)(y1 + ua * (y2 - y1)));
+    	  double x = x1 + ua * (x2 - x1);
+    	  double y = y1 + ua * (y2 - y1);
+          return new Vector3f(Math.round(x), Math.round(y));
        }
 
        return null;

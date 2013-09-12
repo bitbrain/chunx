@@ -113,6 +113,9 @@ public class PositionableBinder {
 			if (newPosition != null) {				
 				positionable.setX(newPosition.x);
 				positionable.setY(newPosition.y);
+			} else {
+				positionable.setX(lastX);
+				positionable.setY(lastY);
 			}
 		}
 	}
