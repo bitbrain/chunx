@@ -92,7 +92,7 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 
 	@Override
 	public float getBottom() {
-		return interpreter.translateIndexY(getIndexBottom()) + configuration.getChunkHeight();
+		return interpreter.translateIndexY(getIndexBottom()) + configuration.getChunkHeight() - 1;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 
 	@Override
 	public float getRight() {
-		return interpreter.translateIndexX(getIndexRight()) + configuration.getChunkWidth();
+		return interpreter.translateIndexX(getIndexRight()) + configuration.getChunkWidth() - 1;
 	}
 
 	@Override

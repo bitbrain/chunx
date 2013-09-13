@@ -141,12 +141,8 @@ public class CachedChunkHandler implements ChunkHandler {
 			
 			if (chunk != null) {
 				chunk.add(target);
-			} else {
-				System.out.println("Target at index " + indexX + "|" + indexY + " can't be saved");
-				chunk = getChunk(indexX, indexY);
-				chunk.add(target);
-				saveChunk(chunk);
 			}
+			
 			contentProvider.remove(target);			
 		}
 	}
