@@ -40,6 +40,8 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 	private IndexBoundable indexBoundable;
 	
 	private PositionInterpreter interpreter;
+	
+	private ChunkConfiguration configuration;
 
 	// ===========================================================
 	// Constructors
@@ -48,6 +50,7 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 	public BoundableAdapter(IndexBoundable indexBoundable, ChunkConfiguration configuration) {
 		this.indexBoundable = indexBoundable;
 		interpreter = new SimplePositionInterpreter(configuration);
+		this.configuration = configuration;
 	}
 
 	// ===========================================================
@@ -89,7 +92,7 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 
 	@Override
 	public float getBottom() {
-		return interpreter.translateIndexY(getIndexBottom());
+		return interpreter.translateIndexY(getIndexBottom()) + configuration.getChunkHeight();
 	}
 
 	@Override
@@ -99,7 +102,7 @@ public class BoundableAdapter implements Boundable, IndexBoundable {
 
 	@Override
 	public float getRight() {
-		return interpreter.translateIndexX(getIndexRight());
+		return interpreter.translateIndexX(getIndexRight()) + configuration.getChunkWidth();
 	}
 
 	@Override

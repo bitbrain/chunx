@@ -19,6 +19,7 @@
 package de.myreality.chunx.caching;
 
 import de.myreality.chunx.ChunkSystem;
+import de.myreality.chunx.util.IndexBoundable;
 
 /**
  * Cached chunk system 
@@ -42,14 +43,14 @@ public interface CachedChunkSystem extends ChunkSystem {
 	 * 
 	 * @return current cache
 	 */
-	Cache getCache();
+	IndexBoundable getCache();
 	
 	/**
 	 * Returns the pre-cache
 	 * 
 	 * @return current pre-cache
 	 */
-	Cache getPreCache();
+	IndexBoundable getPreCache();
 	
 	/**
 	 * Returns the current progress

@@ -18,9 +18,9 @@
  */
 package de.myreality.chunx.moving;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkTarget;
@@ -57,7 +57,7 @@ public class SimpleMovementDetector implements MovementDetector {
 	public SimpleMovementDetector(ChunkTarget target, ChunkConfiguration configuration) {
 		this.target = target;
 		this.configuration = configuration;
-		listeners = new ArrayList<MovementListener>();
+		listeners = new CopyOnWriteArrayList<MovementListener>();
 		updatePosition();
 	}
 

@@ -21,6 +21,7 @@ package de.myreality.chunx.caching;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
@@ -34,6 +35,7 @@ import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MoveEvent;
 import de.myreality.chunx.moving.PositionableBinder;
 import de.myreality.chunx.util.BoundableAdapter;
+import de.myreality.chunx.util.IndexBoundable;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.SimplePositionInterpreter;
@@ -83,7 +85,7 @@ public class CachedChunkHandler implements ChunkHandler {
 	public void handleChunks(MatrixList<Chunk> chunks) {
 		
 		MatrixList<Chunk> removeChunks = chunks.copy();
-		Cache cache = chunkSystem.getPreCache();	
+		IndexBoundable cache = chunkSystem.getPreCache();	
 		ContentProvider provider = chunkSystem.getConfiguration().getContentProvider();
 		
 		for (int indexX = cache.getIndexLeft(); indexX <= cache.getIndexRight(); ++indexX) {
@@ -120,7 +122,7 @@ public class CachedChunkHandler implements ChunkHandler {
 		ChunkTarget target = event.getTarget();
 		int indexX = event.getNewIndexX();
 		int indexY = event.getNewIndexY();		
-		Cache preCache = chunkSystem.getPreCache();		
+		IndexBoundable preCache = chunkSystem.getPreCache();		
 		boolean isNotFocused = !target.equals(chunkSystem.getConfiguration().getFocused());
 		if (isNotFocused && !preCache.containsIndex(indexX, indexY)) {
 			
@@ -140,7 +142,10 @@ public class CachedChunkHandler implements ChunkHandler {
 			if (chunk != null) {
 				chunk.add(target);
 			} else {
-				System.out.println("Chunk at index " + indexX + "|" + indexY + " does not exist");
+				System.out.println("Target at index " + indexX + "|" + indexY + " can't be saved");
+				chunk = getChunk(indexX, indexY);
+				chunk.add(target);
+				saveChunk(chunk);
 			}
 			contentProvider.remove(target);			
 		}
@@ -227,7 +232,7 @@ public class CachedChunkHandler implements ChunkHandler {
 	}
 	
 	private List<ChunkTarget> getTargets() {
-		List<ChunkTarget> targets = new ArrayList<ChunkTarget>();
+		List<ChunkTarget> targets = new CopyOnWriteArrayList<ChunkTarget>();
 		
 		ChunkConfiguration configuration = chunkSystem.getConfiguration();
 		ContentProvider contentProvider = configuration.getContentProvider();
