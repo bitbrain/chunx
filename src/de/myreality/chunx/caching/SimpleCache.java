@@ -95,7 +95,7 @@ public class SimpleCache implements Cache {
 
 	@Override
 	public int getIndexRight() {
-		return configuration.getCacheSizeY() + offsetX;
+		return configuration.getCacheSizeX() + offsetX;
 	}
 
 	@Override
