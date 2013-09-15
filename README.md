@@ -9,19 +9,15 @@ To create a chunk system, simply look at the following code:
 ```java
 ChunkTarget target = new Character(); // You have to write your own implementation
 ContentProvider provider = new World(); // You have to write your own implementation
-CachedChunkConfiguration  configuration = new CachedChunkConfiguration ();
+CachedChunkConfiguration  configuration = new CachedChunkConfiguration();
 configuration.setFocused(target);
 configuration.setContentProvider(provider);
 configuration.setChunkIndex(4);
 
-final int UPDATE_INTERVAL = 20;
-
-ConcurrentChunkSystem chunkSystem = new ConcurrentChunkSystem(new CachedChunkSystem(configuration));
-ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-executor.scheduleAtFixedRate(chunkSystem, 0, UPDATE_INTERVAL, TimeUnit.MILISECONDS);
+ChunkSystem chunkSystem = new ConcurrentChunkSystem(new SimpleCachedChunkSystem(configuration));
 chunkSystem.start();
 ```
-To save resources (especially CPU) it is highly recommended to use Java's inbuild executor framework to handle runnables. Now you can work with the chunk system in your game code:
+Now you can work with the chunk system in your game code:
 ```java
 Chunk chunk = chunkSystem.getActiveChunk();
 

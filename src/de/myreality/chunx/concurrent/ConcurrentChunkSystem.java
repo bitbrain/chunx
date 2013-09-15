@@ -19,6 +19,9 @@
 package de.myreality.chunx.concurrent;
 
 import java.util.Collection;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
@@ -41,12 +44,20 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	public static final long DEFAULT_INTERVAL = 20;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
 	private ChunkSystem system;
+	
+	private ScheduledThreadPoolExecutor executor;
+	
+	private ScheduledFuture<?> currentFuture;
+	
+	private long interval;
 
 	// ===========================================================
 	// Constructors
@@ -54,11 +65,20 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 	
 	public ConcurrentChunkSystem(ChunkSystem system) {
 		this.system = system;
+		this.interval = DEFAULT_INTERVAL;
 	}
 
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
+	
+	public void setInterval(long interval) {
+		this.interval = interval;
+	}
+	
+	public long getInterval() {
+		return interval;
+	}
 
 	// ===========================================================
 	// Methods from Superclass
@@ -67,11 +87,24 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 	@Override
 	public void start() {
 		system.start();
+		
+		if (currentFuture != null) {
+			currentFuture.cancel(true);
+		}
+
+		this.executor = new ScheduledThreadPoolExecutor(1);
+		currentFuture = executor.scheduleAtFixedRate(this, 0, getInterval(), TimeUnit.MILLISECONDS);
 	}
 
 	@Override
 	public void shutdown() {
 		system.shutdown();
+		
+		if (currentFuture != null) {
+			currentFuture.cancel(false);
+		}
+		
+		executor.shutdown();
 	}
 
 	@Override
