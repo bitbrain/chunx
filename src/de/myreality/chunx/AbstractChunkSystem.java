@@ -118,7 +118,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	}
 
 	@Override
-	public Collection<Chunk> getChunks() {
+	public Collection<Chunk> getChunks() {		
 		return chunks;
 	}
 
