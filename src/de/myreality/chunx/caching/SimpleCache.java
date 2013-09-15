@@ -75,7 +75,11 @@ public class SimpleCache implements Cache {
 
 	@Override
 	public boolean containsIndex(Indexable indexable) {
-		return containsIndex(indexable.getIndexX(), indexable.getIndexY());
+		if (indexable != null) {
+			return containsIndex(indexable.getIndexX(), indexable.getIndexY());
+		} else {
+			return false;
+		}
 	}
 
 	@Override
