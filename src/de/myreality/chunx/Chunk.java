@@ -20,6 +20,7 @@ package de.myreality.chunx;
 
 import java.io.Serializable;
 
+import de.myreality.chunx.util.Boundable;
 import de.myreality.chunx.util.Indexable;
 import de.myreality.chunx.util.Observable;
 
@@ -30,7 +31,7 @@ import de.myreality.chunx.util.Observable;
  * @since 1.0
  * @version 1.0
  */
-public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget>, Observable<ChunkListener> {
+public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget>, Observable<ChunkListener>, Boundable {
 
 	// ===========================================================
 	// Constants

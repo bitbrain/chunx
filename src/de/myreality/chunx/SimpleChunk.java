@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.myreality.chunx.util.BoundableUtils;
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.SimpleObservable;
 import de.myreality.chunx.util.SimplePositionInterpreter;
@@ -197,6 +198,31 @@ public class SimpleChunk extends SimpleObservable<ChunkListener> implements Chun
 	@Override
 	public void clear() {
 		targets.clear();
+	}
+
+	@Override
+	public float getTop() {
+		return getY();
+	}
+
+	@Override
+	public float getBottom() {
+		return getTop() + getHeight() - 1;
+	}
+
+	@Override
+	public float getLeft() {
+		return getX();
+	}
+
+	@Override
+	public float getRight() {
+		return getLeft() + getWidth() - 1;
+	}
+
+	@Override
+	public boolean contains(float x, float y) {
+		return BoundableUtils.contains(this, x, y);
 	}
 	
 	// ===========================================================

@@ -33,11 +33,11 @@ import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MoveEvent;
-import de.myreality.chunx.moving.PositionableBinder;
 import de.myreality.chunx.util.BoundableAdapter;
 import de.myreality.chunx.util.IndexBoundable;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
+import de.myreality.chunx.util.PositionableBinder;
 import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**

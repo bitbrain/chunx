@@ -16,12 +16,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.moving;
+package de.myreality.chunx.util;
 
-import de.myreality.chunx.util.Boundable;
-import de.myreality.chunx.util.Positionable;
-import de.myreality.chunx.util.Vector3f;
-import de.myreality.chunx.util.VectorUtils;
 
 /**
  * Binds a {@see Positionable} to a {@see Boundable}
