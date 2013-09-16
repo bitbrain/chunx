@@ -109,6 +109,9 @@ public class SimpleChunk extends SimpleObservable<ChunkListener> implements Chun
 	public ChunkTarget retrieve() {		
 		if (!targets.isEmpty()) {
 			ChunkTarget first = targets.get(0);
+			for (ChunkListener listener : getListeners()) {
+				listener.onAdd(first, this);
+			}
 			targets.remove(first);
 			return first;
 		} else {
@@ -119,6 +122,9 @@ public class SimpleChunk extends SimpleObservable<ChunkListener> implements Chun
 	@Override
 	public void add(ChunkTarget target) {
 		if (!targets.contains(target)) {
+			for (ChunkListener listener : getListeners()) {
+				listener.onAdd(target, this);
+			}
 			targets.add(target);
 		}
 	}
