@@ -35,10 +35,12 @@ public class SimpleMovementDetector extends SimpleObservable<MovementListener> i
 	// Constants
 	// ===========================================================	
 
+	private static final long serialVersionUID = 1L;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private ChunkTarget target;
 	
 	private ChunkConfiguration configuration;

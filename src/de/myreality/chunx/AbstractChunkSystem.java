@@ -46,10 +46,12 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	// Constants
 	// ===========================================================
 
+	private static final long serialVersionUID = 1L;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private ChunkConfiguration configuration;
 	
 	private ChunkHandler chunkHandler;
@@ -158,12 +160,12 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 		if (handler != null) {
 			
 			if (this.chunkHandler != null) {
-				movementBinder.remove(chunkHandler);
+				movementBinder.removeListener(chunkHandler);
 			}
 			
 			this.chunkHandler = handler;
 			
-			movementBinder.add(chunkHandler);			
+			movementBinder.addListener(chunkHandler);			
 		}
 	}
 

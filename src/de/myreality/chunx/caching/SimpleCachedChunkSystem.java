@@ -46,6 +46,8 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	// Constants
 	// ===========================================================
 
+	private static final long serialVersionUID = 1L;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================

@@ -18,6 +18,7 @@
  */
 package de.myreality.chunx.util;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -27,7 +28,7 @@ import java.util.Collection;
  * @since 1.0
  * @version 1.0
  */
-public interface Observable<Type> {
+public interface Observable<Type> extends Serializable {
 
 	// ===========================================================
 	// Constants

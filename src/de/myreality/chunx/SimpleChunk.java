@@ -111,7 +111,9 @@ public class SimpleChunk extends SimpleObservable<ChunkListener> implements Chun
 		if (!targets.isEmpty()) {
 			ChunkTarget first = targets.get(0);
 			for (ChunkListener listener : getListeners()) {
-				listener.onAdd(first, this);
+				synchronized (this) {
+					listener.onRemove(first, this);
+				}
 			}
 			targets.remove(first);
 			return first;

@@ -44,7 +44,9 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public static final long DEFAULT_INTERVAL = 20;
 
 	// ===========================================================

@@ -18,13 +18,9 @@
  */
 package de.myreality.chunx.util;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Simple implementation of {@see Observable}
@@ -33,11 +29,13 @@ import java.util.List;
  * @since 1.0
  * @version 1.0
  */
-public class SimpleObservable<Type> implements Observable<Type>, Externalizable {
+public class SimpleObservable<Type> implements Observable<Type> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	private static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields
@@ -48,9 +46,9 @@ public class SimpleObservable<Type> implements Observable<Type>, Externalizable 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public SimpleObservable() {
-		listeners = new ArrayList<Type>();
+		listeners = new CopyOnWriteArrayList<Type>();
 	}
 
 	// ===========================================================
@@ -81,17 +79,6 @@ public class SimpleObservable<Type> implements Observable<Type>, Externalizable 
 	@Override
 	public Collection<Type> getListeners() {
 		return listeners;
-	}
-
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		
-	}
-
-	@Override
-	public void readExternal(ObjectInput in) throws IOException,
-			ClassNotFoundException {
-		listeners = new ArrayList<Type>();
 	}
 
 	// ===========================================================

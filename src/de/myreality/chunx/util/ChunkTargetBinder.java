@@ -18,8 +18,8 @@
  */
 package de.myreality.chunx.util;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkListener;
@@ -51,7 +51,7 @@ public class ChunkTargetBinder implements ChunkListener, ChunkSystemListener {
 	// ===========================================================
 	
 	public ChunkTargetBinder() {
-		binders = new HashMap<Chunk, PositionableBinder>();
+		binders = new ConcurrentHashMap<Chunk, PositionableBinder>();
 	}
 
 	// ===========================================================

@@ -18,13 +18,13 @@
  */
 package de.myreality.chunx.moving;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Observable;
 
 import de.myreality.chunx.Chunk;
-import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.chunx.ChunkSystem;
+import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.util.SimpleObservable;
 
 /**
  * Distributes the handler of a chunk system to chunk targets and vise versa
@@ -33,17 +33,17 @@ import de.myreality.chunx.ChunkTarget;
  * @since 1.0
  * @version 1.0
  */
-public class MovementListenerBinder implements ChunkSystemListener {
+public class MovementListenerBinder extends SimpleObservable<MovementListener> implements ChunkSystemListener {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
+	private static final long serialVersionUID = 1L;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private List<MovementListener> listeners;
 	
 	private ChunkSystem system;
 
@@ -52,23 +52,12 @@ public class MovementListenerBinder implements ChunkSystemListener {
 	// ===========================================================
 	
 	public MovementListenerBinder(ChunkSystem system) {
-		listeners = new ArrayList<MovementListener>();
 		this.system = system;
 	}
 
 	// ===========================================================
 	// Getters and Setters
 	// ===========================================================
-	
-	public void add(MovementListener listener) {
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
-	}
-	
-	public void remove(MovementListener listener) {
-		listeners.remove(listener);
-	}
 
 	// ===========================================================
 	// Methods from Superclass
@@ -139,7 +128,7 @@ public class MovementListenerBinder implements ChunkSystemListener {
 				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
 				MovementDetector detector = moveable.getMovementDetector();
 				
-				for (MovementListener listener : listeners) {
+				for (MovementListener listener : getListeners()) {
 					detector.removeListener(listener);
 				}
 				
@@ -153,7 +142,7 @@ public class MovementListenerBinder implements ChunkSystemListener {
 			if (target instanceof MoveableChunkTarget) {
 				MoveableChunkTarget moveable = (MoveableChunkTarget)target;
 				MovementDetector detector = new SimpleMovementDetector(target, system.getConfiguration());
-				for (MovementListener listener : listeners) {
+				for (MovementListener listener : getListeners()) {
 					detector.addListener(listener);
 				}
 				moveable.setMovementDetector(detector);
