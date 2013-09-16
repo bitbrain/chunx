@@ -18,9 +18,7 @@
  */
 package de.myreality.chunx;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import de.myreality.chunx.concurrent.ConcurrentMatrixList;
 import de.myreality.chunx.io.ChunkLoader;
@@ -28,7 +26,9 @@ import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MovementListenerBinder;
 import de.myreality.chunx.util.AbstractManageable;
 import de.myreality.chunx.util.MatrixList;
+import de.myreality.chunx.util.Observable;
 import de.myreality.chunx.util.PositionInterpreter;
+import de.myreality.chunx.util.SimpleObservable;
 import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**
@@ -52,8 +52,6 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	private ChunkConfiguration configuration;
 	
 	private ChunkHandler chunkHandler;
-	
-	protected List<ChunkSystemListener> listeners;
 
 	protected MatrixList<Chunk> chunks;
 	
@@ -65,13 +63,15 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	
 	private MovementListenerBinder binder;
 	
+	private Observable<ChunkSystemListener> observable;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	public AbstractChunkSystem(ChunkConfiguration configuration) {
 		this.configuration = configuration;
-		listeners = new ArrayList<ChunkSystemListener>();
+		observable = new SimpleObservable<ChunkSystemListener>();
 		chunks = new ConcurrentMatrixList<Chunk>();
 		positionInterpreter = new SimplePositionInterpreter(configuration);
 		binder = new MovementListenerBinder(this);
@@ -134,14 +134,17 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 
 	@Override
 	public void addListener(ChunkSystemListener listener) {
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
+		observable.addListener(listener);
 	}
 
 	@Override
 	public void removeListener(ChunkSystemListener listener) {
-		listeners.remove(listener);
+		observable.removeListener(listener);
+	}
+
+	@Override
+	public boolean hasListener(ChunkSystemListener listener) {
+		return observable.hasListener(listener);
 	}
 
 	@Override
@@ -166,7 +169,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 
 	@Override
 	public Collection<ChunkSystemListener> getListeners() {
-		return listeners;
+		return observable.getListeners();
 	}
 	
 	@Override
@@ -192,6 +195,8 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	public ChunkSaver getSaver() {
 		return chunkSaver;
 	}
+	
+	
 	
 	// ===========================================================
 	// Methods

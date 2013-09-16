@@ -18,12 +18,9 @@
  */
 package de.myreality.chunx.moving;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkTarget;
+import de.myreality.chunx.util.SimpleObservable;
 
 /**
  * Simple implementation of {@link MovementDetector}
@@ -32,7 +29,7 @@ import de.myreality.chunx.ChunkTarget;
  * @since 1.0
  * @version 1.0
  */
-public class SimpleMovementDetector implements MovementDetector {
+public class SimpleMovementDetector extends SimpleObservable<MovementListener> implements MovementDetector {
 
 	// ===========================================================
 	// Constants
@@ -41,8 +38,6 @@ public class SimpleMovementDetector implements MovementDetector {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private List<MovementListener> listeners;
 	
 	private ChunkTarget target;
 	
@@ -57,7 +52,6 @@ public class SimpleMovementDetector implements MovementDetector {
 	public SimpleMovementDetector(ChunkTarget target, ChunkConfiguration configuration) {
 		this.target = target;
 		this.configuration = configuration;
-		listeners = new CopyOnWriteArrayList<MovementListener>();
 		updatePosition();
 	}
 
@@ -78,35 +72,13 @@ public class SimpleMovementDetector implements MovementDetector {
 	public void update(float delta) {
 		
 		if (lastX != target.getX() || lastY != target.getY()) {
-			for (MovementListener listener : listeners) {
+			for (MovementListener listener : getListeners()) {
 				MoveEvent event = createEvent(lastX, lastY, target.getX(), target.getY());
 				listener.onMove(event);
 			}
 		}
 		
 		updatePosition();
-	}
-
-	@Override
-	public void addListener(MovementListener listener) {
-		
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
-		}
-	}
-
-	@Override
-	public void removeListener(MovementListener listener) {
-		listeners.remove(listener);
-	}
-
-	@Override
-	public boolean contains(MovementListener listener) {
-		return listeners.contains(listener);
-	}
-
-	public Collection<MovementListener> getListeners() {
-		return listeners;
 	}
 	
 	// ===========================================================

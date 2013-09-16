@@ -21,6 +21,7 @@ package de.myreality.chunx;
 import java.io.Serializable;
 
 import de.myreality.chunx.util.Indexable;
+import de.myreality.chunx.util.Observable;
 
 /**
  * Single chunk which is managed by a certain chunk system. 
@@ -29,7 +30,7 @@ import de.myreality.chunx.util.Indexable;
  * @since 1.0
  * @version 1.0
  */
-public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget> {
+public interface Chunk extends Indexable, Serializable, Iterable<ChunkTarget>, Observable<ChunkListener> {
 
 	// ===========================================================
 	// Constants

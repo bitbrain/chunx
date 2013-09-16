@@ -104,8 +104,8 @@ public class CachedChunkSystemTest {
 		ChunkHandler handler = system.getHandler();
 		assertTrue("Current chunk size has to be 25 instead of " + system.getCurrentChunkCount(), system.getCurrentChunkCount() == 25);
 		system.update();
-		assertTrue("Target1 needs a handler", target1.getMovementDetector().contains(handler));
-		assertTrue("Target2 needs a handler", target2.getMovementDetector().contains(handler));
+		assertTrue("Target1 needs a handler", target1.getMovementDetector().hasListener(handler));
+		assertTrue("Target2 needs a handler", target2.getMovementDetector().hasListener(handler));
 		Chunk chunk1 = system.getChunk(interpreter.translateX(target1.getX()),
 				                       interpreter.translateY(target1.getY()));
 		Chunk chunk2 = system.getChunk(interpreter.translateX(target2.getX()),
