@@ -47,7 +47,7 @@ import de.myreality.chunx.util.SimplePositionInterpreter;
  * @since 1.0
  * @version 1.0
  */
-public class CachedChunkHandler implements ChunkHandler {
+class CachedChunkHandler implements ChunkHandler {
 
 	// ===========================================================
 	// Constants
