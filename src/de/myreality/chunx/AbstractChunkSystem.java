@@ -25,6 +25,7 @@ import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MovementListenerBinder;
 import de.myreality.chunx.util.AbstractManageable;
+import de.myreality.chunx.util.ChunkTargetBinder;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.Observable;
 import de.myreality.chunx.util.PositionInterpreter;
@@ -61,7 +62,9 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	
 	private ChunkSaver chunkSaver;
 	
-	private MovementListenerBinder binder;
+	private MovementListenerBinder movementBinder;
+	
+	private ChunkTargetBinder targetBinder;
 	
 	private Observable<ChunkSystemListener> observable;
 	
@@ -74,8 +77,10 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 		observable = new SimpleObservable<ChunkSystemListener>();
 		chunks = new ConcurrentMatrixList<Chunk>();
 		positionInterpreter = new SimplePositionInterpreter(configuration);
-		binder = new MovementListenerBinder(this);
-		addListener(binder);
+		movementBinder = new MovementListenerBinder(this);
+		targetBinder = new ChunkTargetBinder();
+		addListener(movementBinder);
+		addListener(targetBinder);
 	}
 
 	// ===========================================================
@@ -153,12 +158,12 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 		if (handler != null) {
 			
 			if (this.chunkHandler != null) {
-				binder.remove(chunkHandler);
+				movementBinder.remove(chunkHandler);
 			}
 			
 			this.chunkHandler = handler;
 			
-			binder.add(chunkHandler);			
+			movementBinder.add(chunkHandler);			
 		}
 	}
 

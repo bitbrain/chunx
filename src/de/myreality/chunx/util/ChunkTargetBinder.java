@@ -23,7 +23,6 @@ import java.util.Map;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkListener;
-import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.chunx.ChunkTarget;
 
@@ -45,16 +44,13 @@ public class ChunkTargetBinder implements ChunkListener, ChunkSystemListener {
 	// Fields
 	// ===========================================================
 	
-	private ChunkSystem system;
-	
 	private Map<Chunk, PositionableBinder> binders;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public ChunkTargetBinder(ChunkSystem system) {
-		this.system = system;
+	public ChunkTargetBinder() {
 		binders = new HashMap<Chunk, PositionableBinder>();
 	}
 
