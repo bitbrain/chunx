@@ -57,7 +57,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	private int lastSize;
 
 	private boolean cacheRequest;
-
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -81,17 +81,17 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		Collection<ChunkTarget> content = configuration.getContentProvider()
 				.getContent();
 
-		if (lastSize < content.size()) {
+		if (lastSize != content.size()) {
 			updateDetectors(content);
-		}
-		
-		lastSize = content.size();
+		}		
 
 		if (isRunning() && (cachingRequested() || cacheRequest)) {
 			cacheRequest = false;
 			alignCache();
 			getHandler().handleChunks(chunks);
-		}
+		}		
+
+		lastSize = content.size();
 	}
 
 	@Override

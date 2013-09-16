@@ -120,6 +120,7 @@ public class CachedChunkHandler implements ChunkHandler {
 	public void onMove(MoveEvent event) {
 		
 		ChunkTarget target = event.getTarget();
+		
 		int indexX = event.getNewIndexX();
 		int indexY = event.getNewIndexY();		
 		IndexBoundable preCache = chunkSystem.getPreCache();		
