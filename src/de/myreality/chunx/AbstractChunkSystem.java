@@ -53,7 +53,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	
 	private ChunkHandler chunkHandler;
 	
-	protected List<ChunkListener> listeners;
+	protected List<ChunkSystemListener> listeners;
 
 	protected MatrixList<Chunk> chunks;
 	
@@ -71,7 +71,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	
 	public AbstractChunkSystem(ChunkConfiguration configuration) {
 		this.configuration = configuration;
-		listeners = new ArrayList<ChunkListener>();
+		listeners = new ArrayList<ChunkSystemListener>();
 		chunks = new ConcurrentMatrixList<Chunk>();
 		positionInterpreter = new SimplePositionInterpreter(configuration);
 		binder = new MovementListenerBinder(this);
@@ -133,14 +133,14 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	}
 
 	@Override
-	public void addListener(ChunkListener listener) {
+	public void addListener(ChunkSystemListener listener) {
 		if (!listeners.contains(listener)) {
 			listeners.add(listener);
 		}
 	}
 
 	@Override
-	public void removeListener(ChunkListener listener) {
+	public void removeListener(ChunkSystemListener listener) {
 		listeners.remove(listener);
 	}
 
@@ -165,7 +165,7 @@ public abstract class AbstractChunkSystem extends AbstractManageable implements
 	}
 
 	@Override
-	public Collection<ChunkListener> getListeners() {
+	public Collection<ChunkSystemListener> getListeners() {
 		return listeners;
 	}
 	

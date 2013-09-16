@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkHandler;
-import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
@@ -153,17 +153,17 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 	}
 
 	@Override
-	public void addListener(ChunkListener listener) {
+	public void addListener(ChunkSystemListener listener) {
 		system.addListener(listener);
 	}
 
 	@Override
-	public void removeListener(ChunkListener listener) {
+	public void removeListener(ChunkSystemListener listener) {
 		system.removeListener(listener);
 	}
 
 	@Override
-	public Collection<ChunkListener> getListeners() {
+	public Collection<ChunkSystemListener> getListeners() {
 		return system.getListeners();
 	}
 

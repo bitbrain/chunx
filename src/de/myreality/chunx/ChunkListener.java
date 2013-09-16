@@ -19,8 +19,7 @@
 package de.myreality.chunx;
 
 /**
- * Provides observing for chunk systems. A {@link ChunkListener} is called
- * whenever a chunk is loaded, created, saved or removed.
+ * Listens to a single chunk and is called automatically
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
@@ -35,77 +34,20 @@ public interface ChunkListener {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	/**
-	 * Is called before a chunk will be created
-	 * 
-	 * @param indexX x index of the chunk
-	 * @param indexY y index of the chunk
-	 */
-	void beforeCreateChunk(int indexX, int indexY);
-
-	/**
-	 * Is called after a chunk has been created
-	 * 
-	 * @param chunk new chunk
-	 */
-	void afterCreateChunk(Chunk chunk);
-
-	/**
-	 * Is called before a chunk will be loaded
-	 * 
-	 * @param indexX x index of the chunk
-	 * @param indexY y index of the chunk
-	 */
-	void beforeLoadChunk(int indexX, int indexY);
-
-	/**
-	 * Is called after an existing chunk is loaded from disk
-	 * 
-	 * @param chunk existing chunk from disk
-	 */
-	void afterLoadChunk(Chunk chunk);
-
-	/**
-	 * Is called before an existing chunk is saved
-	 * 
-	 * @param chunk chunk to save
-	 */
-	void beforeSaveChunk(Chunk chunk);
-
-	/**
-	 * Is called after saving an existing chunk
-	 * 
-	 * @param chunk chunk which has been saved
-	 */
-	void afterSaveChunk(Chunk chunk);
-
-	/**
-	 * Is called before removing an existing chunk
-	 * 
-	 * @param chunk chunk to remove
-	 */
-	void beforeRemoveChunk(Chunk chunk);
-
-	/**
-	 * Is called after a chunk gets removed
-	 * 
-	 * @param indexX x index of the chunk
-	 * @param indexY y index of the chunk
-	 */
-	void afterRemoveChunk(int indexX, int indexY);
 	
 	/**
-	 * Is called when a new chunk has been entered by the focused object
+	 * Is called when a single target has been successfully added
 	 * 
-	 * @param chunk chunk which has been entered
+	 * @param target target
+	 * @param chunk chunk
 	 */
-	void onEnterChunk(Chunk chunk);
+	void onAdd(ChunkTarget target, Chunk chunk);
 	
 	/**
-	 * Is called when the current chunk has been leaved by the focused object
+	 * Is called when a single target has been successfully removed
 	 * 
-	 * @param chunk chunk which has been leaved
+	 * @param target removed target
+	 * @param chunk chunk
 	 */
-	void onLeaveChunk(Chunk chunk);
+	void onRemove(ChunkTarget target, Chunk chunk);
 }

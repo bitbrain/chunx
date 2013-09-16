@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.myreality.chunx.Chunk;
-import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkTarget;
 
@@ -33,7 +33,7 @@ import de.myreality.chunx.ChunkTarget;
  * @since 1.0
  * @version 1.0
  */
-public class MovementListenerBinder implements ChunkListener {
+public class MovementListenerBinder implements ChunkSystemListener {
 
 	// ===========================================================
 	// Constants
