@@ -18,6 +18,7 @@
  */
 package de.myreality.chunx.util;
 
+
 /**
  * Binds a {@see Positionable} to a {@see Boundable}
  * 
@@ -105,9 +106,12 @@ public class PositionableBinder {
 				newPosition = VectorUtils.getIntersection(bottomLeft, topLeft, center, target);
 			}
 			
-			if (newPosition != null) {
+			if (newPosition != null) {				
 				positionable.setX(newPosition.x);
 				positionable.setY(newPosition.y);
+			} else {
+				positionable.setX(lastX);
+				positionable.setY(lastY);
 			}
 		}
 	}

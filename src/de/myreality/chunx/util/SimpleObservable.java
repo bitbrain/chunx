@@ -16,42 +16,39 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.caching;
+package de.myreality.chunx.util;
 
-import de.myreality.chunx.util.Indexable;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Simple implementation of @{see Cache}
+ * Simple implementation of {@see Observable}
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleCache implements Cache {
+public class SimpleObservable<Type> implements Observable<Type> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
+	private static final long serialVersionUID = 1L;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	private CachedChunkConfiguration configuration;
-	
-	private int offsetX, offsetY;
+	private List<Type> listeners;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public SimpleCache(int indexX, int indexY, CachedChunkConfiguration configuration) {
-		this.configuration = configuration;
-		align(indexX, indexY);
-	}
-	
-	public SimpleCache(CachedChunkConfiguration configuration) {
-		this(0, 0, configuration);
+
+	public SimpleObservable() {
+		listeners = new CopyOnWriteArrayList<Type>();
 	}
 
 	// ===========================================================
@@ -63,54 +60,25 @@ public class SimpleCache implements Cache {
 	// ===========================================================
 
 	@Override
-	public boolean containsIndex(int indexX, int indexY) {
-		
-		final boolean topLeftRange = indexX < getIndexLeft()
-				|| indexY < getIndexTop();
-		final boolean bottomRightRange = indexX > getIndexRight()
-				|| indexY > getIndexBottom();
-
-		return !(topLeftRange || bottomRightRange);
-	}
-
-	@Override
-	public boolean containsIndex(Indexable indexable) {
-		if (indexable != null) {
-			return containsIndex(indexable.getIndexX(), indexable.getIndexY());
-		} else {
-			return false;
+	public void addListener(Type listener) {
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
 		}
 	}
 
 	@Override
-	public int getIndexTop() {
-		return -configuration.getCacheSizeY() + offsetY;
+	public boolean hasListener(Type listener) {
+		return listeners.contains(listener);
 	}
 
 	@Override
-	public int getIndexBottom() {
-		return configuration.getCacheSizeY() + offsetY;
+	public void removeListener(Type listener) {
+		listeners.remove(listener);
 	}
 
 	@Override
-	public int getIndexLeft() {
-		return -configuration.getCacheSizeX() + offsetX;
-	}
-
-	@Override
-	public int getIndexRight() {
-		return configuration.getCacheSizeX() + offsetX;
-	}
-
-	@Override
-	public void align(int indexX, int indexY) {
-		this.offsetX = indexX;
-		this.offsetY = indexY;
-	}
-	
-	@Override
-	public String toString() {
-		return getIndexLeft() + "|" + getIndexTop() + "  " + getIndexRight() + "|" + getIndexBottom();
+	public Collection<Type> getListeners() {
+		return listeners;
 	}
 
 	// ===========================================================

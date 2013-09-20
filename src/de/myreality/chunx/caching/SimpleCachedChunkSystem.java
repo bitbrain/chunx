@@ -46,6 +46,8 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	// Constants
 	// ===========================================================
 
+	private static final long serialVersionUID = 1L;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -57,7 +59,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	private int lastSize;
 
 	private boolean cacheRequest;
-
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -81,21 +83,15 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		Collection<ChunkTarget> content = configuration.getContentProvider()
 				.getContent();
 
-		if (lastSize < content.size()) {
-			for (ChunkTarget target : content) {
-				if (target instanceof MoveableChunkTarget) {
-					MoveableChunkTarget moveable = (MoveableChunkTarget) target;
-					MovementDetector detector = moveable.getMovementDetector();
-					detector.addListener(getHandler());
-				}
-			}
-		}
+		if (lastSize != content.size()) {
+			updateDetectors(content);
+		}		
 
 		if (isRunning() && (cachingRequested() || cacheRequest)) {
 			cacheRequest = false;
 			alignCache();
 			getHandler().handleChunks(chunks);
-		}
+		}		
 
 		lastSize = content.size();
 	}
@@ -155,6 +151,12 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		getHandler().saveChunks(chunks);
 	}
 
+	@Override
+	public void shutdown() {		
+		super.shutdown();
+		getHandler().saveChunks(chunks);
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -192,6 +194,16 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 			return !cache.containsIndex(INDEX_X, INDEX_Y);
 		} else {
 			return false;
+		}
+	}
+	
+	private void updateDetectors(Collection<ChunkTarget> content) {
+		for (ChunkTarget target : content) {
+			if (target instanceof MoveableChunkTarget) {
+				MoveableChunkTarget moveable = (MoveableChunkTarget) target;
+				MovementDetector detector = moveable.getMovementDetector();
+				detector.addListener(getHandler());
+			}
 		}
 	}
 

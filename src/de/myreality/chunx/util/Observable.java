@@ -16,16 +16,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx;
+package de.myreality.chunx.util;
+
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
- * Listens to a single chunk and is called automatically
+ * Provides observing functionality
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkListener {
+public interface Observable<Type> extends Serializable {
 
 	// ===========================================================
 	// Constants
@@ -36,18 +39,31 @@ public interface ChunkListener {
 	// ===========================================================
 	
 	/**
-	 * Is called when a single target has been successfully added
+	 * Adds a new listener
 	 * 
-	 * @param target target
-	 * @param chunk chunk
+	 * @param listener
 	 */
-	void onAdd(ChunkTarget target, Chunk chunk);
+	void addListener(Type listener);
 	
 	/**
-	 * Is called when a single target has been successfully removed
+	 * Determine if listener is there
 	 * 
-	 * @param target removed target
-	 * @param chunk chunk
+	 * @param listener
+	 * @return
 	 */
-	void onRemove(ChunkTarget target, Chunk chunk);
+	boolean hasListener(Type listener);
+	
+	/**
+	 * Removes a listener
+	 * 
+	 * @param listener
+	 */
+	void removeListener(Type listener);
+	
+	/**
+	 * Returns all listeners
+	 * 
+	 * @return
+	 */
+	Collection<Type> getListeners();
 }

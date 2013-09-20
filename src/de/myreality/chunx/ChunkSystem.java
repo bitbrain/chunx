@@ -23,6 +23,7 @@ import java.util.Collection;
 import de.myreality.chunx.io.ChunkLoader;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.util.Manageable;
+import de.myreality.chunx.util.Observable;
 
 /**
  * Chunk system which handles automatic chunk loading and saving. Additionally
@@ -32,7 +33,7 @@ import de.myreality.chunx.util.Manageable;
  * @since 1.0
  * @version 1.0
  */
-public interface ChunkSystem extends Manageable, ConfigurationProvider {
+public interface ChunkSystem extends Manageable, ConfigurationProvider, Observable<ChunkSystemListener> {
 
 	// ===========================================================
 	// Constants
@@ -74,26 +75,6 @@ public interface ChunkSystem extends Manageable, ConfigurationProvider {
 	 */
 	int getCurrentChunkCount();
 	
-	/**
-	 * Adds a new listener to the system
-	 * 
-	 * @param listener new listener to add
-	 */
-	void addListener(ChunkListener listener);
-	
-	/**
-	 * Removes an existing listener from the system
-	 * 
-	 * @param listener existing listener to remove
-	 */
-	void removeListener(ChunkListener listener);
-	
-	/**
-	 * Returns all listeners
-	 * 
-	 * @return all current listeners
-	 */
-	Collection<ChunkListener> getListeners();
 	
 	/**
 	 * Sets a new chunk handler

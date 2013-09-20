@@ -18,8 +18,7 @@
  */
 package de.myreality.chunx.moving;
 
-import java.util.Collection;
-
+import de.myreality.chunx.util.Observable;
 import de.myreality.chunx.util.Updateable;
 
 /**
@@ -29,7 +28,7 @@ import de.myreality.chunx.util.Updateable;
  * @since 1.0
  * @version 1.0
  */
-public interface MovementDetector extends Updateable {
+public interface MovementDetector extends Updateable, Observable<MovementListener> {
 
 	// ===========================================================
 	// Constants
@@ -38,28 +37,5 @@ public interface MovementDetector extends Updateable {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	/**
-	 * Adds a new listener
-	 * 
-	 * @param listener new listener
-	 */
-	void addListener(MovementListener listener);
-	
-	/**
-	 * Removes an existing listener
-	 * 
-	 * @param listener existing listener
-	 */
-	void removeListener(MovementListener listener);
-	
-	/**
-	 * Determines of this detector owns a listener
-	 * 
-	 * @param listener listener to own
-	 * @return true when found
-	 */
-	boolean contains(MovementListener listener);
-	
-	Collection<MovementListener> getListeners();
+
 }

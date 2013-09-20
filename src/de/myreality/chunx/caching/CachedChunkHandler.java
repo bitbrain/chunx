@@ -21,18 +21,20 @@ package de.myreality.chunx.caching;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkConfiguration;
 import de.myreality.chunx.ChunkFactory;
 import de.myreality.chunx.ChunkHandler;
-import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkSystemListener;
 import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.SimpleChunkFactory;
 import de.myreality.chunx.io.ChunkSaver;
 import de.myreality.chunx.moving.MoveEvent;
 import de.myreality.chunx.util.BoundableAdapter;
+import de.myreality.chunx.util.IndexBoundable;
 import de.myreality.chunx.util.MatrixList;
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.PositionableBinder;
@@ -45,7 +47,7 @@ import de.myreality.chunx.util.SimplePositionInterpreter;
  * @since 1.0
  * @version 1.0
  */
-public class CachedChunkHandler implements ChunkHandler {
+class CachedChunkHandler implements ChunkHandler {
 
 	// ===========================================================
 	// Constants
@@ -83,7 +85,7 @@ public class CachedChunkHandler implements ChunkHandler {
 	public void handleChunks(MatrixList<Chunk> chunks) {
 		
 		MatrixList<Chunk> removeChunks = chunks.copy();
-		Cache cache = chunkSystem.getPreCache();	
+		IndexBoundable cache = chunkSystem.getPreCache();	
 		ContentProvider provider = chunkSystem.getConfiguration().getContentProvider();
 		
 		for (int indexX = cache.getIndexLeft(); indexX <= cache.getIndexRight(); ++indexX) {
@@ -118,9 +120,10 @@ public class CachedChunkHandler implements ChunkHandler {
 	public void onMove(MoveEvent event) {
 		
 		ChunkTarget target = event.getTarget();
+		
 		int indexX = event.getNewIndexX();
 		int indexY = event.getNewIndexY();		
-		Cache preCache = chunkSystem.getPreCache();		
+		IndexBoundable preCache = chunkSystem.getPreCache();		
 		boolean isNotFocused = !target.equals(chunkSystem.getConfiguration().getFocused());
 		if (isNotFocused && !preCache.containsIndex(indexX, indexY)) {
 			
@@ -137,7 +140,10 @@ public class CachedChunkHandler implements ChunkHandler {
 			Chunk chunk = chunkSystem.getChunk(indexX, indexY);
 			ContentProvider contentProvider = chunkSystem.getConfiguration().getContentProvider();
 			
-			chunk.add(target);
+			if (chunk != null) {
+				chunk.add(target);
+			}
+			
 			contentProvider.remove(target);			
 		}
 	}
@@ -223,7 +229,7 @@ public class CachedChunkHandler implements ChunkHandler {
 	}
 	
 	private List<ChunkTarget> getTargets() {
-		List<ChunkTarget> targets = new ArrayList<ChunkTarget>();
+		List<ChunkTarget> targets = new CopyOnWriteArrayList<ChunkTarget>();
 		
 		ChunkConfiguration configuration = chunkSystem.getConfiguration();
 		ContentProvider contentProvider = configuration.getContentProvider();
@@ -255,49 +261,49 @@ public class CachedChunkHandler implements ChunkHandler {
 	// ===========================================================
 	
 	private void beforeCreateChunk(int indexX, int indexY) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.beforeCreateChunk(indexX, indexY);
 		}
 	}
 	
 	private void afterCreateChunk(Chunk chunk) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.afterCreateChunk(chunk);
 		}
 	}
 	
 	private void beforeLoadChunk(int indexX, int indexY) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.beforeLoadChunk(indexX, indexY);
 		}
 	}
 	
 	private void afterLoadChunk(Chunk chunk) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.afterLoadChunk(chunk);
 		}
 	}
 	
 	private void beforeRemoveChunk(Chunk chunk) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.beforeRemoveChunk(chunk);
 		}
 	}
 	
 	private void afterRemoveChunk(int indexX, int indexY) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.afterRemoveChunk(indexX, indexY);
 		}
 	}
 	
 	private void beforeSaveChunk(Chunk chunk) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.beforeSaveChunk(chunk);
 		}
 	}
 	
 	private void afterSaveChunk(Chunk chunk) {
-		for (ChunkListener listener : chunkSystem.getListeners()) {
+		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
 			listener.afterSaveChunk(chunk);
 		}
 	}

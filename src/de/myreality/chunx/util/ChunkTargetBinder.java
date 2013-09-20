@@ -16,18 +16,25 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.myreality.chunx.caching;
+package de.myreality.chunx.util;
 
-import de.myreality.chunx.util.Indexable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import de.myreality.chunx.Chunk;
+import de.myreality.chunx.ChunkListener;
+import de.myreality.chunx.ChunkSystemListener;
+import de.myreality.chunx.ChunkTarget;
 
 /**
- * Simple implementation of @{see Cache}
+ * Binds a chunk target to a given chunk. If a target would "spawn" outside, it
+ * will be aligned automatically to the chunk.
  * 
  * @author Miguel Gonzalez <miguel-gonzalez@gmx.de>
  * @since 1.0
  * @version 1.0
  */
-public class SimpleCache implements Cache {
+public class ChunkTargetBinder implements ChunkListener, ChunkSystemListener {
 
 	// ===========================================================
 	// Constants
@@ -37,21 +44,14 @@ public class SimpleCache implements Cache {
 	// Fields
 	// ===========================================================
 	
-	private CachedChunkConfiguration configuration;
-	
-	private int offsetX, offsetY;
+	private Map<Chunk, PositionableBinder> binders;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public SimpleCache(int indexX, int indexY, CachedChunkConfiguration configuration) {
-		this.configuration = configuration;
-		align(indexX, indexY);
-	}
-	
-	public SimpleCache(CachedChunkConfiguration configuration) {
-		this(0, 0, configuration);
+	public ChunkTargetBinder() {
+		binders = new ConcurrentHashMap<Chunk, PositionableBinder>();
 	}
 
 	// ===========================================================
@@ -63,60 +63,91 @@ public class SimpleCache implements Cache {
 	// ===========================================================
 
 	@Override
-	public boolean containsIndex(int indexX, int indexY) {
+	public void beforeCreateChunk(int indexX, int indexY) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void afterCreateChunk(Chunk chunk) {
+		chunk.addListener(this);
+		addBinder(chunk);
+	}
+
+	@Override
+	public void beforeLoadChunk(int indexX, int indexY) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void afterLoadChunk(Chunk chunk) {
+		chunk.addListener(this);
+		addBinder(chunk);
+	}
+
+	@Override
+	public void beforeSaveChunk(Chunk chunk) {
+		chunk.removeListener(this);
+	}
+
+	@Override
+	public void afterSaveChunk(Chunk chunk) {
+		chunk.addListener(this);
+	}
+
+	@Override
+	public void beforeRemoveChunk(Chunk chunk) {
+		chunk.removeListener(this);
+		removeBinder(chunk);
+	}
+
+	@Override
+	public void afterRemoveChunk(int indexX, int indexY) {
 		
-		final boolean topLeftRange = indexX < getIndexLeft()
-				|| indexY < getIndexTop();
-		final boolean bottomRightRange = indexX > getIndexRight()
-				|| indexY > getIndexBottom();
-
-		return !(topLeftRange || bottomRightRange);
 	}
 
 	@Override
-	public boolean containsIndex(Indexable indexable) {
-		if (indexable != null) {
-			return containsIndex(indexable.getIndexX(), indexable.getIndexY());
-		} else {
-			return false;
+	public void onEnterChunk(Chunk chunk) {
+		
+	}
+
+	@Override
+	public void onLeaveChunk(Chunk chunk) {
+		
+	}
+
+	@Override
+	public void onAdd(ChunkTarget target, Chunk chunk) {
+		
+		PositionableBinder binder = binders.get(chunk);
+		
+		if (binder != null) {
+			float lastX = chunk.getLeft() + chunk.getWidth() / 2f;
+			float lastY = chunk.getTop() + chunk.getHeight() / 2f;
+			binder.bind(target, lastX, lastY);
 		}
+		
 	}
 
 	@Override
-	public int getIndexTop() {
-		return -configuration.getCacheSizeY() + offsetY;
-	}
+	public void onRemove(ChunkTarget target, Chunk chunk) {
+		// TODO Auto-generated method stub
 
-	@Override
-	public int getIndexBottom() {
-		return configuration.getCacheSizeY() + offsetY;
-	}
-
-	@Override
-	public int getIndexLeft() {
-		return -configuration.getCacheSizeX() + offsetX;
-	}
-
-	@Override
-	public int getIndexRight() {
-		return configuration.getCacheSizeX() + offsetX;
-	}
-
-	@Override
-	public void align(int indexX, int indexY) {
-		this.offsetX = indexX;
-		this.offsetY = indexY;
-	}
-	
-	@Override
-	public String toString() {
-		return getIndexLeft() + "|" + getIndexTop() + "  " + getIndexRight() + "|" + getIndexBottom();
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
+	private void addBinder(Chunk chunk) {
+		binders.put(chunk, new PositionableBinder(chunk));
+	}
+	
+	private void removeBinder(Chunk chunk) {
+		binders.remove(chunk);
+	}
+	
 	// ===========================================================
 	// Inner classes
 	// ===========================================================

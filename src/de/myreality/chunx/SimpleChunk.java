@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.myreality.chunx.util.BoundableUtils;
 import de.myreality.chunx.util.PositionInterpreter;
+import de.myreality.chunx.util.SimpleObservable;
 import de.myreality.chunx.util.SimplePositionInterpreter;
 
 /**
@@ -32,7 +34,7 @@ import de.myreality.chunx.util.SimplePositionInterpreter;
  * @since 1.0
  * @version 1.0
  */
-public class SimpleChunk implements Chunk {
+public class SimpleChunk extends SimpleObservable<ChunkListener> implements Chunk {
 
 	// ===========================================================
 	// Constants
@@ -108,6 +110,11 @@ public class SimpleChunk implements Chunk {
 	public ChunkTarget retrieve() {		
 		if (!targets.isEmpty()) {
 			ChunkTarget first = targets.get(0);
+			for (ChunkListener listener : getListeners()) {
+				synchronized (this) {
+					listener.onRemove(first, this);
+				}
+			}
 			targets.remove(first);
 			return first;
 		} else {
@@ -118,6 +125,9 @@ public class SimpleChunk implements Chunk {
 	@Override
 	public void add(ChunkTarget target) {
 		if (!targets.contains(target)) {
+			for (ChunkListener listener : getListeners()) {
+				listener.onAdd(target, this);
+			}
 			targets.add(target);
 		}
 	}
@@ -190,6 +200,31 @@ public class SimpleChunk implements Chunk {
 	@Override
 	public void clear() {
 		targets.clear();
+	}
+
+	@Override
+	public float getTop() {
+		return getY();
+	}
+
+	@Override
+	public float getBottom() {
+		return getTop() + getHeight() - 1;
+	}
+
+	@Override
+	public float getLeft() {
+		return getX();
+	}
+
+	@Override
+	public float getRight() {
+		return getLeft() + getWidth() - 1;
+	}
+
+	@Override
+	public boolean contains(float x, float y) {
+		return BoundableUtils.contains(this, x, y);
 	}
 	
 	// ===========================================================
