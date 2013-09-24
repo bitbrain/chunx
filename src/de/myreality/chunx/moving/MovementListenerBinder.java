@@ -18,8 +18,6 @@
  */
 package de.myreality.chunx.moving;
 
-import java.util.Observable;
-
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;

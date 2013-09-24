@@ -80,7 +80,7 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	@Override
 	public void update(float delta) {
 
-		Collection<ChunkTarget> content = configuration.getContentProvider()
+		Collection<Object> content = configuration.getContentProvider()
 				.getContent();
 
 		if (lastSize != content.size()) {
@@ -197,8 +197,8 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 		}
 	}
 	
-	private void updateDetectors(Collection<ChunkTarget> content) {
-		for (ChunkTarget target : content) {
+	private void updateDetectors(Collection<Object> content) {
+		for (Object target : content) {
 			if (target instanceof MoveableChunkTarget) {
 				MoveableChunkTarget moveable = (MoveableChunkTarget) target;
 				MovementDetector detector = moveable.getMovementDetector();
