@@ -67,6 +67,13 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	public SimpleCachedChunkSystem(CachedChunkConfiguration configuration) {
 		super(configuration);
 		this.configuration = configuration;
+
+		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
+		InputStreamProvider inProvider = new SimpleInputStreamProvider();
+
+		setSaver(new SimpleChunkSaver(outProvider));
+		setLoader(new SimpleChunkLoader(inProvider));
+		setHandler(new CachedChunkHandler(this));
 	}
 
 	// ===========================================================
@@ -137,12 +144,6 @@ public class SimpleCachedChunkSystem extends AbstractChunkSystem implements
 	public void start() {
 		super.start();
 		cacheRequest = true;
-		OutputStreamProvider outProvider = new SimpleOutputStreamProvider();
-		InputStreamProvider inProvider = new SimpleInputStreamProvider();
-
-		setSaver(new SimpleChunkSaver(outProvider));
-		setLoader(new SimpleChunkLoader(inProvider));
-		setHandler(new CachedChunkHandler(this));
 		
 		initializeCache();
 		
