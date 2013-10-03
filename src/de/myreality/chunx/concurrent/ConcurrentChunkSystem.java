@@ -111,7 +111,7 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 
 	@Override
 	public void update() {
-		system.update();
+		// DO NOTHING
 	}
 
 	@Override
@@ -205,7 +205,12 @@ public class ConcurrentChunkSystem implements ChunkSystem, Runnable {
 
 	@Override
 	public void run() {
-		update();
+		system.update();
+	}
+
+	@Override
+	public int getTotalChunkCount() {
+		return system.getTotalChunkCount();
 	}
 
 	// ===========================================================

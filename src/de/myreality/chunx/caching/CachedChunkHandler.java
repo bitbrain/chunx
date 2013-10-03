@@ -268,49 +268,49 @@ class CachedChunkHandler implements ChunkHandler {
 	
 	private void beforeCreateChunk(int indexX, int indexY) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.beforeCreateChunk(indexX, indexY);
+			listener.beforeCreateChunk(indexX, indexY, chunkSystem);
 		}
 	}
 	
 	private void afterCreateChunk(Chunk chunk) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.afterCreateChunk(chunk);
+			listener.afterCreateChunk(chunk, chunkSystem);
 		}
 	}
 	
 	private void beforeLoadChunk(int indexX, int indexY) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.beforeLoadChunk(indexX, indexY);
+			listener.beforeLoadChunk(indexX, indexY, chunkSystem);
 		}
 	}
 	
 	private void afterLoadChunk(Chunk chunk) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.afterLoadChunk(chunk);
+			listener.afterLoadChunk(chunk, chunkSystem);
 		}
 	}
 	
 	private void beforeRemoveChunk(Chunk chunk) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.beforeRemoveChunk(chunk);
+			listener.beforeRemoveChunk(chunk, chunkSystem);
 		}
 	}
 	
 	private void afterRemoveChunk(int indexX, int indexY) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.afterRemoveChunk(indexX, indexY);
+			listener.afterRemoveChunk(indexX, indexY, chunkSystem);
 		}
 	}
 	
 	private void beforeSaveChunk(Chunk chunk) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.beforeSaveChunk(chunk);
+			listener.beforeSaveChunk(chunk, chunkSystem);
 		}
 	}
 	
 	private void afterSaveChunk(Chunk chunk) {
 		for (ChunkSystemListener listener : chunkSystem.getListeners()) {
-			listener.afterSaveChunk(chunk);
+			listener.afterSaveChunk(chunk, chunkSystem);
 		}
 	}
 

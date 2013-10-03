@@ -76,6 +76,15 @@ public interface ChunkSystem extends Manageable, ConfigurationProvider, Observab
 	int getCurrentChunkCount();
 	
 	
+	
+	/**
+	 * Returns the total amount of chunks
+	 * 
+	 * @return
+	 */
+	int getTotalChunkCount();
+	
+	
 	/**
 	 * Sets a new chunk handler
 	 * 

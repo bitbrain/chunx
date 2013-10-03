@@ -42,14 +42,14 @@ public interface ChunkSystemListener {
 	 * @param indexX x index of the chunk
 	 * @param indexY y index of the chunk
 	 */
-	void beforeCreateChunk(int indexX, int indexY);
+	void beforeCreateChunk(int indexX, int indexY, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called after a chunk has been created
 	 * 
 	 * @param chunk new chunk
 	 */
-	void afterCreateChunk(Chunk chunk);
+	void afterCreateChunk(Chunk chunk, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called before a chunk will be loaded
@@ -57,35 +57,35 @@ public interface ChunkSystemListener {
 	 * @param indexX x index of the chunk
 	 * @param indexY y index of the chunk
 	 */
-	void beforeLoadChunk(int indexX, int indexY);
+	void beforeLoadChunk(int indexX, int indexY, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called after an existing chunk is loaded from disk
 	 * 
 	 * @param chunk existing chunk from disk
 	 */
-	void afterLoadChunk(Chunk chunk);
+	void afterLoadChunk(Chunk chunk, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called before an existing chunk is saved
 	 * 
 	 * @param chunk chunk to save
 	 */
-	void beforeSaveChunk(Chunk chunk);
+	void beforeSaveChunk(Chunk chunk, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called after saving an existing chunk
 	 * 
 	 * @param chunk chunk which has been saved
 	 */
-	void afterSaveChunk(Chunk chunk);
+	void afterSaveChunk(Chunk chunk, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called before removing an existing chunk
 	 * 
 	 * @param chunk chunk to remove
 	 */
-	void beforeRemoveChunk(Chunk chunk);
+	void beforeRemoveChunk(Chunk chunk, ChunkSystem chunkSystem);
 
 	/**
 	 * Is called after a chunk gets removed
@@ -93,19 +93,19 @@ public interface ChunkSystemListener {
 	 * @param indexX x index of the chunk
 	 * @param indexY y index of the chunk
 	 */
-	void afterRemoveChunk(int indexX, int indexY);
+	void afterRemoveChunk(int indexX, int indexY, ChunkSystem chunkSystem);
 	
 	/**
 	 * Is called when a new chunk has been entered by the focused object
 	 * 
 	 * @param chunk chunk which has been entered
 	 */
-	void onEnterChunk(Chunk chunk);
+	void onEnterChunk(Chunk chunk, ChunkSystem chunkSystem);
 	
 	/**
 	 * Is called when the current chunk has been leaved by the focused object
 	 * 
 	 * @param chunk chunk which has been leaved
 	 */
-	void onLeaveChunk(Chunk chunk);
+	void onLeaveChunk(Chunk chunk, ChunkSystem chunkSystem);
 }

@@ -18,8 +18,6 @@
  */
 package de.myreality.chunx.moving;
 
-import java.util.Observable;
-
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkSystem;
 import de.myreality.chunx.ChunkSystemListener;
@@ -64,54 +62,54 @@ public class MovementListenerBinder extends SimpleObservable<MovementListener> i
 	// ===========================================================
 	
 	@Override
-	public void beforeCreateChunk(int indexX, int indexY) {
+	public void beforeCreateChunk(int indexX, int indexY, ChunkSystem system) {
 		
 	}
 
 	@Override
-	public void afterCreateChunk(Chunk chunk) {
+	public void afterCreateChunk(Chunk chunk, ChunkSystem system) {
 		add(chunk);
 	}
 
 	@Override
-	public void beforeLoadChunk(int indexX, int indexY) {
+	public void beforeLoadChunk(int indexX, int indexY, ChunkSystem system) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void afterLoadChunk(Chunk chunk) {
+	public void afterLoadChunk(Chunk chunk, ChunkSystem system) {
 		add(chunk);
 	}
 
 	@Override
-	public void beforeSaveChunk(Chunk chunk) {
+	public void beforeSaveChunk(Chunk chunk, ChunkSystem system) {
 		remove(chunk);
 	}
 
 	@Override
-	public void afterSaveChunk(Chunk chunk) {
+	public void afterSaveChunk(Chunk chunk, ChunkSystem system) {
 		add(chunk);
 	}
 
 	@Override
-	public void beforeRemoveChunk(Chunk chunk) {
+	public void beforeRemoveChunk(Chunk chunk, ChunkSystem system) {
 	}
 
 	@Override
-	public void afterRemoveChunk(int indexX, int indexY) {
+	public void afterRemoveChunk(int indexX, int indexY, ChunkSystem system) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onEnterChunk(Chunk chunk) {
+	public void onEnterChunk(Chunk chunk, ChunkSystem system) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onLeaveChunk(Chunk chunk) {
+	public void onLeaveChunk(Chunk chunk, ChunkSystem system) {
 		// TODO Auto-generated method stub
 
 	}
