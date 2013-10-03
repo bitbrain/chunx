@@ -171,10 +171,12 @@ class CachedChunkHandler implements ChunkHandler {
 		
 		ChunkSaver saver = chunkSystem.getSaver();		
 		
-		List<ChunkTarget> targets = getTargetsForChunk(chunk);
+		List<Object> targets = getTargetsForChunk(chunk);
 		
-		for (ChunkTarget target : targets) {			
-			chunk.add(target);
+		for (Object target : targets) {		
+			if (target instanceof ChunkTarget) {
+				chunk.add((ChunkTarget)target);
+			}
 		}
 		
 		beforeSaveChunk(chunk);
@@ -195,13 +197,13 @@ class CachedChunkHandler implements ChunkHandler {
 		ChunkConfiguration configuration = chunkSystem.getConfiguration();
 		ContentProvider contentProvider = configuration.getContentProvider();
 		
-		List<ChunkTarget> targets = getTargetsForChunk(chunk);
+		List<Object> targets = getTargetsForChunk(chunk);
 		
 		beforeRemoveChunk(chunk);		
 		saveChunk(chunk, true);
-		
+
 		if (contentProvider != null) {
-			for (ChunkTarget target : targets) {
+			for (Object target : targets) {
 				contentProvider.remove(target);
 			}
 		}
@@ -232,9 +234,8 @@ class CachedChunkHandler implements ChunkHandler {
 		
 		return chunk;
 	}
-	
-	private List<ChunkTarget> getTargets() {
-		List<ChunkTarget> targets = new CopyOnWriteArrayList<ChunkTarget>();
+	private List<Object> getTargets() {
+		List<Object> targets = new CopyOnWriteArrayList<Object>();
 		ChunkConfiguration configuration = chunkSystem.getConfiguration();
 		ContentProvider contentProvider = configuration.getContentProvider();
 
@@ -245,17 +246,19 @@ class CachedChunkHandler implements ChunkHandler {
 		return targets;
 	}
 	
-	private List<ChunkTarget> getTargetsForChunk(Chunk chunk) {
+	private List<Object> getTargetsForChunk(Chunk chunk) {
 		
-		List<ChunkTarget> targets = getTargets();
-		List<ChunkTarget> results = new ArrayList<ChunkTarget>();
+		List<Object> targets = getTargets();
+		List<Object> results = new ArrayList<Object>();
 		
-		for (ChunkTarget target : targets) {
-			int indexX = positionInterpreter.translateX(target.getX());
-			int indexY = positionInterpreter.translateY(target.getY());
-			
-			if (chunk.getIndexX() == indexX && chunk.getIndexY() == indexY) {
-				results.add(target);
+		for (Object target : targets) {
+			if (target instanceof ChunkTarget) {
+				int indexX = positionInterpreter.translateX(((ChunkTarget)target).getX());
+				int indexY = positionInterpreter.translateY(((ChunkTarget)target).getY());
+				
+				if (chunk.getIndexX() == indexX && chunk.getIndexY() == indexY) {
+					results.add(target);
+				}
 			}
 		}
 		

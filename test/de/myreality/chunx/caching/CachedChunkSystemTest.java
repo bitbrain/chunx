@@ -30,7 +30,6 @@ import org.junit.Test;
 
 import de.myreality.chunx.Chunk;
 import de.myreality.chunx.ChunkHandler;
-import de.myreality.chunx.ChunkTarget;
 import de.myreality.chunx.ContentProvider;
 import de.myreality.chunx.util.PositionInterpreter;
 import de.myreality.chunx.util.SimplePositionInterpreter;
@@ -141,26 +140,26 @@ public class CachedChunkSystemTest {
 
 	class World implements ContentProvider {
 
-		private List<ChunkTarget> targets;
+		private List<Object> targets;
 
 		public World() {
-			targets = new ArrayList<ChunkTarget>();
+			targets = new ArrayList<Object>();
 		}
 
 		@Override
-		public void add(ChunkTarget target) {
+		public void add(Object target) {
 			if (!contains(target)) {
 				targets.add(target);
 			}
 		}
 
 		@Override
-		public void remove(ChunkTarget target) {
+		public void remove(Object target) {
 			targets.remove(target);
 		}
 
 		@Override
-		public Collection<ChunkTarget> getContent() {
+		public Collection<Object> getContent() {
 			return targets;
 		}
 
@@ -168,7 +167,7 @@ public class CachedChunkSystemTest {
 			return targets.size();
 		}
 
-		public boolean contains(ChunkTarget target) {
+		public boolean contains(Object target) {
 			return targets.contains(target);
 		}
 

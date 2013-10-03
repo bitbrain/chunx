@@ -43,7 +43,7 @@ public interface ContentProvider {
 	 * 
 	 * @param target target to add
 	 */
-	void add(ChunkTarget target);
+	void add(Object target);
 	
 	/**
 	 * Is called automatically when a chunk target has to be removed
@@ -51,7 +51,7 @@ public interface ContentProvider {
 	 * 
 	 * @param target target to remove
 	 */
-	void remove(ChunkTarget target);
+	void remove(Object target);
 	
 	/**
 	 * Returns all current chunk targets that have to be managed
@@ -59,5 +59,5 @@ public interface ContentProvider {
 	 * 
 	 * @return current collection of chunk targets
 	 */
-	Collection<ChunkTarget> getContent();
+	Collection<Object> getContent();
 }
