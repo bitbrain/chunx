@@ -106,7 +106,7 @@ class CachedChunkHandler implements ChunkHandler {
 				
 				// Move all entities from the chunk to
 				// the current content provider
-				while (!chunk.isEmpty()) {
+				while (!chunk.isEmpty() && provider != null) {
 					provider.add(chunk.retrieve());
 				}
 			}
@@ -124,7 +124,8 @@ class CachedChunkHandler implements ChunkHandler {
 		int indexX = event.getNewIndexX();
 		int indexY = event.getNewIndexY();		
 		IndexBoundable preCache = chunkSystem.getPreCache();		
-		boolean isNotFocused = !target.equals(chunkSystem.getConfiguration().getFocused());
+		ChunkTarget focused = chunkSystem.getConfiguration().getFocused();
+		boolean isNotFocused = focused == null || !target.equals(chunkSystem.getConfiguration().getFocused());
 		if (isNotFocused && !preCache.containsIndex(indexX, indexY)) {
 			
 			// Bind target to the current cache
@@ -144,7 +145,9 @@ class CachedChunkHandler implements ChunkHandler {
 				chunk.add(target);
 			}
 			
-			contentProvider.remove(target);			
+			if (contentProvider != null) {
+				contentProvider.remove(target);		
+			}
 		}
 	}
 	
@@ -197,8 +200,10 @@ class CachedChunkHandler implements ChunkHandler {
 		beforeRemoveChunk(chunk);		
 		saveChunk(chunk, true);
 		
-		for (ChunkTarget target : targets) {
-			contentProvider.remove(target);
+		if (contentProvider != null) {
+			for (ChunkTarget target : targets) {
+				contentProvider.remove(target);
+			}
 		}
 		
 		afterRemoveChunk(chunk.getIndexX(), chunk.getIndexY());
@@ -230,11 +235,12 @@ class CachedChunkHandler implements ChunkHandler {
 	
 	private List<ChunkTarget> getTargets() {
 		List<ChunkTarget> targets = new CopyOnWriteArrayList<ChunkTarget>();
-		
 		ChunkConfiguration configuration = chunkSystem.getConfiguration();
 		ContentProvider contentProvider = configuration.getContentProvider();
-		
-		targets.addAll(contentProvider.getContent());
+
+		if (contentProvider != null) {
+			targets.addAll(contentProvider.getContent());
+		}
 		
 		return targets;
 	}
