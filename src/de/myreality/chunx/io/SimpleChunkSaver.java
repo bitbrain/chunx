@@ -21,6 +21,7 @@ package de.myreality.chunx.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 import de.myreality.chunx.Chunk;
 
@@ -81,6 +82,9 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 	@Override
 	public void save(Chunk chunk) throws IOException {
 		
+		ObjectOutputStream out = null;
+		OutputStream outer = null;
+		
 		try {
 			if (provider != null) {			
 				saving = true;
@@ -90,14 +94,22 @@ public class SimpleChunkSaver extends SimpleFileConfiguration implements
 					file.mkdirs();
 				}
 				String fileName = getPath() + nameConverter.convert(chunk.getIndexX(), chunk.getIndexY());
-				ObjectOutputStream out = new ObjectOutputStream(provider.getOutputStream(fileName));	
-				out.writeObject(chunk);		
-				out.close();
+				outer = provider.getOutputStream(fileName);
+				out = new ObjectOutputStream(outer);	
+				out.writeObject(chunk);	
 			} else {
 				throw new IOException("OutputStreamProvider is not set yet");
 			}
 		} finally {
-			saving = false;
+			saving = false;		
+			
+			if (out != null) {
+				out.close();
+			}
+			
+			if (outer != null) {
+				outer.close();
+			}
 		}
 	}
 

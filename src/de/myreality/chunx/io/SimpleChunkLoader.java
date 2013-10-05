@@ -19,6 +19,7 @@
 package de.myreality.chunx.io;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 
 import de.myreality.chunx.Chunk;
@@ -76,14 +77,14 @@ public class SimpleChunkLoader extends SimpleFileConfiguration implements
 
 	@Override
 	public Chunk load(int indexX, int indexY) throws IOException {
-		
+		ObjectInputStream in = null;
+		InputStream inner = null;
 		try {
 			if (provider != null) {
 				String fileName = getPath() + nameConverter.convert(indexX, indexY);
-				ObjectInputStream in = new ObjectInputStream(provider.getInputStream(fileName));
-				Chunk chunk = (Chunk) in.readObject();
-				in.close();
-				
+				inner = provider.getInputStream(fileName);
+				in = new ObjectInputStream(inner);
+				Chunk chunk = (Chunk) in.readObject();			
 				return chunk;
 			} else {
 				throw new IOException("InputStreamProvider is not set yet");
@@ -92,6 +93,13 @@ public class SimpleChunkLoader extends SimpleFileConfiguration implements
 			throw new IOException("Target file does not contain any chunk instance");
 		} finally {
 			loading = false;
+			if (in != null) {
+				in.close();
+			}
+			
+			if (inner != null) {
+				inner.close();
+			}
 		}
 	}
 
