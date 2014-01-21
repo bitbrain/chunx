@@ -12,7 +12,7 @@ ContentProvider provider = new World(); // You have to write your own implementa
 CachedChunkConfiguration  configuration = new SimpleCachedChunkConfiguration();
 configuration.setFocused(target);
 configuration.setContentProvider(provider);
-configuration.setChunkIndex(4);
+configuration.setCacheSize(4);
 
 ChunkSystem chunkSystem = new ConcurrentChunkSystem(new SimpleCachedChunkSystem(configuration));
 chunkSystem.start();
