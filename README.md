@@ -4,6 +4,8 @@ Java 2D chunk engine to generate "infinite" worlds.
 
 ### How it works
 
+[![chunx-video](https://img.youtube.com/vi/s4XnjuU8nsM/0.jpg)](https://www.youtube.com/watch?v=s4XnjuU8nsM)
+
 To create a chunk system, simply look at the following code:
 
 ```java
